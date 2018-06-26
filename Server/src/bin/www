@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+require('dotenv').config()
+process.on('unhandledRejection', up => { throw up })
+
+const app = require('app');
+const db = require('core/dbConnection.js')
+const port = normalizePort(process.env.PORT || '3001');
+const http = require('http');
+
+app.set('port', port);
+
+const server = http.createServer(app).listen(port);
+server.listen(port);
+
+
+
+db.connectToOriginalDb()
+
+function normalizePort(val) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
+
+
+module.exports = {
+}

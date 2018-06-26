@@ -1,0 +1,56 @@
+import React from 'react'
+import PropTypes from 'prop-types';
+
+
+
+ const UsersTable = ({ users, onAddClick, onEditClick, onDeleteClick }) => (
+    <div>
+        <h3 className="panel-title">
+            <button title="Add New Meal" id="addButton" onClick={onAddClick} className="text-info pull-right fa fa-plus link" aria-hidden="true"></button>
+        </h3>
+
+        <table id="UsersTable" className="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th className="text-center">Update</th>
+                    <th className="text-center">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    users.map((item, index) =>
+                        (
+                            <tr key={index}>
+                                <td>{item.name}</td>
+                                <td>{item.email}</td>
+                                <td>{item.role}</td>
+                                <td className="text-center">
+                                    <a className="link" id="editButton" onClick={()=>onEditClick(item)}>
+                                        <i className="fa fa-edit text-warning"> </i>
+                                    </a>
+                                </td>
+                                <td className="text-center ">
+                                    <a className="link" onClick={()=>onDeleteClick(item)}>
+                                        <i className="fa fa-trash text-danger"> </i>
+                                    </a>
+                                </td>
+                            </tr>
+                        )
+                    )}
+            </tbody>
+        </table>
+    </div>
+
+)
+
+export default UsersTable
+
+UsersTable.propTypes = {
+    users: PropTypes.array,
+    onAddClick: PropTypes.func,
+    onEditClick: PropTypes.func,
+    onDeleteClick: PropTypes.func
+};

@@ -1,0 +1,53 @@
+{
+  "name": "meals",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_PATH=./src node ./src/bin/www",
+    "coverage": "cross-env NODE_PATH=./;./src/;./Tests/ npm run nodemon-test-istanbul",
+    "test": " cross-env NODE_PATH=./;./src/;./Tests/ npm run nodemon-test",
+    "nodemon-test": "nodemon  --exec  jasmine JASMINE_CONFIG_PATH=jasmine.json ",
+    "nodemon-test-istanbul": "nodemon --exec istanbul cover node_modules/jasmine/bin/jasmine.js JASMINE_CONFIG_PATH=jasmine.json",
+    "dev": "cross-env NODE_PATH=./src nodemon --verbose ./src/bin/www"
+  },
+  "engines": {
+    "node": "8.9.1"
+  },
+  "dependencies": {
+    "@types/express": "^4.0.39",
+    "@types/mongoose": "^4.7.27",
+    "@types/node": "^8.0.53",
+    "bcrypt": "^1.0.3",
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
+    "debug": "~2.6.3",
+    "dotenv": "^4.0.0",
+    "express": "^4.16.3",
+    "express-history-api-fallback": "^2.2.1",
+    "express-recaptcha": "^4.0.2",
+    "jade": "^1.11.0",
+    "joi": "^13.0.2",
+    "jsonwebtoken": "^8.1.0",
+    "minimist": "^1.2.0",
+    "mongoose": "^4.11.7",
+    "morgan": "~1.8.1",
+    "nodemailer": "^4.4.1",
+    "nutritionix": "^0.6.1",
+    "passport": "^0.4.0",
+    "passport-facebook-token": "^3.3.0",
+    "passport-google-id-token": "^0.4.5",
+    "proxyquire": "^1.8.0",
+    "supertest": "^3.0.0",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "@types/faker": "^4.1.2",
+    "@types/jasmine": "^2.8.2",
+    "cross-env": "^5.1.4",
+    "faker": "^4.1.0",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.8.0",
+    "nodemon": "^1.11.0"
+  }
+}

@@ -1,0 +1,5 @@
+export const LOGIN = 'LOGIN'
+export const GET_TERS = 'GET_TERS'
+export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS'
+export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE'
+export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS'
