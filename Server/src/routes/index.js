@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const addBike = require('./record/add-record.route')
-const removeBike = require('./record/remove-record.route')
 const updateBike = require('./record/update-record.route')
 const validateUpdateBike = require('./record/update-record.validate')
 const validateAddBike = require('./record/add-record.validate')
@@ -24,7 +23,7 @@ const getBikes = require('./record/get-bikes.route')
 const ratings = require('./ratings')
 const { verifyUser } = require('core/authentication')
 const Authorize = require('core/authorization')
-
+const bike = require('./bike')
 const ReservationsValidation = require('./reseravtions.validate')
 const reservations = require('./reservations')
 
@@ -37,17 +36,14 @@ router.patch('/users/:id/password', verifyUser, validatechangeOtherUserPassword,
 
 router.put('/users/:id/info', verifyUser, validateUpdateInfo, Authorize.allowSelfAndManager, updateUserInfo)
 router.delete('/users/:id', verifyUser, Authorize.preventRegularUsers, removeUser)
-router.get('/users/', 
-// verifyUser, Authorize.preventRegularUsers,
- getUsers
-)
+router.get('/users/', verifyUser, Authorize.preventRegularUsers, getUsers)
 router.get('/users/:id', verifyUser, Authorize.allowSelfAndManager, getUser)
 router.patch('/users/:id/role', verifyUser, validateUpdateRole, Authorize.preventRegularUsers, updateUserRole)
 
 router.get('/bikes', verifyUser, getBikes)
 // router.get('/bikes/:id', verifyUser, Authorize.allowSelfAndManager, getBike);
 router.post('/bikes', verifyUser, validateAddBike, Authorize.preventRegularUsers, addBike)
-router.delete('/bikes/:id', verifyUser, Authorize.preventRegularUsers, removeBike)
+router.delete('/bikes/:bikeId',  verifyUser, Authorize.preventRegularUsers,  bike.deleteBike)
 router.put('/bikes/:id', verifyUser, validateUpdateBike, Authorize.preventRegularUsers, updateBike)
 
 router.get('/reservations', verifyUser, reservations.getReservations)
