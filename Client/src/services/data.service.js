@@ -9,10 +9,10 @@ export const ApiService = {
             baseURL: 'http://localhost:3001/api',
             /* other custom settings */
         });
+        axios.defaults.headers.common['Authorization'] = `Bearer ${window.localStorage.getItem('id_token')}`;
     },
 
     login(item) {
-        console.log(item)
         return this.axiosInstance.post('users/login', item).then(x=>x.data)
     },
 
@@ -33,13 +33,19 @@ export const ApiService = {
     },
 
     deleteUser(id) {
-        return this.axiosInstance.delete(`users/${id}`)
+        return this.axiosInstance.delete(`users/${id}`).then(x=>x.data)
     },
 
     getUsers({ skip = 0, searchTerm = '', roleFilter = '' }) {
         const params = {}
         // const params = new HttpParams().set('skip', skip.toString()).set('searchFilter', searchTerm).append('roleFilter', roleFilter);
         return this.axiosInstance.get('users', { params }).then(x=>x.data)
+    },
+
+    getBikes({ skip = 0, }) {
+        const params = {}
+        // const params = new HttpParams().set('skip', skip.toString()).set('searchFilter', searchTerm).append('roleFilter', roleFilter);
+        return this.axiosInstance.get('bikes', { params }).then(x=>x.data)
     },
 
     getUserDetails(userId) {
@@ -73,11 +79,11 @@ export const ApiService = {
     },
 
     addMeal(userId, data) {
-        return this.axiosInstance.post(`users/${userId}/meals`, data)
+        return this.axiosInstance.post(`users/${userId}/meals`, data).then(x=>x.data)
     },
 
-    deleteMeal(userId, mealId) {
-        return this.axiosInstance.delete(`users/${userId}/meals/${mealId}`)
+    deleteBike(bikeId) {
+        return this.axiosInstance.delete(`bikes/${bikeId}`).then(x=>x.data)
     },
 
     assignRole(id, data) {
