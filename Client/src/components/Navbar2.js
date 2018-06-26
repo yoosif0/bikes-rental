@@ -30,7 +30,7 @@ import { removeState } from '../services/localStorage';
                             <NavLink activeClassName="active" id="usersTab" to='/users' className="nav-link">Users</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink activeClassName="active" id="inviteUserTab" to='/invite' className="nav-link">Invite a User</NavLink>
+                            <NavLink activeClassName="active" id="inviteUserTab" to='/bikes' className="nav-link">Bikes</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink activeClassName="active" id="myLoginsTab" to='/my-logins' className="nav-link">My logins</NavLink>

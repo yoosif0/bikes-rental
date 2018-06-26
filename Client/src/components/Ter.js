@@ -9,8 +9,8 @@ import { ApiService } from '../services/data.service';
 class Ter extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { users : []};
-      }
+        this.state = { users: [] };
+    }
 
     componentDidMount() {
         // setTimeout(()=>{
@@ -18,25 +18,22 @@ class Ter extends React.Component {
         // },1000)
         // fetch('http://localhost:3001/api/users')
 
-        ApiService.getUsers({}).then(x=>{
-            console.log(x)
-            this.setState({...this.state, users:x.users})
-        }).catch(err=>{  })
-        
+        ApiService.getUsers({}).then(x => {
+            this.setState({ ...this.state, users: x.users })
+        }).catch(err => { })
+
     }
 
     onDelete = (item) => {
-        fetch(`http://localhost:3001/api/users/${item._id}`,{
-            method: 'Delete',
-        }).then(x=> x.json()).then(x=>{
-            // this.setState({...this.state, users:x.users})
-        }).catch(err=>{  })
+        ApiService.deleteUser(item).then(x => {
+            this.setState({ ...this.state, users: this.state.users.filter(bike => bike._id !== item._id) })
+        }).catch(err => { })
     }
-    
+
     render() {
         return (
-            
-             <UsersTable users={this.state.users}  onEditClick={()=>console.log('edit')} onAddClick={()=>console.log('Add')} onDeleteClick={this.onDelete} />
+
+            <UsersTable users={this.state.users} onEditClick={() => console.log('edit')} onAddClick={() => console.log('Add')} onDeleteClick={this.onDelete} />
 
         )
 

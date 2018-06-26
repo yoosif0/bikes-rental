@@ -7,6 +7,8 @@ import { ApiService } from './services/data.service';
 import { ToastContainer, toast } from 'react-toastify';
 import AddBike from './components/routes/AddBike';
 import { connect } from 'react-redux';
+import BikeListing from './components/BikesListing';
+
 
 class Appa extends React.Component {
 
@@ -25,6 +27,7 @@ class Appa extends React.Component {
           <Route path="/users" component={Ter} />
           <Route path="/login" component={Login} />
           <Route path="/addBike" component={AddBike} />
+          <Route path="/bikes" component={BikeListing} />
         </div>
         <button onClick={this.notify}>Notify !</button>
         <ToastContainer />
