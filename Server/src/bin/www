@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 require('dotenv').config()
-process.on('unhandledRejection', up => { throw up })
+// process.on('unhandledRejection', up => { throw up })
 
 const app = require('app');
 const db = require('core/dbConnection.js')
