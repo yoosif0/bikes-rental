@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 // import ters from '../reducers/ter';
 import UsersTable from './tables/MealsTable/UsersTable';
 import { ApiService } from '../services/data.service';
+import { toast } from 'react-toastify';
 
 
 class Ter extends React.Component {
@@ -17,6 +18,7 @@ class Ter extends React.Component {
         //     this.props.getData()
         // },1000)
         // fetch('http://localhost:3001/api/users')
+        toast("Wow so easy !")
 
         ApiService.getUsers({}).then(x => {
             this.setState({ ...this.state, users: x.users })

@@ -11,14 +11,18 @@ const reservationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Bike',
     },
-    startDate:{
+    date: {
         type: Schema.Types.Date,
         required: true
-    },
-    endDate:{
-        type: Schema.Types.Date,
-        required: true
-    },
+    }
+    // startDate:{
+    //     type: Schema.Types.Date,
+    //     required: true
+    // },
+    // endDate:{
+    //     type: Schema.Types.Date,
+    //     required: true
+    // },
 })
 
 module.exports = mongoose.model('Reservation', reservationSchema);

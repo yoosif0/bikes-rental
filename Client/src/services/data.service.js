@@ -7,13 +7,20 @@ export const ApiService = {
     init() {
         this.axiosInstance = axios.create({
             baseURL: 'http://localhost:3001/api',
-            /* other custom settings */
+            headers: { 'Authorization': `Bearer ${window.localStorage.getItem('id_token')}`}
         });
-        axios.defaults.headers.common['Authorization'] = `Bearer ${window.localStorage.getItem('id_token')}`;
     },
 
     login(item) {
-        return this.axiosInstance.post('users/login', item).then(x=>x.data)
+        return this.axiosInstance.post('users/login', item).then(x => x.data)
+    },
+
+    signUrl(file, id){
+        return this.axiosInstance.get(`s3/sign?objectName=${file.name}&contentType=${file.type}&bikeId=${id}`).then(x => x.data)
+    },
+
+    uploadImage(url, file){
+        return axios.put(url, file)
     },
 
     signup(item) {
@@ -33,19 +40,22 @@ export const ApiService = {
     },
 
     deleteUser(id) {
-        return this.axiosInstance.delete(`users/${id}`).then(x=>x.data)
+        return this.axiosInstance.delete(`users/${id}`).then(x => x.data)
     },
 
     getUsers({ skip = 0, searchTerm = '', roleFilter = '' }) {
         const params = {}
         // const params = new HttpParams().set('skip', skip.toString()).set('searchFilter', searchTerm).append('roleFilter', roleFilter);
-        return this.axiosInstance.get('users', { params }).then(x=>x.data)
+        return this.axiosInstance.get('users', { params }).then(x => x.data)
     },
 
     getBikes({ skip = 0, }) {
         const params = {}
         // const params = new HttpParams().set('skip', skip.toString()).set('searchFilter', searchTerm).append('roleFilter', roleFilter);
-        return this.axiosInstance.get('bikes', { params }).then(x=>x.data)
+        return this.axiosInstance.get('bikes', { params }).then(x => x.data)
+    },
+    getBike(id) {
+        return this.axiosInstance.get('bikes/' + id).then(x => x.data)
     },
 
     getUserDetails(userId) {
@@ -78,12 +88,16 @@ export const ApiService = {
         return this.axiosInstance.put(`users/${userId}/meals/${mealId}`, data)
     },
 
-    addMeal(userId, data) {
-        return this.axiosInstance.post(`users/${userId}/meals`, data).then(x=>x.data)
+    addBike(data) {
+        return this.axiosInstance.post(`bikes`, data).then(x => x.data)
+    },
+
+    editBike(id, data) {
+        return this.axiosInstance.put(`bikes/${id}`, data).then(x => x.data)
     },
 
     deleteBike(bikeId) {
-        return this.axiosInstance.delete(`bikes/${bikeId}`).then(x=>x.data)
+        return this.axiosInstance.delete(`bikes/${bikeId}`).then(x => x.data)
     },
 
     assignRole(id, data) {

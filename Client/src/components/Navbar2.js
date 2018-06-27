@@ -13,7 +13,7 @@ import { removeState } from '../services/localStorage';
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
-                <NavLink className="navbar-brand" to="/"> Admin Panel © </NavLink>
+                <NavLink className="navbar-brand" to="/"> Bikes Rental © </NavLink>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
@@ -30,11 +30,17 @@ import { removeState } from '../services/localStorage';
                             <NavLink activeClassName="active" id="usersTab" to='/users' className="nav-link">Users</NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink activeClassName="active" id="inviteUserTab" to='/bikes' className="nav-link">Bikes</NavLink>
+                            <NavLink activeClassName="active" id="inviteUserTab" to='/bikes/listing' className="nav-link">Bikes</NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink activeClassName="active" id="myLoginsTab" to='/my-logins' className="nav-link">My logins</NavLink>
                         </li>
+                        <li className="nav-item">
+                            <NavLink activeClassName="active" id="bikesForReservationTab" to='/bikesForReservation' className="nav-link">Bikes For Reservation</NavLink>
+                        </li>
+
+
+                        
                     </ul>
                     {1 > 0 &&
                         <h2>

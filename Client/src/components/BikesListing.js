@@ -9,7 +9,6 @@ class Com extends React.Component {
         super(props);
         this.state = { bikes: [] };
     }
-
     componentDidMount() {
         ApiService.getBikes({}).then(x => {
             this.setState({ ...this.state, bikes: x.bikes })
@@ -21,12 +20,11 @@ class Com extends React.Component {
             this.setState({ ...this.state, bikes: this.state.bikes.filter(bike => bike._id !== item._id) })
         })
     }
-
     render() {
         return (
-
-            <BikesTable bikes={this.state.bikes} onEditClick={() => console.log('edit')} onAddClick={() => console.log('Add')} onDeleteClick={this.onDelete} />
-
+            <div>
+                <BikesTable bikes={this.state.bikes} onDeleteClick={this.onDelete} />
+            </div>
         )
 
     }

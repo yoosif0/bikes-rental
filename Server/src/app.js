@@ -11,7 +11,6 @@ const routes = require(`./routes/index`)
 const root = __dirname + '/public'
 const app = express();
 
-
 winstonLogger.configure()
 app.disable('etag')
 app.set('views', path.join(__dirname, 'views'));

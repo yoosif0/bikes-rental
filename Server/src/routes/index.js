@@ -1,8 +1,5 @@
 const router = require('express').Router()
-const addBike = require('./record/add-record.route')
-const updateBike = require('./record/update-record.route')
-const validateUpdateBike = require('./record/update-record.validate')
-const validateAddBike = require('./record/add-record.validate')
+const bikeValidations = require('./bike.validate')
 const getUser = require('./user/get-user.route')
 const updateUserInfo = require('./user/update-user-info.route')
 const removeUser = require('./user/remove-user.route')
@@ -41,10 +38,11 @@ router.get('/users/:id', verifyUser, Authorize.allowSelfAndManager, getUser)
 router.patch('/users/:id/role', verifyUser, validateUpdateRole, Authorize.preventRegularUsers, updateUserRole)
 
 router.get('/bikes', verifyUser, getBikes)
+router.get('/bikes/:bikeId', verifyUser, bike.getBike)
 // router.get('/bikes/:id', verifyUser, Authorize.allowSelfAndManager, getBike);
-router.post('/bikes', verifyUser, validateAddBike, Authorize.preventRegularUsers, addBike)
+router.post('/bikes', verifyUser, bikeValidations.bikeFormSchema, Authorize.preventRegularUsers, bike.addBike)
 router.delete('/bikes/:bikeId',  verifyUser, Authorize.preventRegularUsers,  bike.deleteBike)
-router.put('/bikes/:id', verifyUser, validateUpdateBike, Authorize.preventRegularUsers, updateBike)
+router.put('/bikes/:bikeId', verifyUser, bikeValidations.bikeFormSchema, Authorize.preventRegularUsers, bike.updatebike)
 
 router.get('/reservations', verifyUser, reservations.getReservations)
 router.get('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getReservationsForUser)
@@ -54,8 +52,16 @@ router.delete('/reservations/:id/:reservationId', verifyUser, Authorize.allowSel
 // router.get('/ratings', verifyUser, Authorize.allowSelfAndManager, ratings.getRatingsForSeveralBikes)
 router.post('/ratings/:id/:bikeId/:rate', verifyUser, Authorize.allowSelfAndManager, ratings.rateBike)
 
+router.get('/t', bike.getBikesExcludingSome)
+// router.get('/upload', bike.uploadImage)
+
 // router.post('/reservations/:id/:bikeId', verifyUser, ReservationsValidation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 // router.delete('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
-
+router.get('/s3/sign', bike.signImage);
 
 module.exports = router
+
+
+
+
+

@@ -1,31 +1,26 @@
 import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
-// import { ApiService } from '../../services/data.service';
 import PropTypes from 'prop-types';
-import * as Yup from 'yup';
+import { ApiService } from '../../../services/data.service';
+import bikeFormSchema from './validationSchema';
 
 // const authStore = mobx.toJS(AuthStore);
 export const EnhancedBikeForm = withFormik({
 	// Transform outer props into form values
-    mapPropsToValues: props => ({ name: 'eeeeee', numOfCalories: '' }),
-
-	validationSchema: Yup.object().shape({
-		weight: Yup.number().min(5, "Weight should be atleast 5 kg").max(300, "Weight should not exceed 300 kg").required('Weight is required!'),
-	}),
-	mapValuesToPayload: x => x,
+	mapPropsToValues: props => {
+		return { model: props.bike.model, color: props.bike.color, weight: props.bike.weight, latitude: props.bike.location.coordinates[0], 
+			longitude: props.bike.location.coordinates[1],  }
+	},
+	validationSchema: bikeFormSchema,
+	mapValuesToPayload: x => {
+		return x
+	},
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-		console.log(values)
-		// ApiService.login(values).then(
-		// 	user => {
-		// 		setSubmitting(false);
-		// 		// do whatevs...
-		// 		// props.updateUser(user)
-		// 	},
-		// 	errors => {
-		// 		setSubmitting(false);
-		// 		setErrors([]);
-		// 	}
-		// );
+		ApiService.editBike(props.bike._id, values).then((payload) => {
+			setSubmitting(false);
+		}).catch(err => {
+			setSubmitting(false)
+		})
 	},
 	displayName: 'BikeForm',
 

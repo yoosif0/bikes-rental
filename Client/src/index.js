@@ -10,6 +10,10 @@ import rootReducer from './reducers'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import { saveState } from './services/localStorage';
 // import throttle from 'lodash/throttle'
 

@@ -6,19 +6,20 @@ const reservationModel = require('models/reservation.model')
 
 module.exports = {
     getReservationsForUser(req, res, next) {
-        reservationDb.getReseravtionsbyUserId(req.params.id, 10, req.query.skip ? parseInt(req.query.skip) : 0).then(x => res.status(200).json(x)).catch(err => next(err))
+        return reservationDb.getReseravtionsbyUserId(req.params.id, 10, req.query.skip ? parseInt(req.query.skip) : 0).then(x => res.status(200).json(x)).catch(err => next(err))
     },
 
     cancelReservation(req, res, next) {
-        reservationDb.deleteReservation(req.params.reservationId).then(item => item ? res.status(200).json(successMessage) : next({ nF: 'Meal' })).catch(err => next(err))
+        return reservationDb.deleteReservation(req.params.reservationId).then(item => item ? res.status(200).json(successMessage) : next({ nF: 'Meal' })).catch(err => next(err))
     },
 
     reserveBike(req, res, next) {
-        reservationDb.createReservation(req.params.id, req.params.bikeId, req.body.startDate, req.body.endDate).then(() => res.status(200).json(successMessage)).catch(err => next(err))
+        
+        return reservationDb.createReservation(req.params.id, req.params.bikeId, req.body.startDate, req.body.endDate).then(() => res.status(200).json(successMessage)).catch(err => next(err))
     },
 
     checkNoPreviousReservation(req, res, next) {
-        reservationDb.getReservationsForBikeAtCertainDateRange(req.params.bikeId, req.body.startDate, req.body.endDate, )
+        return reservationDb.getReservationsForBikeAtCertainDateRange(req.params.bikeId, req.body.startDate, req.body.endDate, )
     },
 
     getReservations(req, res, next) {

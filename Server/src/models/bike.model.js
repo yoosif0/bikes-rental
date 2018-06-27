@@ -21,6 +21,10 @@ const bikeSchema = new Schema({
         coordinates: { type: [Number], required: true },
         type: { type: String, required: true }
     }),
+    imageName: {
+        type: String,
+        required: false
+    },
 })
 
 module.exports = mongoose.model('Bike', bikeSchema);

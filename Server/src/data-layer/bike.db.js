@@ -1,22 +1,38 @@
 const bikeModel = require('../models/bike.model')
 
 module.exports = {
-    createBike(bike) {
-        const newBike = new bikeModel(bike)
-        return newBike.save();
+    createBike(model, weight, color, latitude, longitude ) {
+        const location = {
+            coordinates:[latitude, longitude],
+            type: 'Point',
+        }
+        const newBike = new bikeModel({ model, weight, color, location })
+        return newBike.save()
     },
 
     deleteBike(_id) {
-        return bikeModel.find({  _id }).remove()
+        return bikeModel.find({ _id }).remove()
     },
 
-    updateBike(_id, payload) {
-        return bikeModel.findOneAndUpdate({ _id }, payload, { new: true }).select('-password -__v')
+    updateBike(_id, model, weight, color, latitude, longitude) {
+        const location = {
+            coordinates:[latitude, longitude],
+            type: 'Point',
+        }
+        return bikeModel.findOneAndUpdate({ _id }, { model, weight, color, location }, { new: true }).select('-__v')
+    },
+
+    updateBikeImage(_id, imageName) {
+        return bikeModel.findOneAndUpdate({ _id }, { imageName }, { new: true }).select('-__v')
     },
 
     getBikeById(id) {
         return bikeModel.findById(id).exec()
     },
+
+    
+
+
     // getAvailableBikes(startDate, endDate) {
     //     {
     //         $facet: {

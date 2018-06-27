@@ -1,6 +1,5 @@
 {
-  "name": "todo-list-redux",
-  "homepage": "http://youssefsharief.github.io/todo-list-redux",
+  "name": "bikes",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,9 +10,12 @@
     "formik": "^0.11.11",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
+    "react-dates": "^17.0.0",
     "react-dom": "^16.3.2",
+    "react-dropzone": "^4.2.12",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",

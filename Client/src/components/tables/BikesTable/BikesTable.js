@@ -1,17 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
-
-
- const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
+const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
     <div>
         <h3 className="panel-title">
-            <button title="Add New Meal" id="addButton" onClick={onAddClick} className="text-info pull-right fa fa-plus link" aria-hidden="true"></button>
+            <NavLink title="Add New Bike" id="addButton" className="text-info pull-right fa fa-plus link" to='/addBike' aria-hidden="true"></NavLink>
         </h3>
-
         <table id="BikesTable" className="table table-hover">
             <thead>
                 <tr>
+                    <th>Image</th>
                     <th>Model</th>
                     <th>Color</th>
                     <th>Weight</th>
@@ -24,16 +23,21 @@ import PropTypes from 'prop-types';
                     bikes.map((item, index) =>
                         (
                             <tr key={index}>
+                                <td>
+                                    {item.imageName ?
+                                        <img style={{ maxHeight: "60px" }} alt="bike" src={'https://s3.amazonaws.com/bike-images-22/' +item.imageName}></img>
+                                        :
+                                        <p>No image available</p>
+                                    }
+                                </td>
                                 <td>{item.model}</td>
                                 <td>{item.color}</td>
                                 <td>{item.weight}</td>
                                 <td className="text-center">
-                                    <a className="link" id="editButton" onClick={()=>onEditClick(item)}>
-                                        <i className="fa fa-edit text-warning"> </i>
-                                    </a>
+                                    <NavLink to={'/editBike/' + item._id} className="fa fa-edit text-warning" id="editButton"></NavLink>
                                 </td>
                                 <td className="text-center ">
-                                    <a className="link" onClick={()=>onDeleteClick(item)}>
+                                    <a className="link" onClick={() => onDeleteClick(item)}>
                                         <i className="fa fa-trash text-danger"> </i>
                                     </a>
                                 </td>
