@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import ManagerPrivateRoute from './hoc/ManagerPrivateRoute';
 import EditUser from './components/routes/EditUser';
 import Signup from './components/routes/Signup';
+import MyProfile from './components/routes/MyProfile';
 
 class Appa extends React.Component {
 
@@ -36,6 +37,7 @@ class Appa extends React.Component {
             <ManagerPrivateRoute isManager={this.props.isManager} path="/addBike" component={AddBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/bikes" component={BikeListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/bikesForReservation" component={BikeForReservationListing} />
+            <PrivateRoute authed={this.props.isAuthenticated} path="/myProfile" component={MyProfile} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editBike/:id" component={EditBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editUser/:id" component={EditUser} />
 

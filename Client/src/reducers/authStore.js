@@ -6,9 +6,6 @@ const initialState = {
     id: window.localStorage.getItem('id'),
     role: window.localStorage.getItem('role'),
     token: window.localStorage.getItem('id_token'),
-    profile: JSON.parse(window.localStorage.getItem('profile')),
-    
-    
 
 }
 
@@ -18,17 +15,13 @@ const authStoreState = (state = initialState, action) => {
             return {
                 isAuthenticated: true,
                 id: action.payload._id,
-                profile: action.payload.user,
                 token: action.payload.token,
                 role: action.payload.user.role
             }
-        case 'PROFILE_UPDATED':
-            return {   ...state, profile: action.payload.user }
         case 'LOGGED_OUT':
             return {
                 isAuthenticated: false,
                 id: undefined,
-                profile: undefined,
                 token: undefined,
                 role: undefined
             }

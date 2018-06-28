@@ -1,34 +1,36 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { EnhancedUserForm } from '../forms/UserForm/EnhancedEditForm';
 import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
+import EnhancedEditProfileForm from '../forms/ProfileForm/EnhancedEditProfileForm';
+import { connect } from 'react-redux';
 
-export default class MyProfile extends React.Component {
+
+const mapStateToProps = state => ({id: state.authStoreState.id})
+
+class Com extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { user: {} };
+        this.state = { profile: null };
     }
     componentDidMount() {
-        this.fetchUser()
+        this.fetchProfile()
     }
 
-    fetchUser() {
-        return ApiService.getUser(this.props.match.params.id).then(x => {
-            this.setState({ user: x })
+    fetchProfile() {
+        return ApiService.getUser(this.props.id).then(x => {
+            this.setState({ profile: x })
         }).catch(err => {
             toast.error(err)
         })
     }
 
 
-
-
     render() {
         return (
-            this.state.user.name ?
+            this.state.profile ?
             <div>
-                <EnhancedUserForm user={this.state.user} />
+                <EnhancedEditProfileForm profile={this.state.profile}/>
             </div>
            :
            <p>Waiting</p>
@@ -36,8 +38,14 @@ export default class MyProfile extends React.Component {
     }
 }
 
-MyProfile.propTypes = {
-    disabled: PropTypes.any,
-    match: PropTypes.any
+
+const MyProfile = connect(mapStateToProps, {})(Com)
+
+export default MyProfile
+
+
+
+Com.propTypes = {
+    id: PropTypes.string,
 }
 

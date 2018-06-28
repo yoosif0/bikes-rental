@@ -1,6 +1,6 @@
 const ROLES = require('config/rolesConstants')
-const getUserRoleByIdFromDb = require('data-layer/user/get-user-role-by-id')
 const errorMessageWrapper = require('services/utility').errorMessageWrapper
+const db = require('data-layer/user.db')
 
 
 function preventRegularUsers(req, res, next) {
@@ -10,7 +10,7 @@ function preventRegularUsers(req, res, next) {
 }
 
 function allowOnlyRegularUsersToAccessed(req, res, next) {
-    return getUserRoleByIdFromDb(req.params.id)
+    return db.getUserRoleById(req.params.id)
         .then(toBeAccessedRole => {
             if (!toBeAccessedRole) return next({ nF: 'User' })
             if (toBeAccessedRole === ROLES.regular) {
