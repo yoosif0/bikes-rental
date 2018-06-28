@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ApiService } from '../../services/data.service';
 import BikesTable from '../tables/BikesTable/BikesTable';
+import { toast } from 'react-toastify';
 
 class Com extends React.Component {
     constructor(props) {
@@ -12,7 +13,13 @@ class Com extends React.Component {
     componentDidMount() {
         ApiService.getBikes({}).then(x => {
             this.setState({ ...this.state, bikes: x.bikes })
-        }).catch(err => { })
+        }).catch(err => { 
+            toast.error(err.data.msg)
+        })
+
+        // setTimeout(()=>{
+        //     this.props.history.push('../login')
+        // }, 1000)
     }
 
     onDelete = (item) => {

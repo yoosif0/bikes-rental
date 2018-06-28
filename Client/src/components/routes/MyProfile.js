@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types';
 import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
-import EnhancedEditProfileForm from '../forms/ProfileForm/EnhancedEditProfileForm';
+import {EnhancedEditProfileForm} from '../forms/ProfileForm/EnhancedEditProfileForm';
 import { connect } from 'react-redux';
 
 

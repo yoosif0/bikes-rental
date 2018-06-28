@@ -6,10 +6,16 @@ import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { persistMyInfo } from '../../../services/localStorage';
 import { toast } from 'react-toastify';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 
-// const authStore = mobx.toJS(AuthStore);
-const EnhancedLoginForm = withFormik({
-	// Transform outer props into form values
+const mapStateToProps = state =>   ({  ters: state.terState.ters })
+const mapDispatchToProps = dispatch =>  ({  loggedIn: (payload) => dispatch({ type: 'LOGGED_IN', payload })  })
+
+export const EnhancedLoginForm = compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps),
+	withFormik({
 	mapPropsToValues: props => ({ email: 'ddd@test.com', password: '1234567' }),
 	validationSchema: Yup.object().shape({
 		email: Yup.string().email('Invalid email address').required('Email is required!'),
@@ -18,9 +24,11 @@ const EnhancedLoginForm = withFormik({
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 		ApiService.login({ email: values.email, password: values.password }).then((payload) => {
 			setSubmitting(false);
-			persistMyInfo(payload)
+			persistMyInfo(payload.user.role, payload.user._id, payload.token)
 			props.loggedIn(payload)
-			console.log(props.history)
+			props.history.push('myProfile')
+
+			// console.log(props.history)
 			// props.history.push('/bikes');
 
 		}).catch(err=>{
@@ -30,24 +38,8 @@ const EnhancedLoginForm = withFormik({
 	},
 	displayName: 'LoginForm',
 
-})(InnerForm);
+}))(InnerForm)
 
-
-const mapStateToProps = state => {
-    // console.log(state)
-    return {
-        ters: state.terState.ters
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return ({
-        loggedIn: (payload) => dispatch({ type: 'LOGGED_IN', payload })
-    })
-}
-
-const ConnectedEnhancedLoginForm = connect(mapStateToProps, mapDispatchToProps)(EnhancedLoginForm)
-
-export default ConnectedEnhancedLoginForm
 
 EnhancedLoginForm.propTypes = {
     getData: PropTypes.func,

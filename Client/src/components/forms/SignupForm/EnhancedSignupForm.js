@@ -4,13 +4,24 @@ import { ApiService } from '../../../services/data.service';
 import signupFormSchema from './validationSchema';
 import { persistMyInfo } from '../../../services/localStorage';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 
-export const EnhancedSignupForm = withFormik({
+
+const mapStateToProps = state => ({ ters: state.terState.ters })
+const mapDispatchToProps = dispatch => ({
+	loggedIn: (payload) => dispatch({ type: 'LOGGED_IN', payload })
+})
+
+
+export const EnhancedSignupForm = compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	withFormik({
 	validationSchema: signupFormSchema,
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-		ApiService.signup({email: values.email, password: values.password, name: values.name}).then((payload) => {
-            setSubmitting(false);
-            persistMyInfo(payload)
+		ApiService.signup({ email: values.email, password: values.password, name: values.name }).then((payload) => {
+			setSubmitting(false);
+			persistMyInfo(payload.user.role, payload.user._id, payload.token)
+			props.history.push('myProfile')
 			props.loggedIn(payload)
 		}).catch(err => {
 			setSubmitting(false)
@@ -18,21 +29,6 @@ export const EnhancedSignupForm = withFormik({
 	},
 	displayName: 'UserForm',
 
-})(InnerForm);
+}))(InnerForm);
 
-
-const mapStateToProps = state => {
-    return {
-        ters: state.terState.ters
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return ({
-        loggedIn: (payload) => dispatch({ type: 'LOGGED_IN', payload })
-    })
-}
-
-const SignupEnhancedFormConnectedToRedux = connect(mapStateToProps, mapDispatchToProps)(EnhancedSignupForm)
-
-export default SignupEnhancedFormConnectedToRedux
 

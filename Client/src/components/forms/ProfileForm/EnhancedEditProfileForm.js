@@ -23,5 +23,3 @@ export const EnhancedEditProfileForm = withFormik({
 
 })(InnerForm);
 
-
-export default EnhancedEditProfileForm
