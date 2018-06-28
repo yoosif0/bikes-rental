@@ -17,7 +17,8 @@ export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, h
         </DefaultInput>
         <DefaultInput label="Color">
             <Field component="select" name="color" className="form-control">
-                <option value="red" default>Red</option>
+            <option value=""></option>
+                <option value="red">Red</option>
                 <option value="blue">Blue</option>
                 <option value="black">Black</option>
                 <option value="yellow">Yellow</option>

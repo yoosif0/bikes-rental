@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import { s3Url } from '../../../config/constants';
 
 const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
     <div>
@@ -25,7 +26,7 @@ const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
                             <tr key={index}>
                                 <td>
                                     {item.imageName ?
-                                        <img style={{ maxHeight: "60px" }} alt="bike" src={'https://s3.amazonaws.com/bike-images-22/' +item.imageName}></img>
+                                        <img style={{ maxHeight: "60px" }} alt="bike" src={s3Url +item.imageName}></img>
                                         :
                                         <p>No image available</p>
                                     }

@@ -22,6 +22,8 @@ const authStoreState = (state = initialState, action) => {
                 token: action.payload.token,
                 role: action.payload.user.role
             }
+        case 'PROFILE_UPDATED':
+            return {   ...state, profile: action.payload.user }
         case 'LOGGED_OUT':
             return {
                 isAuthenticated: false,

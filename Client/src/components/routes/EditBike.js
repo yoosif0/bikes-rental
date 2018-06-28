@@ -4,6 +4,7 @@ import { EnhancedBikeForm } from '../forms/BikeForm/EnhancedEditForm';
 import { ApiService } from '../../services/data.service';
 import Dropzone from 'react-dropzone'
 import { toast } from 'react-toastify';
+import { s3Url } from '../../config/constants';
 
 export default class EditBike extends React.Component {
 	constructor(props) {
@@ -44,7 +45,7 @@ export default class EditBike extends React.Component {
 						<div>
 							<Dropzone onDrop={this.onDrop} >
 								{
-									this.state.bike.imageName ? <img style={{ maxHeight: "170px" }} alt="bike" src={'https://s3.amazonaws.com/bike-images-22/'+this.state.bike.imageName}></img> : <p>Add an image.</p>
+									this.state.bike.imageName ? <img style={{ maxHeight: "170px" }} alt="bike" src={s3Url+this.state.bike.imageName}></img> : <p>Add an image.</p>
 								}
 							</Dropzone>
 

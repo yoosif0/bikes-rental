@@ -3,6 +3,7 @@ import { withFormik, } from 'formik';
 import PropTypes from 'prop-types';
 import { ApiService } from '../../../services/data.service';
 import bikeFormSchema from './validationSchema';
+import { toast } from 'react-toastify';
 
 // const authStore = mobx.toJS(AuthStore);
 export const EnhancedBikeForm = withFormik({
@@ -11,7 +12,9 @@ export const EnhancedBikeForm = withFormik({
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 		ApiService.addBike(values).then((payload) => {
 			setSubmitting(false);
+			toast.success('Added successfully')
 		}).catch(err => {
+			toast.error(err)
 			setSubmitting(false)
 		})
 	},

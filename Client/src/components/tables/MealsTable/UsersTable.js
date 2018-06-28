@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-
+import { NavLink } from 'react-router-dom';
 
 
  const UsersTable = ({ users, onAddClick, onEditClick, onDeleteClick }) => (
@@ -28,9 +28,7 @@ import PropTypes from 'prop-types';
                                 <td>{item.email}</td>
                                 <td>{item.role}</td>
                                 <td className="text-center">
-                                    <a className="link" id="editButton" onClick={()=>onEditClick(item)}>
-                                        <i className="fa fa-edit text-warning"> </i>
-                                    </a>
+                                    <NavLink to={'/editUser/' + item._id} className="fa fa-edit text-warning" id="editButton"></NavLink>
                                 </td>
                                 <td className="text-center ">
                                     <a className="link" onClick={()=>onDeleteClick(item)}>

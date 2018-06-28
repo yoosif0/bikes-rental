@@ -16,6 +16,11 @@ export const saveState = (state) => {
     window.localStorage.setItem('id_token', state.token)
 }
 
+export const saveProfile = (profile) => {
+    window.localStorage.setItem(`role`, profile.role)
+    window.localStorage.setItem(`id`, profile._id)
+    window.localStorage.setItem(`profile`, JSON.stringify(profile))
+}
 
 export const removeState = () => {
     window.localStorage.removeItem('id_token')
