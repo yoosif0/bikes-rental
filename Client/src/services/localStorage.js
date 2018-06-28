@@ -9,16 +9,15 @@ export const loadState = () => {
 
 }
 
-export const saveState = (state) => {
-    window.localStorage.setItem(`role`, state.user.role)
-    window.localStorage.setItem(`id`, state.user._id)
-    // window.localStorage.setItem(`profile`, JSON.stringify(state.user))
-    window.localStorage.setItem('id_token', state.token)
+export const persistMyInfo = (role, _id, token) => {
+    window.localStorage.setItem(`role`, role)
+    window.localStorage.setItem(`id`, _id)
+    window.localStorage.setItem('id_token', token)
 }
 
 
 
-export const removeState = () => {
+export const unPersistMyInfo = () => {
     window.localStorage.removeItem('id_token')
     // window.localStorage.removeItem('profile')
     window.localStorage.removeItem('role')

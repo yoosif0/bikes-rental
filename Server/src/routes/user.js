@@ -8,7 +8,7 @@ const { getToken } = require('core/authentication')
 module.exports = {
 
     getUser(req, res, next) {
-        return db(req.params.id).then(user => user ? res.status(200).json(user) : next({ nF: 'User' })).catch(err => next(err))
+        return db.getUserById(req.params.id).then(user => user ? res.status(200).json(user) : next({ nF: 'User' })).catch(err => next(err))
     },
 
     getUsers(req, res, next) {
@@ -18,11 +18,11 @@ module.exports = {
     },
 
     removeUser(req, res, next) {
-        return db(req.params.id).then(user => user ? res.status(200).json(successMessage) : next({ nF: 'User' })).catch(err => next(err))
+        return db.deleteUser(req.params.id).then(user => user ? res.status(200).json(successMessage) : next({ nF: 'User' })).catch(err => next(err))
     },
 
     updateUserInfo(req, res, next) {
-        return db(req.params.id, {
+        return db.updateUserInfo(req.params.id, {
             name: req.body.name,
             maxCalories: req.body.maxCalories,
             isTrackingDisplayed: req.body.isTrackingDisplayed

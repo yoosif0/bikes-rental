@@ -1,15 +1,15 @@
 import React from 'react'
-import Navbar2 from './components/Navbar2'
+import Navbar2 from './components/layout/Navbar2'
 import { BrowserRouter, Route } from 'react-router-dom'
-import Ter from './components/Ter';
+import Users from './components/routes/Users';
 import Login from './components/routes/Login';
 // import { ApiService } from './services/data.service';
 import { ToastContainer, toast } from 'react-toastify';
 import AddBike from './components/routes/AddBike';
 import { connect } from 'react-redux';
-import BikeListing from './components/BikesListing';
+import BikeListing from './components/routes/BikesListing';
 import EditBike from './components/routes/EditBike';
-import BikeForReservationListing from './components/BikesForReservationListing';
+import BikeForReservationListing from './components/routes/BikesForReservationListing';
 import PrivateRoute from './hoc/PrivateRoute';
 import PropTypes from 'prop-types';
 import ManagerPrivateRoute from './hoc/ManagerPrivateRoute';
@@ -31,7 +31,7 @@ class Appa extends React.Component {
         <div>
           <Navbar2 />
           <div className="container">
-            <ManagerPrivateRoute isManager={this.props.isManager} path="/users" component={Ter} />
+            <ManagerPrivateRoute isManager={this.props.isManager} path="/users" component={Users} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/addBike" component={AddBike} />

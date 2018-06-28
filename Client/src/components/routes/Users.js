@@ -1,9 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import ters from '../reducers/ter';
-import UsersTable from './tables/MealsTable/UsersTable';
-import { ApiService } from '../services/data.service';
+import UsersTable from '../tables/MealsTable/UsersTable';
+import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
 
 

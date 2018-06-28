@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ApiService } from '../services/data.service';
-import BikesTable from './tables/BikesTable/BikesTable';
+import { ApiService } from '../../services/data.service';
+import BikesTable from '../tables/BikesTable/BikesTable';
 
 class Com extends React.Component {
     constructor(props) {

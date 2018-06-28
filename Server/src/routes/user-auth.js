@@ -5,6 +5,8 @@ const { getToken } = require('core/authentication')
 const comparePassword = require('services/compare-password').comparePassword
 const errorMessageWrapper = require('services/utility').errorMessageWrapper
 const successMessage = require('services/utility').successMessageWrapper
+const generateRandomCode = require('services/generate-random-code').generateRandomCode
+const mailer = require('services/mailer')
 
 module.exports = {
     signup(req, res, next) {
@@ -26,7 +28,7 @@ module.exports = {
     },
 
     async changeMyPassword(req, res, next) {
-        const user = await db.getUserPasswordFromDb(req.decoded._id)
+        const user = await db.getUserOldPasswordById(req.decoded._id)
         if (!user) return next({ nF: 'User' })
         comparePassword(req.body.oldPassword, user.password).then(async ok => {
             if (!ok) return res.status(400).json(errorMessageWrapper('Old Password provided is wrong'))
@@ -43,7 +45,33 @@ module.exports = {
         user.active = true
         await user.save().catch(e => next(e))
         return res.json(successMessage)
-    }
+    },
+
+    async sendMeRecoveryCode (req, res, next) {
+        const code = generateRandomCode()
+        try {
+            const user = await db.createRecoveryCode(req.body.email, code)
+            if(!user) return res.status(404).json(errorMessageWrapper( 'This email does not exist'))
+            await mailer.sendEmailWithCode(req.body.email, code)
+            return res.send({ success: 'Please check your email for your recovery code' })
+        } catch (e) {
+            return next(e)
+        }
+    },
+
+    async updatepsswordByRecoveryCode(req, res, next) {
+        const user = await db.getUserByEmail(req.body.email).catch(err => next(err))
+        if (!user) return next({ nF: 'User' })
+        if (user.recoveryCode !== req.body.recoveryCode) return res.status(400).json(errorMessageWrapper( 'Wrong recovery code' ))
+        else {
+            user.password = req.body.newPassword
+            user.recoveryCode = null
+        }
+        await user.save().catch(e => next(e))
+        return res.status(200).json({ success: 'Your password has been updated successfully' })
+    },
+
+    
 
 
 

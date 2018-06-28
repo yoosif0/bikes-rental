@@ -1,11 +1,12 @@
 import React from 'react'
-import DefaultInput from '../ui-inputs/DefaultInputLayout';
+import DefaultInput from '../../ui-inputs/DefaultInputLayout';
 import PropTypes from 'prop-types';
-import SubmitButton from '../buttons/SubmitButton';
 import { Form, Field } from 'formik';
-import { InputFeedback } from '../text/InputFeedback';
+import SubmitButton from '../../buttons/SubmitButton';
+import { InputFeedback } from '../../text/InputFeedback';
 
-export const LoginInnerForm = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, dirty }) => (
+
+export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, dirty }) => (
     <Form>
         <DefaultInput label="Email">
             <Field type="text" name="email" className="form-control" />
@@ -19,7 +20,7 @@ export const LoginInnerForm = ({ values, errors, touched, handleChange, handleBl
     </Form>
 )
 
-LoginInnerForm.propTypes = {
+InnerForm.propTypes = {
     handleBlur: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,

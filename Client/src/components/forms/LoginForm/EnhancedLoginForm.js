@@ -1,17 +1,14 @@
-import { LoginInnerForm } from './LoginInnerForm';
+import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
-import { ApiService } from '../../services/data.service';
-// import AuthStore from '../../stores/authStore';
+import { ApiService } from '../../../services/data.service';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-// import { $mobx } from 'mobx';
-// import { Provider } from 'mobx-react';
-// import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
-import { saveState } from '../../services/localStorage';
+import { persistMyInfo } from '../../../services/localStorage';
+import { toast } from 'react-toastify';
 
 // const authStore = mobx.toJS(AuthStore);
-const LoginEnhancedForm = withFormik({
+const EnhancedLoginForm = withFormik({
 	// Transform outer props into form values
 	mapPropsToValues: props => ({ email: 'ddd@test.com', password: '1234567' }),
 	validationSchema: Yup.object().shape({
@@ -21,29 +18,19 @@ const LoginEnhancedForm = withFormik({
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 		ApiService.login({ email: values.email, password: values.password }).then((payload) => {
 			setSubmitting(false);
-			saveState(payload)
+			persistMyInfo(payload)
 			props.loggedIn(payload)
+			console.log(props.history)
+			// props.history.push('/bikes');
+
 		}).catch(err=>{
 			setSubmitting(false)
+			toast.error(err.data.msg)
 		})
-
-		// console.log(values)
-		// ApiService.login(values).then(
-		// 	user => {
-		// 		setSubmitting(false);
-		// 		// do whatevs...
-		// 		// props.updateUser(user)
-		// 	},
-		// 	error => {
-		// 		toast(error.msg);
-		// 		setSubmitting(false);
-		// 		setErrors([]);
-		// 	}
-		// );
 	},
 	displayName: 'LoginForm',
 
-})(LoginInnerForm);
+})(InnerForm);
 
 
 const mapStateToProps = state => {
@@ -58,11 +45,11 @@ const mapDispatchToProps = dispatch => {
     })
 }
 
-const LoginEnhancedFormConnectedToRedux = connect(mapStateToProps, mapDispatchToProps)(LoginEnhancedForm)
+const ConnectedEnhancedLoginForm = connect(mapStateToProps, mapDispatchToProps)(EnhancedLoginForm)
 
-export default LoginEnhancedFormConnectedToRedux
+export default ConnectedEnhancedLoginForm
 
-LoginEnhancedForm.propTypes = {
+EnhancedLoginForm.propTypes = {
     getData: PropTypes.func,
     ters: PropTypes.array
 }

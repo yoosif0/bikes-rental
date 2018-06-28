@@ -1,9 +1,8 @@
 import React from 'react'
-// import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { removeState } from '../services/localStorage';
+import { unPersistMyInfo } from '../../services/localStorage';
 
  class Navbarr extends React.Component {
 
@@ -77,7 +76,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return ({
         logout: () => {
-            removeState()
+            unPersistMyInfo()
             dispatch({ type: 'LOGGED_OUT' })
         }
     })

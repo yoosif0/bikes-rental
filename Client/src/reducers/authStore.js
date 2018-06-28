@@ -1,12 +1,8 @@
-// import * as actionTypes from '../constants/ActionTypes';
-
 const initialState = {
-    
     isAuthenticated: localStorage.getItem('id_token') ? true : false,
     id: window.localStorage.getItem('id'),
     role: window.localStorage.getItem('role'),
     token: window.localStorage.getItem('id_token'),
-
 }
 
 const authStoreState = (state = initialState, action) => {
@@ -14,7 +10,7 @@ const authStoreState = (state = initialState, action) => {
         case 'LOGGED_IN':
             return {
                 isAuthenticated: true,
-                id: action.payload._id,
+                id: action.payload.user._id,
                 token: action.payload.token,
                 role: action.payload.user.role
             }

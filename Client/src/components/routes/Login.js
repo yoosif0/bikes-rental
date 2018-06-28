@@ -1,13 +1,11 @@
 import React from 'react'
-import  LoginEnhancedFormConnectedToRedux from '../login/LoginEnhancedForm';
 import Title from '../text/Title';
+import ConnectedEnhancedLoginForm from '../forms/LoginForm/EnhancedLoginForm';
 
-
-// Use <MyForm /> anywhere
 const Login = () => (
   <div>
     <Title> Login </Title>
-    <LoginEnhancedFormConnectedToRedux />
+    <ConnectedEnhancedLoginForm />
   </div>
 );
 

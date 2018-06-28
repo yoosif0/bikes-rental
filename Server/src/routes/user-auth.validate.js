@@ -10,6 +10,7 @@ module.exports = {
         })
         return Joi.validate(req.body, schema, (err) => next(err))
     },
+
     login(req, res, next) {
         let loginErr = new Error('Email or/and password are wrong')
         const schema = Joi.object().keys({
@@ -18,6 +19,7 @@ module.exports = {
         })
         return Joi.validate(req.body, schema, err => err ? res.status(401).json({ code: 2, msg: loginErr.message }) : next())
     },
+
     changeMyPassword(req, res, next) {
         const schema = Joi.object().keys({
             oldPassword: Joi.any(),
@@ -25,11 +27,26 @@ module.exports = {
         })
         return Joi.validate(req.body, schema, (err) => next(err))
     },
+
     changeOtherUserPassword(req, res, next) {
         const schema = Joi.object().keys({
             newPassword: Joi.string().regex(passwordRegex).required().label('new password'),
         })
         return Joi.validate(req.body, schema, (err) => next(err))
+    },
+
+    updatePasswordByRecoveryCode(req, res, next) {
+        const schema = Joi.object().keys({
+            email: Joi.string().email().required().label('email'),
+            recoveryCode: Joi.string().length(20).required().label('recovery code'),
+            newPassword: Joi.string().regex(passwordRegex).required().label('new password')
+        })
+        return Joi.validate(req.body, schema, (err) => next(err))
+    },
+
+    sendMeRecoveryCode(req, res, next){
+        const schema = Joi.string().email().required().label('email')
+        return Joi.validate(req.body.email, schema, (err) => next(err))
     }
 
 }

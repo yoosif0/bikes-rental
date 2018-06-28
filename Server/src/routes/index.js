@@ -11,6 +11,11 @@ const validateUserAuth = require('./user-auth.validate')
 const validateReservation = require('./reseravtions.validate')
 const validateBike = require('./bike.validate')
 
+
+router.post('/recovery_code_requests', userAuth.sendMeRecoveryCode, userAuth.sendMeRecoveryCode)
+
+
+
 router.post('/users/', validateUserAuth.signup, userAuth.signup)
 
 router.post('/users/login', validateUserAuth.login, userAuth.login)

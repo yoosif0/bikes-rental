@@ -2,15 +2,15 @@ import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
 import { ApiService } from '../../../services/data.service';
 import signupFormSchema from './validationSchema';
-import { saveState } from '../../../services/localStorage';
+import { persistMyInfo } from '../../../services/localStorage';
 import { connect } from 'react-redux';
 
 export const EnhancedSignupForm = withFormik({
 	validationSchema: signupFormSchema,
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
-		ApiService.signup(props.user._id, values).then((payload) => {
+		ApiService.signup({email: values.email, password: values.password, name: values.name}).then((payload) => {
             setSubmitting(false);
-            saveState(payload)
+            persistMyInfo(payload)
 			props.loggedIn(payload)
 		}).catch(err => {
 			setSubmitting(false)
