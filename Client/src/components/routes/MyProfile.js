@@ -39,9 +39,7 @@ class Com extends React.Component {
 }
 
 
-const MyProfile = connect(mapStateToProps, {})(Com)
-
-export default MyProfile
+export const MyProfile = connect(mapStateToProps, {})(Com)
 
 
 

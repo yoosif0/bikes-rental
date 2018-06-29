@@ -1,14 +1,11 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { unPersistMyInfo } from '../../services/localStorage';
+import { compose } from 'redux';
 
  class Navbarr extends React.Component {
-
-    // logout(){
-
-    // }
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
@@ -36,6 +33,10 @@ import { unPersistMyInfo } from '../../services/localStorage';
                         </li>
                         <li className="nav-item">
                             <NavLink activeClassName="active" id="bikesForReservationTab" to='/bikesForReservation' className="nav-link">Bikes For Reservation</NavLink>
+                        </li>
+
+                        <li className="nav-item">
+                            <NavLink activeClassName="active" id="mapTab" to='/map' className="nav-link">Map</NavLink>
                         </li>
 
 
@@ -82,9 +83,7 @@ const mapDispatchToProps = dispatch => {
     })
 }
 
-const Navbar = connect(mapStateToProps, mapDispatchToProps)(Navbarr)
-
-export default Navbar
+export const Navbar = compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Navbarr)
 
 
 

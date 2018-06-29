@@ -1,10 +1,10 @@
 import React from 'react'
-import Navbar2 from './components/layout/Navbar2'
+import {Navbar} from './components/layout/Navbar2'
 import { BrowserRouter, Route } from 'react-router-dom'
 import Users from './components/routes/Users';
 import Login from './components/routes/Login';
 // import { ApiService } from './services/data.service';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import AddBike from './components/routes/AddBike';
 import { connect } from 'react-redux';
 import BikeListing from './components/routes/BikesListing';
@@ -15,22 +15,18 @@ import PropTypes from 'prop-types';
 import ManagerPrivateRoute from './hoc/ManagerPrivateRoute';
 import EditUser from './components/routes/EditUser';
 import Signup from './components/routes/Signup';
-import MyProfile from './components/routes/MyProfile';
+import {MyProfile} from './components/routes/MyProfile';
+import { BikesMap } from './components/routes/BikesMap';
 
 class Appa extends React.Component {
-
-  // UNSAFE_componentWillMount() {
-  //   ApiService.init()
-  // }
-
-  notify = () => toast("Wow so easy !");
 
   render() {
     return (
       <BrowserRouter>
         <div>
-          <Navbar2 />
+          <Navbar />
           <div className="container">
+            <button onClick={this.props.ping}>Start PING</button>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/users" component={Users} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
@@ -38,11 +34,11 @@ class Appa extends React.Component {
             <ManagerPrivateRoute isManager={this.props.isManager} path="/bikes" component={BikeListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/bikesForReservation" component={BikeForReservationListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/myProfile" component={MyProfile} />
+            <PrivateRoute authed={this.props.isAuthenticated} path="/map" component={BikesMap}/>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editBike/:id" component={EditBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editUser/:id" component={EditUser} />
 
           </div>
-          <button onClick={this.notify}>Notify !</button>
           <ToastContainer />
         </div>
       </BrowserRouter>

@@ -5,10 +5,6 @@ import { NavLink } from 'react-router-dom';
 
  const UsersTable = ({ users, onAddClick, onEditClick, onDeleteClick }) => (
     <div>
-        <h3 className="panel-title">
-            <button title="Add New Meal" id="addButton" onClick={onAddClick} className="text-info pull-right fa fa-plus link" aria-hidden="true"></button>
-        </h3>
-
         <table id="UsersTable" className="table table-hover">
             <thead>
                 <tr>
