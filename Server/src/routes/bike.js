@@ -39,6 +39,10 @@ module.exports = {
         return getDefaultQuery.getItems().then(x => res.status(200).json(x))
     },
 
+    getNearbyBikesByLocation(req, res){
+        return bikeDb.getByLocation(req.query.longitude, req.query.latitude).then(bikes=>res.status(200).json(bikes)).catch(err=>res.status(400).json(err))
+    },
+
     signImage(req, res) {
         const filename = req.query.bikeId + req.query.objectName;
         // const mimeType = req.query.contentType;

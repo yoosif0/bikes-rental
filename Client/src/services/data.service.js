@@ -62,6 +62,11 @@ export const ApiService = {
         // const params = new HttpParams().set('skip', skip.toString()).set('searchFilter', searchTerm).append('roleFilter', roleFilter);
         return axios.get('bikes', { params })
     },
+
+    getBikesByLocation(longitude, latitude) {
+        return axios.get(`bikesByLocation?longitude=${longitude}&latitude=${latitude}`)
+    },
+
     getBike(id) {
         return axios.get('bikes/' + id)
     },

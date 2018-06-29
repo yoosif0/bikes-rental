@@ -30,6 +30,7 @@ router.get('/users/:id', verifyUser, Authorize.allowSelfAndManager, user.getUser
 // router.patch('/users/:id/role', verifyUser, validateUpdateRole, Authorize.preventRegularUsers, updateUserRole)
 
 router.get('/bikes', verifyUser, Authorize.preventRegularUsers, bike.getBikes)
+router.get('/bikesByLocation', bike.getNearbyBikesByLocation)
 router.get('/bikes/:bikeId', verifyUser, Authorize.preventRegularUsers, bike.getBike)
 // router.get('/bikes/:id', verifyUser, Authorize.allowSelfAndManager, getBike);
 router.post('/bikes', verifyUser, validateBike.bikeFormSchema, Authorize.preventRegularUsers, bike.addBike)
