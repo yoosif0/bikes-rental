@@ -3,7 +3,8 @@ import terState from './ter'
 import authStoreState from './authStore';
 import selectedUser from './selectedUser';
 import { esriStore } from './esriStore';
+import publicInfoStore from './publicInfoStore';
 
 export default combineReducers({
-    terState, authStoreState, selectedUser, esriStore   
+    terState, authStoreState, selectedUser, esriStore, publicInfoStore   
 })

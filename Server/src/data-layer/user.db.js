@@ -37,7 +37,7 @@ module.exports = {
     createRecoveryCode(email, code) {
         return usersModel.findOneAndUpdate(
             { email },
-            { $set: { recoveryCode: code, recoveryCodeDate: Date.now() } },
+            { $set: { recoveryCode: code } },
             { new: true }
         )
     }

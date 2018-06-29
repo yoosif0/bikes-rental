@@ -124,6 +124,10 @@ export const ApiService = {
         return axios.post('recovery_code_requests', { email })
     },
 
+    changeMyPasswordUsingRecoveryCode({ recoveryCode, email, newPassword }) {
+        return axios.post('recovery_code', { recoveryCode, email, newPassword } )
+    },
+
     changePasswordUsingOldPassword({ oldPassword, newPassword }) {
         return axios.patch('password', { oldPassword, newPassword })
     },

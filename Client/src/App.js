@@ -17,6 +17,9 @@ import EditUser from './components/routes/EditUser';
 import Signup from './components/routes/Signup';
 import {MyProfile} from './components/routes/MyProfile';
 import { BikesMap } from './components/routes/BikesMap';
+import ForgotPassword from './components/routes/ForgotPassword';
+import PasswordRecoveredSuccessfully from './components/routes/PasswordRecoveredSuccessfully';
+import RecoveryCode from './components/routes/RecoveryCode';
 
 class Appa extends React.Component {
 
@@ -26,10 +29,13 @@ class Appa extends React.Component {
         <div>
           <Navbar />
           <div className="container">
-            <button onClick={this.props.ping}>Start PING</button>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/users" component={Users} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <Route path="/forgotPassword" component={ForgotPassword} />
+            <Route path="/recoveryCode" component={RecoveryCode} />
+            <Route path="/passwordRecoveredSuccessfully" component={PasswordRecoveredSuccessfully} />
+
             <ManagerPrivateRoute isManager={this.props.isManager} path="/addBike" component={AddBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/bikes" component={BikeListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/bikesForReservation" component={BikeForReservationListing} />

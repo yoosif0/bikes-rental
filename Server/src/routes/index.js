@@ -13,6 +13,7 @@ const validateBike = require('./bike.validate')
 
 
 router.post('/recovery_code_requests', userAuth.sendMeRecoveryCode, userAuth.sendMeRecoveryCode)
+router.post('/recovery_code', userAuth.updatepsswordByRecoveryCode, userAuth.updatepsswordByRecoveryCode)
 
 
 
