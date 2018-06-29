@@ -26,6 +26,7 @@ export const graphicsService = {
     setGraphicsFromData(data) {
         const esriStore = store.getState().esriStore
         const newGraphics = data.map((bike, index) => {
+            console.log(String(bike.weight))
             return new esriStore.Graphic({
                 geometry: {
                     type: 'point',
@@ -40,7 +41,7 @@ export const graphicsService = {
                 attributes: {
                     'Model': bike.model,
                     'Color': bike.color,
-                    'weight': bike.weight,
+                    'Weight': bike.weight + ' kg',
                 },
                 popupTemplate
             });

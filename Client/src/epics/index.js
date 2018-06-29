@@ -76,8 +76,10 @@ const modulesLoaded = (action$, state$) => {
 
 const filterBikes = (action$, state$) => {
   return action$.ofType('FILTER_BIKES')
-  .map(payload=>({type:'SAVE_FILTER', payload}))
-  .map(()=>({type:'LAZY_LOAD_NEW_DATA'}))    
+  .mergeMap(ac=>Observable.concat(
+    Observable.of({type:'SAVE_FILTER', payload: ac.payload}),
+    Observable.of({type:'LAZY_LOAD_NEW_DATA'})
+  ))
 }
 
 const lazyLoadData = (action$, state$) => {

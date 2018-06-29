@@ -5,18 +5,20 @@ import { ApiService } from '../../services/data.service';
 import BikesTable from '../tables/BikesTable/BikesTable';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
+import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
+
 
 class Com extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { bikes: [], skip: 0 };
+        this.state = { bikes: [], skip: 0, filter:{} };
     }
     componentDidMount() {
         this.fetchBikes()
     }
 
     fetchBikes() {
-        ApiService.getBikesWithPagination({ skip: this.state.skip }).then(x => {
+        ApiService.getBikesWithPagination({ skip: this.state.skip, filter:this.state.filter }).then(x => {
             this.setState({ ...this.state, bikes: x.bikes, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data.msg)
@@ -36,10 +38,15 @@ class Com extends React.Component {
             this.fetchBikes();
         });
     };
-
+    onFilterUpdated = (filter) => {
+        console.log('dasdsdasdasdassd')
+        this.setState({filter})
+        this.fetchBikes()
+    }
     render() {
         return (
             <div id="react-paginate">
+            <EnhancedBikeFilterForm filter={this.state.filter }  filterUpdated={this.onFilterUpdated} />
                 <BikesTable bikes={this.state.bikes} onDeleteClick={this.onDelete} />
                 <ReactPaginate previousLabel={"previous"}
                     nextLabel={"next"}

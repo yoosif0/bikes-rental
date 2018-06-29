@@ -5,11 +5,14 @@ import React from 'react'
 // import { assignMapEventHandlers, addUIWidgets } from './map-ui-widgets';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
 
 
-const mapStateToProps = state => ({ ters: state.terState.ters })
-const mapDispatchToProps = dispatch => ({ loadEsriModules: () => dispatch({ type: 'LOAD_ESRI_MODULES' }) })
-
+const mapStateToProps = state => ({ filter: state.esriStore.filter })
+const mapDispatchToProps = dispatch => ({ 
+    filterBikes: (payload) => dispatch({ type: 'FILTER_BIKES', payload }) , 
+    loadEsriModules: () => dispatch({ type: 'LOAD_ESRI_MODULES' }) 
+})
 
 export class Com extends React.Component {
 
@@ -19,8 +22,12 @@ export class Com extends React.Component {
 
     render() {
         return (
-            <div id="viewMap" style={{ height: `780px` }}>
-                AAAAAA
+            
+            <div className="container">
+                <EnhancedBikeFilterForm filter={this.props.filter} filterUpdated={this.props.filterBikes}/>
+                <div id="viewMap" style={{ height: `780px` }}>
+            </div>
+
             </div>
         )
 
@@ -31,5 +38,7 @@ export class Com extends React.Component {
 export const BikesMap = connect(mapStateToProps, mapDispatchToProps)(Com)
 
 Com.propTypes = {
-    loadEsriModules: PropTypes.any,
+    loadEsriModules: PropTypes.func,
+    filterBikes: PropTypes.func,
+    filter: PropTypes.object
 }
