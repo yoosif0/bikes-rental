@@ -1,6 +1,7 @@
 const s3Config = require('../config/s3.config')
 const successMessage = require('services/utility').successMessageWrapper
 const bikeDb = require('../data-layer/bike.db')
+const reservationDb = require('../data-layer/reservation.db')
 const GetDefaultQuery = require('data-layer/get-default-query.db')
 const bikeModel = require('models/bike.model')
 const ObjectId = require('mongodb').ObjectID;
@@ -39,9 +40,9 @@ module.exports = {
         return getDefaultQuery.getItems().then(x => res.status(200).json(x))
     },
 
-    getNearbyBikesByLocation(req, res){
-        return bikeDb.getByLocation(req.query.longitude, req.query.latitude).then(bikes=>res.status(200).json(bikes)).catch(err=>res.status(400).json(err))
-    },
+    // getNearbyBikesByLocation(req, res){
+    //     return bikeDb.getByLocation(req.query.longitude, req.query.latitude).then(bikes=>res.status(200).json(bikes)).catch(err=>res.status(400).json(err))
+    // },
 
     signImage(req, res) {
         const filename = req.query.bikeId + req.query.objectName;
@@ -63,11 +64,35 @@ module.exports = {
 
     getBikes(req, res, next) {
         // return getRecords(10, req.query.skip ? parseInt(req.query.skip) : 0, req.query.startDate, req.query.endDate).then(x => res.status(200).json(x)).catch(err => next(err))
-    
+
         const getDefaultQuery = new GetDefaultQuery(10, req.query.skip ? parseInt(req.query.skip) : 0, bikeModel)
         return Promise.all([getDefaultQuery.getItems(), getDefaultQuery.getItemsCount()])
             .then(([bikes, count]) => res.status(200).json({ bikes, count })).catch(err => next(err))
-    }
+    },
+
+    getByLocationAndFilterExcludingReservedBikes(req, res, next) {
+        return reservationDb.getClashedReseravtionsForDateRange(req.query.startDate, req.query.endDate)
+            .then(reservations => {
+                const reservedBikes = reservations.length ? reservations.map(item => item.bikeId) : null
+                return bikeDb.getByLocationAndFilterExcludingReservedBikes(reservedBikes, req.query.model, req.query.color, req.query.maxWeight, req.query.minWeight, req.query.longitude, req.query.latitude)
+            })
+            .then(bikes => {
+                return res.status(200).json(bikes)
+            })
+            .catch(err => next(err))
+    },
+
+    getWithPaginationExcludingReservedBikes(req, res, next) {
+        return reservationDb.getClashedReseravtionsForDateRange(req.query.startDate, req.query.endDate)
+            .then(reservations => {
+                const reservedBikes = reservations.length ? reservations.map(item => item.bikeId) : null
+                return bikeDb.getWithPaginationExcludingReservedBikes(reservedBikes, req.query.model, req.query.color, req.query.maxWeight, req.query.minWeight, 10, req.query.skip ? parseInt(req.query.skip) : 0)
+            })
+            .then(bikes => {
+                return res.status(200).json(bikes)
+            })
+            .catch(err => next(err))
+    },
 
 }
 

@@ -1,18 +1,26 @@
 const bikeModel = require('../models/bike.model')
 // const faker = require('faker')
+const ObjectId = require('mongodb').ObjectID;
 
 module.exports = {
     createBike(model, weight, color, latitude, longitude) {
         const location = {
-            coordinates: [longitude, latitude ],
+            coordinates: [longitude, latitude],
             type: 'Point',
         }
         const newBike = new bikeModel({ model, weight, color, location })
         return newBike.save()
     },
 
-    getByLocation(long, lat, distance = 5000000) {
-        return bikeModel.find({ location: { $nearSphere: { $geometry: { type: "Point", coordinates: [long, lat] }, $maxDistance: distance } } }).limit(20).lean().exec()
+    getByLocationAndFilterExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, long, lat, distance = 5000000) {
+        const query = getQuery(excludedIds, model, color, maxWeight, minWeight)
+        query.location = { $nearSphere: { $geometry: { type: "Point", coordinates: [long, lat] }, $maxDistance: distance } }
+        return bikeModel.find(query).limit(20).lean().exec()
+    },
+
+    getWithPaginationExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip) {
+        const query = getQuery(excludedIds, model, color, maxWeight, minWeight)
+        return Promise.all([bikeModel.find(query).limit(limit).skip(skip).lean().exec(), bikeModel.find(query).count().lean().exec()]).then(([bikes, count])=>({bikes, count}))
     },
 
     deleteBike(_id) {
@@ -37,22 +45,23 @@ module.exports = {
 
 
 
+}
 
-    // getAvailableBikes(startDate, endDate) {
-    //     {
-    //         $facet: {
-    //             meals: [
-    //                 { $sort : { date : -1 } },
-    //                 { $skip: skip },
-    //                 { $limit: limit },
-    //             ],
-    //             pageInfo: [
-    //                 { $group: { _id: null, count: { $sum: 1 } } },
-    //             ],
-    //         },
-    //     },
-
-    // }
+function getQuery (excludedIds, model, color, maxWeight, minWeight) {
+    const query =  {  }
+    if(model) {
+        query.model = { $regex: RegExp(`.*${model}.*`) }
+    }
+    if(excludedIds) {
+        query._id = { $nin: excludedIds.map(id => ObjectId(id)) }
+    }
+    if(color) {
+        query.color = color
+    }
+    if(maxWeight || minWeight) {
+        query.weight = { $gte: minWeight || 0, $lte: maxWeight || Infinity }
+    }
+    return query
 }
 
 // for (let i = 0; i < 5000; i++) {

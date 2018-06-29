@@ -57,42 +57,42 @@ export const ApiService = {
         return axios.get('users', { params })
     },
 
-    getBikesWithPagination({ skip, model, color, maxWeight, minWeight, startDate, endDate }) {
-        const params = this._getBikeParams({model, color, maxWeight, minWeight, startDate, endDate})
+    getBikesWithPagination({ skip, filter }) {
+        const params = this._getBikeParams({filter})
         params.skip = skip.toString()
         return axios.get('bikesWithPagination', { params })
     },
 
-    getBikesByLocation({longitude, latitude, model, color, maxWeight, minWeight, startDate, endDate }) {
-        const params = this._getBikeParams({model, color, maxWeight, minWeight, startDate, endDate})
+    getBikesByLocation({longitude, latitude, filter }) {
+        const params = this._getBikeParams({filter})
         return axios.get(`bikesByLocation`, {params})
     },
 
-    _getBikeParams({model, color, maxWeight, minWeight, startDate, endDate, longitude, latitude}) {
+    _getBikeParams({filter, longitude, latitude}) {
         const params = {}
-        if (model) {
-            params['model'] = model
+        if (filter.model) {
+            params['model'] = filter.model
         }
-        if (color) {
-            params['color'] = color
+        if (filter.color) {
+            params['color'] = filter.color
         }
-        if (maxWeight) {
-            params['maxWeight'] = maxWeight
+        if (filter.maxWeight) {
+            params['maxWeight'] = filter.maxWeight
         }
-        if (minWeight) {
-            params['minWeight'] = minWeight
+        if (filter.minWeight) {
+            params['minWeight'] = filter.minWeight
         }
-        if (startDate) {
-            params['startDate'] = startDate
+        if (filter.startDate) {
+            params['startDate'] = filter.startDate
         }
-        if (endDate) {
-            params['endDate'] = endDate
+        if (filter.endDate) {
+            params['endDate'] = filter.endDate
         }
-        if (longitude) {
-            params['longitude'] = longitude
+        if (filter.longitude) {
+            params['longitude'] = filter.longitude
         }
-        if (latitude) {
-            params['latitude'] = latitude
+        if (filter.latitude) {
+            params['latitude'] = filter.latitude
         }
         return params
     },

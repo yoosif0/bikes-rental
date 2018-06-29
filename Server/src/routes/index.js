@@ -29,8 +29,10 @@ router.get('/users/', verifyUser, Authorize.preventRegularUsers, user.getUsers)
 router.get('/users/:id', verifyUser, Authorize.allowSelfAndManager, user.getUser)
 // router.patch('/users/:id/role', verifyUser, validateUpdateRole, Authorize.preventRegularUsers, updateUserRole)
 
-router.get('/bikes', verifyUser, Authorize.preventRegularUsers, bike.getBikes)
-router.get('/bikesByLocation', bike.getNearbyBikesByLocation)
+// router.get('/bikes', verifyUser, Authorize.preventRegularUsers, bike.getBikes)
+router.get('/bikesByLocation', bike.getByLocationAndFilterExcludingReservedBikes)
+router.get('/bikesWithPagination', bike.getWithPaginationExcludingReservedBikes)
+
 router.get('/bikes/:bikeId', verifyUser, Authorize.preventRegularUsers, bike.getBike)
 // router.get('/bikes/:id', verifyUser, Authorize.allowSelfAndManager, getBike);
 router.post('/bikes', verifyUser, validateBike.bikeFormSchema, Authorize.preventRegularUsers, bike.addBike)
@@ -38,15 +40,16 @@ router.delete('/bikes/:bikeId',  verifyUser, Authorize.preventRegularUsers,  bik
 router.put('/bikes/:bikeId', verifyUser, validateBike.bikeFormSchema, Authorize.preventRegularUsers, bike.updatebike)
 
 router.get('/reservations', verifyUser, reservations.getReservations)
+router.get('/reservationsForBike', verifyUser, reservations.getReservationsForBike)
+// router.get('/reservationsForDate', verifyUser, reservations.getClashedReseravtionsForDateRange)
 router.get('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getReservationsForUser)
-router.post('/reservations/:id/:bikeId', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.checkNoPreviousReservation, reservations.reserveBike)
+router.post('/reservations/:id/:bikeId', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
+
+// router.post('/reservations/:id/:bikeId', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.checkNoPreviousReservation, reservations.reserveBike)
 router.delete('/reservations/:id/:reservationId', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
 
 // router.get('/ratings', verifyUser, Authorize.allowSelfAndManager, ratings.getRatingsForSeveralBikes)
 router.post('/ratings/:id/:bikeId/:rate', verifyUser, Authorize.allowSelfAndManager, ratings.rateBike)
-
-router.get('/t', bike.getBikesExcludingSome)
-// router.get('/upload', bike.uploadImage)
 
 // router.post('/reservations/:id/:bikeId', verifyUser, ReservationsValidation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 // router.delete('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
