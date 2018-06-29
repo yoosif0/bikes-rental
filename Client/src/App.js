@@ -21,6 +21,7 @@ import ForgotPassword from './components/routes/ForgotPassword';
 import PasswordRecoveredSuccessfully from './components/routes/PasswordRecoveredSuccessfully';
 import RecoveryCode from './components/routes/RecoveryCode';
 import ChangeMyPasswordUsingOldPassword from './components/routes/ChangeMyPasswordUsingOldPassword';
+import ChangeOtherUserPassword from './components/routes/ChangeOtherUserPassword';
 
 class Appa extends React.Component {
 
@@ -46,6 +47,7 @@ class Appa extends React.Component {
             <PrivateRoute authed={this.props.isAuthenticated} path="/map" component={BikesMap}/>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editBike/:id" component={EditBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editUser/:id" component={EditUser} />
+            <ManagerPrivateRoute isManager={this.props.isManager} path="/changeOtherUserPassword/:id" component={ChangeOtherUserPassword} />
 
           </div>
           <ToastContainer />

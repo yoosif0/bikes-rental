@@ -1,7 +1,6 @@
 import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
 import { ApiService } from '../../../services/data.service';
-import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
 import { persistMyInfo } from '../../../services/localStorage';
@@ -39,9 +38,3 @@ export const EnhancedLoginForm = compose(
 	displayName: 'LoginForm',
 
 }))(InnerForm)
-
-
-EnhancedLoginForm.propTypes = {
-    getData: PropTypes.func,
-    ters: PropTypes.array
-}

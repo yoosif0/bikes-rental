@@ -1,7 +1,6 @@
 import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
 import { ApiService } from '../../../services/data.service';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
@@ -30,8 +29,3 @@ export const EnhancedForgotPasswordForm = compose(
 
 	}))(InnerForm)
 
-
-EnhancedForgotPasswordForm.propTypes = {
-	getData: PropTypes.func,
-	ters: PropTypes.array
-}

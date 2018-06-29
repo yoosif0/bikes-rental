@@ -1,17 +1,16 @@
 import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
 import { ApiService } from '../../../services/data.service';
-import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import recoveryCodeSchema from './validationSchema';
+import changeMyPasswordUsingOldPasswordSchema from './validationSchema';
 
 
 export const EnhancedChangeMyPasswordUsingOldPasswordForm = compose(
 	withRouter,
 	withFormik({
-		validationSchema: recoveryCodeSchema,
+		validationSchema: changeMyPasswordUsingOldPasswordSchema,
 		handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 			ApiService.changePasswordUsingOldPassword({oldPassword: values.oldPassword, newPassword: values.newPassword})
 				.then((payload) => {
@@ -25,10 +24,4 @@ export const EnhancedChangeMyPasswordUsingOldPasswordForm = compose(
 		displayName: 'ChangeMyPasswordUsingOldPasswordForm',
 
 	}))(InnerForm)
-
-
-EnhancedChangeMyPasswordUsingOldPasswordForm.propTypes = {
-	getData: PropTypes.func,
-	ters: PropTypes.array
-}
 

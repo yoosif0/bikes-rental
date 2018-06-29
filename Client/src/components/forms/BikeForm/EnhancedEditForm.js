@@ -1,6 +1,5 @@
 import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
-import PropTypes from 'prop-types';
 import { ApiService } from '../../../services/data.service';
 import bikeFormSchema from './validationSchema';
 import { toast } from 'react-toastify';
@@ -26,7 +25,3 @@ export const EnhancedBikeForm = withFormik({
 	displayName: 'BikeForm',
 
 })(InnerForm);
-
-EnhancedBikeForm.propTypes = {
-	todoStore: PropTypes.object
-};

@@ -1,6 +1,5 @@
 import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
-import PropTypes from 'prop-types';
 import { ApiService } from '../../../services/data.service';
 import bikeFormSchema from './validationSchema';
 import { toast } from 'react-toastify';
@@ -21,24 +20,3 @@ export const EnhancedBikeForm = withFormik({
 	displayName: 'BikeForm',
 
 })(InnerForm);
-
-EnhancedBikeForm.propTypes = {
-	todoStore: PropTypes.object
-};
-
-
-//   onSubmit(loginForm) {
-//     this.dataService.login(loginForm).subscribe(
-//         data => {
-//             this.authService.saveToken(data.token)
-//             this.authService.saveProfile(data.user)
-//             this.router.navigate(['my-profile'])
-//         },
-//         error => {
-//             this.sb.emitErrorSnackBar(error.msg)
-//             if (error.code === 1) {
-//                 this.router.navigate(['signup/activate'])
-//             }
-//         }
-//     )
-// }

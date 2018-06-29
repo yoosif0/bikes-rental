@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
 
-
 class Com extends React.Component {
     constructor(props) {
         super(props);
@@ -39,7 +38,6 @@ class Com extends React.Component {
         });
     };
     onFilterUpdated = (filter) => {
-        console.log('dasdsdasdasdassd')
         this.setState({filter})
         this.fetchBikes()
     }

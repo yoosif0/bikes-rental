@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { EnhancedUserForm } from '../forms/UserForm/EnhancedEditForm';
 import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
+import Title from '../text/Title';
+import { Button } from 'reactstrap';
 
 export default class EditUser extends React.Component {
     constructor(props) {
@@ -21,14 +23,13 @@ export default class EditUser extends React.Component {
         })
     }
 
-
-
-
     render() {
         return (
             this.state.user.name ?
             <div>
+                <Title> Update User Info </Title>
                 <EnhancedUserForm user={this.state.user} />
+                <Button className="mt-4" color="default"onClick={()=>this.props.history.push(`../changeOtherUserPassword/${this.state.user._id}`)}>Change {this.state.user.name} Password </Button>
             </div>
            :
            <p>Waiting</p>
@@ -37,7 +38,7 @@ export default class EditUser extends React.Component {
 }
 
 EditUser.propTypes = {
-    disabled: PropTypes.any,
-    match: PropTypes.any
+    match: PropTypes.any,
+    history: PropTypes.any
 }
 
