@@ -20,6 +20,7 @@ import { BikesMap } from './components/routes/BikesMap';
 import ForgotPassword from './components/routes/ForgotPassword';
 import PasswordRecoveredSuccessfully from './components/routes/PasswordRecoveredSuccessfully';
 import RecoveryCode from './components/routes/RecoveryCode';
+import ChangeMyPasswordUsingOldPassword from './components/routes/ChangeMyPasswordUsingOldPassword';
 
 class Appa extends React.Component {
 
@@ -40,6 +41,8 @@ class Appa extends React.Component {
             <ManagerPrivateRoute isManager={this.props.isManager} path="/bikes" component={BikeListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/bikesForReservation" component={BikeForReservationListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/myProfile" component={MyProfile} />
+            <PrivateRoute authed={this.props.isAuthenticated} path="/changeMyPasswordUsingOldPassword" component={ChangeMyPasswordUsingOldPassword} />
+
             <PrivateRoute authed={this.props.isAuthenticated} path="/map" component={BikesMap}/>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editBike/:id" component={EditBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editUser/:id" component={EditUser} />

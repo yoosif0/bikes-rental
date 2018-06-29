@@ -15,7 +15,6 @@ export const EnhancedEditProfileForm = withFormik({
 			toast.success('Updayed successfully')
 		}).catch(err => {
 			setSubmitting(false)
-			console.log(err)
 			toast.error(err)
 		})
 	},

@@ -20,7 +20,7 @@ router.post('/recovery_code', userAuth.updatepsswordByRecoveryCode, userAuth.upd
 router.post('/users/', validateUserAuth.signup, userAuth.signup)
 
 router.post('/users/login', validateUserAuth.login, userAuth.login)
-router.patch('/password', verifyUser, validateUserAuth.login, userAuth.login)
+router.patch('/password', verifyUser, validateUserAuth.changeMyPassword, userAuth.changeMyPassword)
 router.patch('/users/:id/password', verifyUser, validateUserAuth.changeOtherUserPassword, Authorize.allowSelfAndManager, userAuth.changeOtherUserPassword)
 
 

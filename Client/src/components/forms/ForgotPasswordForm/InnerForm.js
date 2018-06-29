@@ -12,7 +12,7 @@ export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, h
             <Field type="text" name="email" className="form-control" />
             <InputFeedback error={touched.email && errors.email} />
         </DefaultInput>
-        <SubmitButton disabled={!dirty || isSubmitting || errors.email} ></SubmitButton>
+        <SubmitButton disabled={!dirty || isSubmitting || Object.keys(errors).length} ></SubmitButton>
     </Form>
 )
 

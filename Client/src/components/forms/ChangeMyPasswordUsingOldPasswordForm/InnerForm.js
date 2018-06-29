@@ -8,16 +8,11 @@ import { InputFeedback } from '../../text/InputFeedback';
 
 export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, dirty }) => (
     <Form>
-        <DefaultInput label="Email">
-            <Field type="text" name="email" className="form-control" />
-            <InputFeedback error={touched.email && errors.email} />
+        <DefaultInput label="Old Password">
+            <Field type="password" name="oldPassword" className="form-control" />
+            <InputFeedback error={touched.oldPassword && errors.oldPassword} />
         </DefaultInput>
-
-        <DefaultInput label="Recovery Code">
-            <Field type="text" name="recoveryCode" className="form-control" />
-            <InputFeedback error={touched.recoveryCode && errors.recoveryCode} />
-        </DefaultInput>
-        <DefaultInput label="Password">
+        <DefaultInput label="New Password">
             <Field type="password" name="newPassword" className="form-control" />
             <InputFeedback error={touched.newPassword && errors.newPassword} />
         </DefaultInput>

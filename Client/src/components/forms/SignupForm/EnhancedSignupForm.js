@@ -5,6 +5,7 @@ import signupFormSchema from './validationSchema';
 import { persistMyInfo } from '../../../services/localStorage';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { toast } from 'react-toastify';
 
 
 const mapStateToProps = state => ({ ters: state.terState.ters })
@@ -25,6 +26,7 @@ export const EnhancedSignupForm = compose(
 			props.loggedIn(payload)
 		}).catch(err => {
 			setSubmitting(false)
+			toast.error(err.data.msg)
 		})
 	},
 	displayName: 'UserForm',

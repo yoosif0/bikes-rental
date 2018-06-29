@@ -5,6 +5,7 @@ import { withFormik, } from 'formik';
 import { ApiService } from '../../services/data.service';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 // const authStore = mobx.toJS(AuthStore);
 export const EnhancedForm = withFormik({
@@ -23,8 +24,9 @@ export const EnhancedForm = withFormik({
 				// do whatevs...
 				// props.updateUser(user)
 			},
-			errors => {
+			err => {
 				setSubmitting(false);
+				toast.error(err.data.msg)
 				setErrors([]);
 			}
 		);

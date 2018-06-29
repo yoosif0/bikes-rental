@@ -24,8 +24,8 @@ module.exports = {
     updateUserInfo(req, res, next) {
         return db.updateUserInfo(req.params.id, {
             name: req.body.name,
-            maxCalories: req.body.maxCalories,
-            isTrackingDisplayed: req.body.isTrackingDisplayed
+            email: req.body.email,
+            role: req.body.role
         }).then((user) => user ? res.status(200).json(user) : next({ nF: 'User' })).catch(err => next(err))
     },
 

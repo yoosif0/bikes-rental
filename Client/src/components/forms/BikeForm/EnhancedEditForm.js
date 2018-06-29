@@ -3,6 +3,7 @@ import { withFormik, } from 'formik';
 import PropTypes from 'prop-types';
 import { ApiService } from '../../../services/data.service';
 import bikeFormSchema from './validationSchema';
+import { toast } from 'react-toastify';
 
 export const EnhancedBikeForm = withFormik({
 	mapPropsToValues: props => {
@@ -15,9 +16,11 @@ export const EnhancedBikeForm = withFormik({
 	},
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 		ApiService.editBike(props.bike._id, values).then((payload) => {
+			toast.success('Success')
 			setSubmitting(false);
 		}).catch(err => {
 			setSubmitting(false)
+			toast.error(err.data.msg)
 		})
 	},
 	displayName: 'BikeForm',
