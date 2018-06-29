@@ -57,15 +57,46 @@ export const ApiService = {
         return axios.get('users', { params })
     },
 
-    getBikes({ skip = 0, }) {
-        const params = {}
-        // const params = new HttpParams().set('skip', skip.toString()).set('searchFilter', searchTerm).append('roleFilter', roleFilter);
-        return axios.get('bikes', { params })
+    getBikesWithPagination({ skip, model, color, maxWeight, minWeight, startDate, endDate }) {
+        const params = this._getBikeParams({model, color, maxWeight, minWeight, startDate, endDate})
+        params.skip = skip.toString()
+        return axios.get('bikesWithPagination', { params })
     },
 
-    getBikesByLocation(longitude, latitude) {
-        return axios.get(`bikesByLocation?longitude=${longitude}&latitude=${latitude}`)
+    getBikesByLocation({longitude, latitude, model, color, maxWeight, minWeight, startDate, endDate }) {
+        const params = this._getBikeParams({model, color, maxWeight, minWeight, startDate, endDate})
+        return axios.get(`bikesByLocation`, {params})
     },
+
+    _getBikeParams({model, color, maxWeight, minWeight, startDate, endDate, longitude, latitude}) {
+        const params = {}
+        if (model) {
+            params['model'] = model
+        }
+        if (color) {
+            params['color'] = color
+        }
+        if (maxWeight) {
+            params['maxWeight'] = maxWeight
+        }
+        if (minWeight) {
+            params['minWeight'] = minWeight
+        }
+        if (startDate) {
+            params['startDate'] = startDate
+        }
+        if (endDate) {
+            params['endDate'] = endDate
+        }
+        if (longitude) {
+            params['longitude'] = longitude
+        }
+        if (latitude) {
+            params['latitude'] = latitude
+        }
+        return params
+    },
+
 
     getBike(id) {
         return axios.get('bikes/' + id)
@@ -75,27 +106,6 @@ export const ApiService = {
         return axios.get(`users/${userId}`)
     },
 
-    getMeals(userId, { skip = 0, startDate = '', endDate = '', startTime = '', endTime = '' }) {
-        let params = new {}
-            .set('skip', skip.toString())
-        if (startDate) {
-            params = params.append('startDate', startDate)
-        }
-        if (endDate) {
-            params = params.append('endDate', endDate)
-        }
-        if (startTime) {
-            params = params.append('startTime', startTime)
-        }
-        if (endTime) {
-            params = params.append('endTime', endTime)
-        }
-        return axios.get(`users/${userId}/meals`, { params })
-    },
-
-    getMeal(userId, mealId) {
-        return axios.get(`users/${userId}/meals/${mealId}`)
-    },
 
 
     addBike(data) {
