@@ -1,6 +1,5 @@
 const reservationDb = require('../data-layer/reservation.db')
 const successMessage = require('services/utility').successMessageWrapper
-const GetDefaultQuery = require('data-layer/get-default-query.db')
 const reservationModel = require('models/reservation.model')
 
 
