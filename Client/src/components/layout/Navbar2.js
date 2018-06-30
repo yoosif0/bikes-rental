@@ -39,9 +39,17 @@ const Navbarr = ({ isManager, isAuthenticated, logout }) => (
                             <li className="nav-item">
                                 <NavLink activeClassName="active" id="mapTab" to='/map' className="nav-link">Map</NavLink>
                             </li> 
+                            <li className="nav-item">
+                                <NavLink activeClassName="active" id="mapTab" to='/myReservations' className="nav-link">My Reservations</NavLink>
+                            </li> 
+                            <li className="nav-item">
+                                <NavLink activeClassName="active" id="mapTab" to='/myRatings' className="nav-link">My Ratings</NavLink>
+                            </li> 
                             </React.Fragment>
                             :
-                            null
+                            <li className="nav-item">
+                                <NavLink activeClassName="active" id="loginTab" to='/map' className="nav-link">Login</NavLink>
+                            </li> 
 
                     }
             </ul>

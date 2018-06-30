@@ -1,13 +1,12 @@
 import React from 'react'
 import {Navbar} from './components/layout/Navbar2'
-import { BrowserRouter, Route } from 'react-router-dom'
-import Users from './components/routes/Users';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './components/routes/Login';
 // import { ApiService } from './services/data.service';
 import { ToastContainer } from 'react-toastify';
 import AddBike from './components/routes/AddBike';
 import { connect } from 'react-redux';
-import BikeListing from './components/routes/BikesListing';
+import {BikesListing} from './components/routes/BikesListing';
 import EditBike from './components/routes/EditBike';
 import BikeForReservationListing from './components/routes/BikesForReservationListing';
 import PrivateRoute from './hoc/PrivateRoute';
@@ -22,6 +21,8 @@ import PasswordRecoveredSuccessfully from './components/routes/PasswordRecovered
 import RecoveryCode from './components/routes/RecoveryCode';
 import ChangeMyPasswordUsingOldPassword from './components/routes/ChangeMyPasswordUsingOldPassword';
 import ChangeOtherUserPassword from './components/routes/ChangeOtherUserPassword';
+import { UsersListing } from './components/routes/UsersListing';
+import { MyReservations } from './components/routes/MyReservations';
 
 class Appa extends React.Component {
 
@@ -31,24 +32,25 @@ class Appa extends React.Component {
         <div>
           <Navbar />
           <div className="container">
-            <ManagerPrivateRoute isManager={this.props.isManager} path="/users" component={Users} />
+          {/* {
+            this.props.isAuthenticated ? <Redirect from="/" to="myProfile" /> : <Redirect from="/" to="login" />
+          } */}
+            <ManagerPrivateRoute isManager={this.props.isManager} path="/users" component={UsersListing} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/forgotPassword" component={ForgotPassword} />
             <Route path="/recoveryCode" component={RecoveryCode} />
             <Route path="/passwordRecoveredSuccessfully" component={PasswordRecoveredSuccessfully} />
-
             <ManagerPrivateRoute isManager={this.props.isManager} path="/addBike" component={AddBike} />
-            <ManagerPrivateRoute isManager={this.props.isManager} path="/bikes" component={BikeListing} />
+            <ManagerPrivateRoute isManager={this.props.isManager} path="/bikes" component={BikesListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/bikesForReservation" component={BikeForReservationListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/myProfile" component={MyProfile} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/changeMyPasswordUsingOldPassword" component={ChangeMyPasswordUsingOldPassword} />
-
             <PrivateRoute authed={this.props.isAuthenticated} path="/map" component={BikesMap}/>
+            <PrivateRoute authed={this.props.isAuthenticated} path="/myReservations" component={MyReservations}/>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editBike/:id" component={EditBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editUser/:id" component={EditUser} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/changeOtherUserPassword/:id" component={ChangeOtherUserPassword} />
-
           </div>
           <ToastContainer />
         </div>

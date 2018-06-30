@@ -44,10 +44,10 @@ router.get('/reservations', verifyUser, reservations.getReservations)
 router.get('/reservationsForBike', verifyUser, reservations.getReservationsForBike)
 // router.get('/reservationsForDate', verifyUser, reservations.getClashedReseravtionsForDateRange)
 router.get('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getReservationsForUser)
-router.post('/reservations/:id/:bikeId', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
+router.post('/reservations', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 
 // router.post('/reservations/:id/:bikeId', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.checkNoPreviousReservation, reservations.reserveBike)
-router.delete('/reservations/:id/:reservationId', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
+router.delete('/reservations/:reservationId', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
 
 // router.get('/ratings', verifyUser, Authorize.allowSelfAndManager, ratings.getRatingsForSeveralBikes)
 router.post('/ratings/:id/:bikeId/:rate', verifyUser, Authorize.allowSelfAndManager, ratings.rateBike)

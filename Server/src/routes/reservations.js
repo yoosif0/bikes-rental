@@ -21,7 +21,7 @@ module.exports = {
         return reservationDb.deleteReservation(req.params.reservationId).then(item => item ? res.status(200).json(successMessage) : next({ nF: 'Meal' })).catch(err => next(err))
     },
     reserveBike(req, res, next) {
-        return reservationDb.createReservation(req.params.id, req.params.bikeId, req.body.startDate, req.body.endDate).then(() => res.status(200).json(successMessage)).catch(err => next(err))
+        return reservationDb.createReservation(req.decoded._id, req.body.bikeId, req.body.startDate, req.body.endDate).then(() => res.status(200).json(successMessage)).catch(err => next(err))
     },
 
     checkNoPreviousReservation(req, res, next) {
@@ -29,9 +29,10 @@ module.exports = {
     },
 
     getReservations(req, res, next) {
-        const getDefaultQuery = new GetDefaultQuery(10, req.query.skip ? parseInt(req.query.skip) : 0, reservationModel)
-        return Promise.all([getDefaultQuery.getItems(), getDefaultQuery.getItemsCount()])
-            .then(([items, count]) => res.status(200).json({ items, count })).catch(err => next(err))
+        return Promise.all([
+            reservationModel.find({}).limit(10).skip(req.query.skip ? parseInt(req.query.skip) : 0).populate('bikeId').exec(),
+            reservationModel.find({}).count().lean().exec()
+        ]).then(([items, count]) => res.status(200).json({ items, count })).catch(err => next(err))
     }
 }
 

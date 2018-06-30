@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { s3Url } from '../../../config/constants';
 
-const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
+const BikesTable = ({ bikes, areReservationsAllowed, onAddClick, onEditClick, onDeleteClick, onReserveClick }) => (
     <div>
         <h3 className="panel-title">
             <NavLink title="Add New Bike" id="addButton" className="text-info pull-right fa fa-plus link" to='/addBike' aria-hidden="true"></NavLink>
@@ -17,6 +17,10 @@ const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
                     <th>Weight</th>
                     <th className="text-center">Update</th>
                     <th className="text-center">Delete</th>
+                    {
+                        areReservationsAllowed && <th className="text-center">Reserve</th>
+                    }
+
                 </tr>
             </thead>
             <tbody>
@@ -26,7 +30,7 @@ const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
                             <tr key={index}>
                                 <td>
                                     {item.imageName ?
-                                        <img style={{ maxHeight: "60px" }} alt="bike" src={s3Url +item.imageName}></img>
+                                        <img style={{ maxHeight: "60px" }} alt="bike" src={s3Url + item.imageName}></img>
                                         :
                                         <p>No image available</p>
                                     }
@@ -42,6 +46,15 @@ const BikesTable = ({ bikes, onAddClick, onEditClick, onDeleteClick }) => (
                                         <i className="fa fa-trash text-danger"> </i>
                                     </a>
                                 </td>
+                                {
+                                    areReservationsAllowed && <td className="text-center">
+                                        <a className="link" onClick={() => onReserveClick(item)}>
+                                            <i className="fa fa-trash text-danger"> </i>
+                                        </a>
+                                    </td>
+
+                                }
+
                             </tr>
                         )
                     )}
@@ -55,7 +68,9 @@ export default BikesTable
 
 BikesTable.propTypes = {
     bikes: PropTypes.array,
+    areReservationsAllowed: PropTypes.any,
     onAddClick: PropTypes.func,
     onEditClick: PropTypes.func,
-    onDeleteClick: PropTypes.func
+    onDeleteClick: PropTypes.func,
+    onReserveClick: PropTypes.func
 };

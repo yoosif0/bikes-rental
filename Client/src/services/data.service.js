@@ -53,8 +53,22 @@ export const ApiService = {
 
     getUsers({ skip = 0, searchTerm = '', roleFilter = '' }) {
         const params = {}
-        // const params = new HttpParams().set('skip', skip.toString()).set('searchFilter', searchTerm).append('roleFilter', roleFilter);
+        params.skip = skip.toString()
         return axios.get('users', { params })
+    },
+
+    getMyReservations({ skip = 0 }) {
+        const params = {}
+        params.skip = skip.toString()
+        return axios.get('reservations', { params })
+    },
+
+    reserveBike(bikeId, startDate, endDate) {
+        return axios.post('reservations', {bikeId, startDate, endDate})
+    },
+
+    cancelReservation(reservationId){
+        return axios.delete(`reservations/${reservationId}`)
     },
 
     getBikesWithPagination({ skip, filter }) {

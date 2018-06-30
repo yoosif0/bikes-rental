@@ -4,30 +4,9 @@ import PropTypes from 'prop-types';
 import SubmitButton from '../../buttons/SubmitButton';
 import { Form, Field } from 'formik';
 import { InputFeedback } from '../../text/InputFeedback';
-import { DateRangePicker } from 'react-dates';
 
 export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, dirty }) => (
     <Form>
-
-        <DateRangePicker
-            startDate={values.startDate} // momentPropTypes.momentObj or null,
-            startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
-            endDate={values.endDate} // momentPropTypes.momentObj or null,
-            endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
-            onDatesChange={this.handleChange} // PropTypes.func.isRequired,
-            focusedInput={this.handleBlur} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-            // focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-            onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
-
-            // value={values.topics}
-            // onChange={setFieldValue}
-            // onBlur={setFieldTouched}
-            // error={errors.topics}
-            // touched={touched.topics}
-    
-        />
-
-
         <DefaultInput label="Model">
             <Field type="text" name="model" className="form-control" />
             <InputFeedback error={touched.model && errors.model} />
@@ -64,7 +43,7 @@ export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, h
             <InputFeedback error={touched.color && errors.color} />
         </DefaultInput>
 
-        <SubmitButton disabled={!dirty || isSubmitting || Object.keys(errors).length} ></SubmitButton>
+        <SubmitButton label="Search" disabled={isSubmitting || Object.keys(errors).length} ></SubmitButton>
     </Form>
 )
 
