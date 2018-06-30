@@ -19,12 +19,16 @@ export class BikesListing extends React.Component {
     fetchBikes() {
         ApiService.getBikesWithPagination({
             skip: this.state.skip,
-            filter: { ...this.state.filter, startDate: this.state.startDate, endDate: this.state.endDate }
+            filter: {
+                ...this.state.filter,
+                startDate: this.state.startDate ? this.state.startDate.utc().format().substring(0, 10) : null,
+                endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10): null
+            }
         }).then(x => {
-                this.setState({ ...this.state, bikes: x.bikes, pageCount: x.count / 10 })
-            }).catch(err => {
-                toast.error(err.data.msg)
-            })
+            this.setState({ ...this.state, bikes: x.bikes, pageCount: x.count / 10 })
+        }).catch(err => {
+            toast.error(err.data.msg)
+        })
     }
 
     onDelete = (item) => {
@@ -72,8 +76,8 @@ export class BikesListing extends React.Component {
                 <div id="react-paginate">
 
                     <EnhancedBikeFilterForm filter={this.state.filter} filterUpdated={this.onFilterUpdated} />
-                    <BikesTable bikes={this.state.bikes} onDeleteClick={this.onDelete} 
-                    areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
+                    <BikesTable bikes={this.state.bikes} onDeleteClick={this.onDelete}
+                        areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
                     <ReactPaginate previousLabel={"previous"}
                         nextLabel={"next"}
                         breakLabel={<a href="">...</a>}
