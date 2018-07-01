@@ -1,11 +1,20 @@
 const bikeModel = require('../models/bike.model')
-// const faker = require('faker')
 const ObjectId = require('mongodb').ObjectID;
 
+const aggregationStore = {
+    ratingLookupAggregation: {
+        $lookup: {
+            from: "ratings",
+            localField: "_id",
+            foreignField: "bikeId",
+            as: "ratings"
+        }
+    },
+}
 function getAverageRate(items) {
-    return items.map(item=>{
-        if(item.ratings.length) {
-            item.rate = item.ratings.reduce((cum, current)=> cum +current.rate, 0 ) / item.ratings.length
+    return items.map(item => {
+        if (item.ratings.length) {
+            item.rate = item.ratings.reduce((cum, current) => cum + current.rate, 0) / item.ratings.length
         }
         delete item.ratings
         return item
@@ -21,10 +30,22 @@ module.exports = {
         return newBike.save()
     },
 
-    getByLocationAndFilterExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, long, lat, distance = 5000000) {
+    getByLocationAndFilterExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, long, lat) {
         const query = getQuery(excludedIds, model, color, maxWeight, minWeight)
-        query.location = { $nearSphere: { $geometry: { type: "Point", coordinates: [long, lat] }, $maxDistance: distance } }
-        return bikeModel.find(query).limit(20).lean().exec()
+        const aggregationArr = [
+            {
+                $geoNear: {
+                    spherical: true,
+                    query,
+                    near: { type: "Point", coordinates: [Number(long), Number(lat)] },
+                    distanceField: "dist.calculated",
+                    maxDistance: 5000000,
+                    limit: 20,
+                }
+            },
+            aggregationStore.ratingLookupAggregation,
+        ]
+        return bikeModel.aggregate(aggregationArr).then((items) => getAverageRate(items))
     },
 
     getWithPaginationAndRatingExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip) {
@@ -33,14 +54,7 @@ module.exports = {
         ]
         const paginatedDetailedAggregation = [
             ...basicBikeAggregation,
-            {
-                $lookup: {
-                    from: "ratings",
-                    localField: "_id",
-                    foreignField: "bikeId",
-                    as: "ratings"
-                }
-            },
+            aggregationStore.ratingLookupAggregation,
             { $skip: skip },
             { $limit: 10 }
         ]
@@ -53,8 +67,8 @@ module.exports = {
             bikeModel.aggregate(paginatedDetailedAggregation),
             bikeModel.aggregate(countAggregation)
         ]).then(([items, count]) => {
-            items = getAverageRate( items)
-            return { items, count: count[0].count }
+            items = getAverageRate(items)
+            return { items, count: count.length? count[0].count: 0 }
         })
     },
 
@@ -82,30 +96,20 @@ module.exports = {
 
 }
 
-function getQuery (excludedIds, model, color, maxWeight, minWeight) {
-    const query =  {  }
-    if(model) {
+function getQuery(excludedIds, model, color, maxWeight, minWeight) {
+    const query = {}
+    if (model) {
         query.model = { $regex: RegExp(`.*${model}.*`) }
     }
-    if(excludedIds) {
+    if (excludedIds) {
         query._id = { $nin: excludedIds.map(id => ObjectId(id)) }
     }
-    if(color) {
+    if (color) {
         query.color = color
     }
-    if(maxWeight || minWeight) {
+    if (maxWeight || minWeight) {
         query.weight = { $gte: minWeight || 0, $lte: maxWeight || Infinity }
+        console.log(query)
     }
     return query
 }
-
-// for (let i = 0; i < 5000; i++) {
-//     const model = faker.name.firstName()
-//     const latitude = faker.address.latitude()
-//     const longitude = faker.address.longitude()
-//     const color = faker.random.arrayElement(['red', 'blue', 'black', 'yellow', 'green', 'white'])
-//     const weight = faker.random.number({ min: 10, max: 50 })
-//     module.exports.createBike(model, weight, color, latitude, longitude).then(x=>{
-//         console.log('su')
-//     })
-// }

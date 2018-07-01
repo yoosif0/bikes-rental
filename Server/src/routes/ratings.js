@@ -4,7 +4,7 @@ const successMessage = require('services/utility').successMessageWrapper
 
 module.exports = {
     getRatingsForSeveralBikesForOneUser(req, res, next) {
-        ratingsDb.getRatingsForSeveralBikesForOneUser(req.params.id, 10, req.query.skip ? parseInt(req.query.skip) : 0).then(x => res.status(200).json(x)).catch(err => next(err))
+        ratingsDb.getRatingsForSeveralBikesForOneUser(req.params.id, 10, Number(req.query.skip || 0)).then(x => res.status(200).json(x)).catch(err => next(err))
     },
     
     rateBike(req, res, next) {

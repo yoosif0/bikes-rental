@@ -4,7 +4,7 @@ const ObjectId = require('mongodb').ObjectID;
 
 function reservationsForUser(query, skip) {
     return Promise.all([
-        reservationModel.find(query).limit(10).skip(skip ? parseInt(skip) : 0).populate('bikeId').exec(),
+        reservationModel.find(query).limit(10).skip(skip).populate('bikeId').exec(),
         reservationModel.find(query).count().lean().exec()
     ]).then(([items, count]) => ({ items, count }))
 }
@@ -75,7 +75,7 @@ module.exports = {
             reservationModel.aggregate(countAggregation)
         ]).then(([items, count]) => {
             items = clearIrrelevantRatings(userId, items)
-            return { items, count: count[0].count }
+            return { items, count: count.length? count[0].count: 0 }
         })
     },
 
