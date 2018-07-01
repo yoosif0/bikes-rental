@@ -6,7 +6,7 @@ const successMessage = require('services/utility').successMessageWrapper
 module.exports = {
 
     getReservationsForBike(req, res, next) {
-        return reservationDb.getReseravtionsbyBikeId(req.query.bikeId, 10, req.query.skip ? parseInt(req.query.skip) : 0).then(x => res.status(200).json(x)).catch(err => next(err))
+        return reservationDb.getReseravtionsbyBikeId(req.query.bikeId, 10, Number(req.query.skip || 0)).then(x => res.status(200).json(x)).catch(err => next(err))
     },
 
     cancelReservation(req, res, next) {
@@ -21,15 +21,15 @@ module.exports = {
     },
 
     getMyPastReservations(req, res, next) {
-        return reservationDb.getMyPastReservations(req.decoded._id, req.query.skip ? parseInt(req.query.skip) : 0).then(payload=>res.status(200).json(payload)).catch(err => next(err))
+        return reservationDb.getMyPastReservations(req.decoded._id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
     },
 
     getMyUpcomingReservations(req, res, next) {
-        return reservationDb.getMyUpcomingReservations(req.decoded._id, req.query.skip ? parseInt(req.query.skip) : 0).then(payload=>res.status(200).json(payload)).catch(err => next(err))
+        return reservationDb.getMyUpcomingReservations(req.decoded._id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
     },
 
     getMyPreviouslyUsedBikes(req, res, next) {
-        return reservationDb.getMyPreviouslyUsedBikes(req.decoded._id, req.query.skip ? parseInt(req.query.skip) : 0).then(payload=>res.status(200).json(payload)).catch(err => next(err))
+        return reservationDb.getMyPreviouslyUsedBikes(req.decoded._id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
     }
 }
 
