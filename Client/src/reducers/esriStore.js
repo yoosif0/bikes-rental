@@ -1,6 +1,6 @@
 // import store from '../stores/configureStore';
 
-const initialState = {}
+const initialState = {filter:{}}
 
 export const esriStore = (state = initialState, action) => {
     switch (action.type) {
@@ -9,7 +9,7 @@ export const esriStore = (state = initialState, action) => {
             const Locator = action.payload.Locator
             const Track = action.payload.Track
             const Search = action.payload.Search
-            return { Graphic, Locator, Track, Search }
+            return { ...state, Graphic, Locator, Track, Search }
         }
         case 'SAVE_VIEW':
             return {...state, view:action.payload}

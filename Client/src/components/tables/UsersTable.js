@@ -1,9 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 
- const UsersTable = ({ users, onAddClick, onEditClick, onDeleteClick }) => (
+ export const UsersTable = ({ users, onAddClick, onEditClick, onDeleteClick }) => (
     <div>
         <table id="UsersTable" className="table table-hover">
             <thead>
@@ -39,12 +38,3 @@ import { NavLink } from 'react-router-dom';
     </div>
 
 )
-
-export default UsersTable
-
-UsersTable.propTypes = {
-    users: PropTypes.array,
-    onAddClick: PropTypes.func,
-    onEditClick: PropTypes.func,
-    onDeleteClick: PropTypes.func
-};

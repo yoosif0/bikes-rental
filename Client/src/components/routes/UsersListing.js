@@ -1,10 +1,9 @@
 import React from 'react'
-import UsersTable from '../tables/MealsTable/UsersTable';
 import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import Title from '../text/Title';
-
+import { UsersTable } from '../tables/UsersTable';
 
 export class UsersListing extends React.Component {
     constructor(props) {

@@ -1,10 +1,6 @@
 import { combineReducers } from 'redux'
-import terState from './ter'
 import authStoreState from './authStore';
-import selectedUser from './selectedUser';
 import { esriStore } from './esriStore';
-import publicInfoStore from './publicInfoStore';
+import {publicInfoStore} from './publicInfoStore';
 
-export default combineReducers({
-    terState, authStoreState, selectedUser, esriStore, publicInfoStore   
-})
+export default combineReducers({  authStoreState, esriStore, publicInfoStore   })

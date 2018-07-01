@@ -36,8 +36,8 @@ const esriModulesEpic = (action$, state$) => {
       'esri/geometry/Point',
       'esri/symbols/SimpleMarkerSymbol',
     ], {
-      // url: 'https://js.arcgis.com/4.4/'
-    })))
+        // url: 'https://js.arcgis.com/4.4/'
+      })))
     .map(([Map, MapView, Track, Search, Locator, Graphic, Point, SimpleMarkerSymbol]) => (
       { type: 'MODULES_LOADED', payload: { Map, MapView, Track, Search, Locator, Graphic, Point, SimpleMarkerSymbol } }
     ))
@@ -64,30 +64,33 @@ const modulesLoaded = (action$, state$) => {
     view.on('drag', (x) => sub.next(true))
     view.on('mouse-wheel', (x) => sub.next(true))
     view.on('hold', (x) => sub.next(true))
-    sub.throttleTime(500).subscribe(()=>{
-      store.dispatch({type: 'LAZY_LOAD_NEW_DATA'})
+    sub.throttleTime(500).subscribe(() => {
+      store.dispatch({ type: 'LAZY_LOAD_NEW_DATA' })
     })
     return Observable.of(view)
-  }).mergeMap(view=>Observable.concat(
-    Observable.of({ type: 'SAVE_VIEW', payload: view}),
-    Observable.of({ type: 'LAZY_LOAD_NEW_DATA'})
+  }).mergeMap(view => Observable.concat(
+    Observable.of({ type: 'SAVE_VIEW', payload: view }),
+    Observable.of({ type: 'LAZY_LOAD_NEW_DATA' })
   )).takeUntil(action$.ofType('LOGGED_OUT'))
 }
 
 const filterBikes = (action$, state$) => {
   return action$.ofType('FILTER_BIKES')
-  .mergeMap(ac=>Observable.concat(
-    Observable.of({type:'SAVE_FILTER', payload: ac.payload}),
-    Observable.of({type:'LAZY_LOAD_NEW_DATA'})
-  ))
+    .mergeMap(ac => Observable.concat(
+      Observable.of({ type: 'SAVE_FILTER', payload: ac.payload }),
+      Observable.of({ type: 'LAZY_LOAD_NEW_DATA' })
+    ))
 }
 
 const lazyLoadData = (action$, state$) => {
   return action$.ofType('LAZY_LOAD_NEW_DATA').mergeMap(q => {
-    const center = state$.value.esriStore.view.center
-    return from(ApiService.getBikesByLocation(center.longitude, center.latitude))
-  }).map(newPoints=>({type:'RENDER_NEW_POINTS', payload:newPoints}))
-    
+    const storeValue = state$.value.esriStore
+    const center = storeValue.view.center
+    const filter = storeValue.filter
+    return from(ApiService.getBikesByLocation({ longitude: center.longitude, latitude: center.latitude, filter }))
+  })
+    .map(newPoints => ({ type: 'RENDER_NEW_POINTS', payload: newPoints }))
+
 }
 
 
@@ -95,8 +98,8 @@ const renderNewPoints = (action$, state$) => {
   return action$.ofType('RENDER_NEW_POINTS').mergeMap(q => {
     graphicsService.setGraphicsFromData(q.payload)
     return Observable.of(true)
-  }).map(newPoints=>({type:'NEW_POINTS_RENDERED', payload:newPoints}))
-    
+  }).map(newPoints => ({ type: 'NEW_POINTS_RENDERED', payload: newPoints }))
+
 }
 
 

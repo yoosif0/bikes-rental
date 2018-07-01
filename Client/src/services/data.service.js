@@ -92,17 +92,19 @@ export const ApiService = {
     },
 
     getBikesWithPagination({ skip, filter }) {
-        const params = this._getBikeParams({filter})
+        const params = this._getBikeParams(filter)
         params.skip = skip.toString()
         return axios.get('bikesWithPagination', { params })
     },
 
     getBikesByLocation({longitude, latitude, filter }) {
-        const params = this._getBikeParams({filter})
+        filter.longitude = longitude
+        filter.latitude = latitude
+        const params = this._getBikeParams(filter)
         return axios.get(`bikesByLocation`, {params})
     },
 
-    _getBikeParams({filter, longitude, latitude}) {
+    _getBikeParams(filter) {
         const params = {}
         if (filter.model) {
             params['model'] = filter.model
