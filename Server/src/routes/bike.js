@@ -86,7 +86,7 @@ module.exports = {
         return reservationDb.getClashedReseravtionsForDateRange(req.query.startDate, req.query.endDate)
             .then(reservations => {
                 const reservedBikes = reservations.length ? reservations.map(item => item.bikeId) : null
-                return bikeDb.getWithPaginationExcludingReservedBikes(reservedBikes, req.query.model, req.query.color, req.query.maxWeight, req.query.minWeight, 10, req.query.skip ? parseInt(req.query.skip) : 0)
+                return bikeDb.getWithPaginationAndRatingExcludingReservedBikes(reservedBikes, req.query.model, req.query.color, req.query.maxWeight, req.query.minWeight, 10, req.query.skip ? parseInt(req.query.skip) : 0)
             })
             .then(bikes => {
                 return res.status(200).json(bikes)

@@ -8,7 +8,6 @@ import AddBike from './components/routes/AddBike';
 import { connect } from 'react-redux';
 import {BikesListing} from './components/routes/BikesListing';
 import EditBike from './components/routes/EditBike';
-import BikeForReservationListing from './components/routes/BikesForReservationListing';
 import PrivateRoute from './hoc/PrivateRoute';
 import PropTypes from 'prop-types';
 import ManagerPrivateRoute from './hoc/ManagerPrivateRoute';
@@ -45,7 +44,6 @@ class Appa extends React.Component {
             <Route path="/passwordRecoveredSuccessfully" component={PasswordRecoveredSuccessfully} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/addBike" component={AddBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/bikes" component={BikesListing} />
-            <PrivateRoute authed={this.props.isAuthenticated} path="/bikesForReservation" component={BikeForReservationListing} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/myProfile" component={MyProfile} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/changeMyPasswordUsingOldPassword" component={ChangeMyPasswordUsingOldPassword} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/map" component={BikesMap}/>

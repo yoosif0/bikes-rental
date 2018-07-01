@@ -6,13 +6,14 @@ import {
     AdminTableDescriptionActions
 } from './BikesTableFragments';
 import { BikesTableLayout } from './BikesTableLayout';
+import { StarRatingTableDescription } from './StarRatingTableDescription';
 
-
-const BikesTable = ({ bikes, areReservationsAllowed, onAddClick, onEditClick, onDeleteClick, onReserveClick, isManager }) => (
+const BikesTable = ({ bikes, areReservationsAllowed, onAddClick, onEditClick, onDeleteClick, onReserveClick, isManager, onRateClick }) => (
     <BikesTableLayout
-        TableHeaders={()=>
+        TableHeaders={() =>
             <React.Fragment>
                 <BasicTableHeaders />
+                <th>Rate</th>
                 {isManager && <AdminTableHeaders />}
                 {
                     areReservationsAllowed && <th className="text-center">Reserve</th>
@@ -21,14 +22,13 @@ const BikesTable = ({ bikes, areReservationsAllowed, onAddClick, onEditClick, on
             </React.Fragment>
         }
 
-        TableBodyContent={()=>
+        TableBodyContent={() =>
             bikes.map((item, index) =>
                 (
                     <tr key={index}>
-
                         <BasicTableDescription item={item} />
+                        <StarRatingTableDescription id={item._id} rate={item.rate} onRateClick={onRateClick} />
                         {isManager && <AdminTableDescriptionActions item={item} onDeleteClick={onDeleteClick} />}
-
                         {
                             areReservationsAllowed && <td className="text-center">
                                 <a className="link" onClick={() => onReserveClick(item)}>

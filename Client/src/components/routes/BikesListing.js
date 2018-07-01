@@ -29,7 +29,7 @@ class PBikesListing extends React.Component {
                 endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10) : null
             }
         }).then(x => {
-            this.setState({ ...this.state, bikes: x.bikes, pageCount: x.count / 10, isTableHidden: false })
+            this.setState({ ...this.state, bikes: x.items, pageCount: x.count / 10, isTableHidden: false })
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -63,6 +63,14 @@ class PBikesListing extends React.Component {
         })
     }
 
+    onRate = (nextValue, prevValue, id) => {
+        ApiService.rateBike(id, nextValue).then(x => {
+            this.fetchBikes();
+        }).catch(err => {
+            toast.error(err.data.msg)
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -85,7 +93,7 @@ class PBikesListing extends React.Component {
                     !this.state.isTableHidden &&
                     <div id="react-paginate">
                         <BikesTable isManager={this.props.isManager} bikes={this.state.bikes} onDeleteClick={this.onDelete}
-                            areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
+                            areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} onRateClick={this.onRate}/>
                         <ReactPaginate previousLabel={"previous"}
                             nextLabel={"next"}
                             breakLabel={<a href="">...</a>}

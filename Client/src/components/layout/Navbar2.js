@@ -33,10 +33,6 @@ const Navbarr = ({ isManager, isAuthenticated, logout }) => (
                                 <NavLink activeClassName="active" id="inviteUserTab" to='/bikes/listing' className="nav-link">Bikes</NavLink>
                             </li>
                             <li className="nav-item">
-                                <NavLink activeClassName="active" id="bikesForReservationTab" to='/bikesForReservation' className="nav-link">Bikes For Reservation</NavLink>
-                            </li>
-
-                            <li className="nav-item">
                                 <NavLink activeClassName="active" id="mapTab" to='/map' className="nav-link">Map</NavLink>
                             </li> 
                             <li className="nav-item">

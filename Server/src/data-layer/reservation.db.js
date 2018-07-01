@@ -38,7 +38,6 @@ module.exports = {
     },
 
     getMyPreviouslyUsedBikes(userId, skip) {
-        const uid = userId
         const basicBikeAggregation = [
             { $match: { userId: ObjectId(userId) } },
             { $group: { _id: "$bikeId", numberOfRides: { $sum: 1 } } },
@@ -75,7 +74,7 @@ module.exports = {
             reservationModel.aggregate(paginatedDetailedAggregation),
             reservationModel.aggregate(countAggregation)
         ]).then(([items, count]) => {
-            items = clearIrrelevantRatings(uid, items)
+            items = clearIrrelevantRatings(userId, items)
             return { items, count: count[0].count }
         })
     },

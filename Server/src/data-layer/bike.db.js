@@ -2,6 +2,15 @@ const bikeModel = require('../models/bike.model')
 // const faker = require('faker')
 const ObjectId = require('mongodb').ObjectID;
 
+function getAverageRate(items) {
+    return items.map(item=>{
+        if(item.ratings.length) {
+            item.rate = item.ratings.reduce((cum, current)=> cum +current.rate, 0 ) / item.ratings.length
+        }
+        delete item.ratings
+        return item
+    })
+}
 module.exports = {
     createBike(model, weight, color, latitude, longitude) {
         const location = {
@@ -18,9 +27,35 @@ module.exports = {
         return bikeModel.find(query).limit(20).lean().exec()
     },
 
-    getWithPaginationExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip) {
-        const query = getQuery(excludedIds, model, color, maxWeight, minWeight)
-        return Promise.all([bikeModel.find(query).limit(limit).skip(skip).lean().exec(), bikeModel.find(query).count().lean().exec()]).then(([bikes, count])=>({bikes, count}))
+    getWithPaginationAndRatingExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip) {
+        const basicBikeAggregation = [
+            { $match: getQuery(excludedIds, model, color, maxWeight, minWeight) },
+        ]
+        const paginatedDetailedAggregation = [
+            ...basicBikeAggregation,
+            {
+                $lookup: {
+                    from: "ratings",
+                    localField: "_id",
+                    foreignField: "bikeId",
+                    as: "ratings"
+                }
+            },
+            { $skip: skip },
+            { $limit: 10 }
+        ]
+        const countAggregation = [
+            ...basicBikeAggregation,
+            { $count: "count" },
+        ]
+
+        return Promise.all([
+            bikeModel.aggregate(paginatedDetailedAggregation),
+            bikeModel.aggregate(countAggregation)
+        ]).then(([items, count]) => {
+            items = getAverageRate( items)
+            return { items, count: count[0].count }
+        })
     },
 
     deleteBike(_id) {
