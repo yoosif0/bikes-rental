@@ -1,5 +1,5 @@
 import React from 'react'
-import {Navbar} from './components/layout/Navbar2'
+import {Navbar} from './components/layout/Navbar'
 import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './components/routes/Login';
 // import { ApiService } from './services/data.service';

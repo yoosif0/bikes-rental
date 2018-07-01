@@ -22,13 +22,12 @@ export class Com extends React.Component {
 
     render() {
         return (
-            
-            <div className="container">
+            <React.Fragment>
+            <div className="container mb-4">
                 <EnhancedBikeFilterForm filter={this.props.filter} filterUpdated={this.props.filterBikes}/>
-                <div id="viewMap" style={{ height: `780px` }}>
             </div>
-
-            </div>
+            <div className="mb-4" id="viewMap" style={{ height: `780px` }}></div>
+            </React.Fragment>
         )
 
     }

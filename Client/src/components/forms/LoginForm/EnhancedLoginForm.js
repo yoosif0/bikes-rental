@@ -8,12 +8,11 @@ import { toast } from 'react-toastify';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
-const mapStateToProps = state =>   ({  ters: state.terState.ters })
 const mapDispatchToProps = dispatch =>  ({  loggedIn: (payload) => dispatch({ type: 'LOGGED_IN', payload })  })
 
 export const EnhancedLoginForm = compose(
 	withRouter,
-	connect(mapStateToProps, mapDispatchToProps),
+	connect(null, mapDispatchToProps),
 	withFormik({
 	mapPropsToValues: props => ({ email: 'ddd@test.com', password: '1234567' }),
 	validationSchema: Yup.object().shape({

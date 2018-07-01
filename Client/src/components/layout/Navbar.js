@@ -1,64 +1,70 @@
-// import React from 'react'
-// import PropTypes from 'prop-types'
+import React from 'react'
+import { NavLink, Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { unPersistMyInfo } from '../../services/localStorage';
+import { compose } from 'redux';
 
-// class Navbar{
-//     render() {
-//         <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-//     <a class="navbar-brand" Link="/">CalTrack ©</a>
-//     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-//         aria-expanded="false" aria-label="Toggle navigation">
-//         <span class="navbar-toggler-icon"></span>
-//     </button>
-//     {authService.isAuthenticated() ? (
-//                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-//                 <ul class="navbar-nav mr-auto" >
-//                     <li class="nav-item">
-//                         <a id="myRecordsTab"  Link='/my-meals' class="nav-link">My meals </a>
-//                     </li>
-//                     <li class="nav-item">
-//                         <a id="myProfileTab" Link='/my-profile' class="nav-link">My profile</a>
-//                     </li>
-        
-//     )
+const NavBarLink = ({ to, label }) => (
+    <li className="nav-item">
+        <NavLink activeClassName="active" to={to} className="nav-link">{label}</NavLink>
+    </li>
+)
 
-//             <li *ngIf="authService.isAtleastManager()" class="nav-item">
-//                 <a id="usersTab" Link='/users' class="nav-link">Users</a>
-//             </li>
-//             <li *ngIf="authService.isAdmin()" class="nav-item">
-//                 <a id="inviteUserTab" Link='/invite' class="nav-link">Invite a User</a>
-//             </li>
-//             <li class="nav-item">
-//                 <a id="myLoginsTab" Link='/my-logins' class="nav-link">My logins</a>
-//             </li>
-//         </ul>
-//         <app-progress-bar *ngIf="authService.getProfile().isTrackingDisplayed"></app-progress-bar>
-//         <ul class="navbar-nav ml-auto mr-5" >
-//             <li class="nav-item">
-//                 <a class="nav-link link" href="javascript:void(0);" (click)="logout()">Logout</a>
-//             </li>
-//         </ul>
-//     </div>
-//     ) 
 
-// </nav>
-//     }
-// } 
+export const PNavbar = ({ isManager, isAuthenticated, logout }) => (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <NavLink className="navbar-brand" to="/"> Bikes Rental © </NavLink>
+        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav mr-auto" >
+                {
+                    isAuthenticated ?
+                        <React.Fragment>
+                            <NavBarLink to='/myProfile' label="My profile" />
+                            <NavBarLink to='/bikes/listing' label="Bikes" />
+                            <NavBarLink to='/map' label="Map" />
+                            <NavBarLink to='/myUpcomingReservations' label="My Upcoming Reservations" />
+                            <NavBarLink to='/myPastReservations' label="My Past Reservations" />
+                            <NavBarLink to='/myRatings' label="My Ratings" />
+                            <NavBarLink to='/addBike' label="Add new Bike" />
+                        </React.Fragment>
+                        :
+                        <React.Fragment>
+                            <NavBarLink to='/map' label="Login" />
+                            <NavBarLink to='/signup' label="Signup" />
+                        </React.Fragment>
+                }
+                {isManager && <NavBarLink to='/users' label="Users" />}
+            </ul>
+            {
+                isAuthenticated &&
+                <ul className="navbar-nav ml-auto mr-5" >
+                    <li className="nav-item" onClick={() => logout()} id="logout">
+                        <Link to="login" className="nav-link">Logout</Link>
+                    </li>
+                </ul>
+            }
+        </div>
 
-// = ({ onClick, completed, text }) => (
-//     <li
-//         onClick={onClick}
-//         style={{
-//             textDecoration: completed ? 'line-through' : 'none'
-//         }}
-//     >
-//         {text}
-//     </li>
-// )
+    </nav>
+)
 
-// Todo.propTypes = {
-//     onClick: PropTypes.func.isRequired,
-//     completed: PropTypes.bool.isRequired,
-//     text: PropTypes.string.isRequired
-// }
+const mapStateToProps = state => ({
+    isAuthenticated: state.authStoreState.isAuthenticated,
+    isManager: state.authStoreState.role === 'manager'
+})
 
-// export default Todo
+const mapDispatchToProps = dispatch => ({
+    logout: () => {
+        unPersistMyInfo()
+        dispatch({ type: 'LOGGED_OUT' })
+    }
+})
+
+export const Navbar = compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(PNavbar)
+
+
+

@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BasicTableDescription should match snapshot 1`] = `
+Array [
+  <td>
+    <img
+        alt="bike"
+        src="https://s3.amazonaws.com/bike-images-22/dsa"
+        style={
+            Object {
+                "maxHeight": "60px",
+              }
+        }
+    />
+</td>,
+  <td>
+    tx
+</td>,
+  <td />,
+  <td />,
+]
+`;

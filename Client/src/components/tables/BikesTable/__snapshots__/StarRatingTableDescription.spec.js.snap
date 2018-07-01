@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StarRatingTableDescription should match snapshot 1`] = `
+<td>
+  <div
+    className="dv-star-rating"
+    style={
+      Object {
+        "display": "inline-block",
+        "position": "relative",
+      }
+    }
+  >
+    <input
+      checked={false}
+      className="dv-star-rating-input"
+      id="s_5"
+      name="s"
+      onChange={[Function]}
+      style={
+        Object {
+          "display": "none",
+          "marginLeft": -9999,
+          "position": "absolute",
+        }
+      }
+      type="radio"
+      value={5}
+    />
+    <label
+      className="dv-star-rating-star dv-star-rating-empty-star"
+      htmlFor="s_5"
+      onClick={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "color": "#333",
+          "cursor": "pointer",
+          "float": "right",
+        }
+      }
+    >
+      <i
+        style={
+          Object {
+            "fontStyle": "normal",
+          }
+        }
+      >
+        ★
+      </i>
+    </label>
+    <input
+      checked={true}
+      className="dv-star-rating-input"
+      id="s_4"
+      name="s"
+      onChange={[Function]}
+      style={
+        Object {
+          "display": "none",
+          "marginLeft": -9999,
+          "position": "absolute",
+        }
+      }
+      type="radio"
+      value={4}
+    />
+    <label
+      className="dv-star-rating-star dv-star-rating-full-star"
+      htmlFor="s_4"
+      onClick={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "color": "#ffb400",
+          "cursor": "pointer",
+          "float": "right",
+        }
+      }
+    >
+      <i
+        style={
+          Object {
+            "fontStyle": "normal",
+          }
+        }
+      >
+        ★
+      </i>
+    </label>
+    <input
+      checked={false}
+      className="dv-star-rating-input"
+      id="s_3"
+      name="s"
+      onChange={[Function]}
+      style={
+        Object {
+          "display": "none",
+          "marginLeft": -9999,
+          "position": "absolute",
+        }
+      }
+      type="radio"
+      value={3}
+    />
+    <label
+      className="dv-star-rating-star dv-star-rating-full-star"
+      htmlFor="s_3"
+      onClick={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "color": "#ffb400",
+          "cursor": "pointer",
+          "float": "right",
+        }
+      }
+    >
+      <i
+        style={
+          Object {
+            "fontStyle": "normal",
+          }
+        }
+      >
+        ★
+      </i>
+    </label>
+    <input
+      checked={false}
+      className="dv-star-rating-input"
+      id="s_2"
+      name="s"
+      onChange={[Function]}
+      style={
+        Object {
+          "display": "none",
+          "marginLeft": -9999,
+          "position": "absolute",
+        }
+      }
+      type="radio"
+      value={2}
+    />
+    <label
+      className="dv-star-rating-star dv-star-rating-full-star"
+      htmlFor="s_2"
+      onClick={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "color": "#ffb400",
+          "cursor": "pointer",
+          "float": "right",
+        }
+      }
+    >
+      <i
+        style={
+          Object {
+            "fontStyle": "normal",
+          }
+        }
+      >
+        ★
+      </i>
+    </label>
+    <input
+      checked={false}
+      className="dv-star-rating-input"
+      id="s_1"
+      name="s"
+      onChange={[Function]}
+      style={
+        Object {
+          "display": "none",
+          "marginLeft": -9999,
+          "position": "absolute",
+        }
+      }
+      type="radio"
+      value={1}
+    />
+    <label
+      className="dv-star-rating-star dv-star-rating-full-star"
+      htmlFor="s_1"
+      onClick={[Function]}
+      onMouseLeave={[Function]}
+      onMouseOver={[Function]}
+      style={
+        Object {
+          "color": "#ffb400",
+          "cursor": "pointer",
+          "float": "right",
+        }
+      }
+    >
+      <i
+        style={
+          Object {
+            "fontStyle": "normal",
+          }
+        }
+      >
+        ★
+      </i>
+    </label>
+  </div>
+  <p>
+    4
+     
+    <span>
+        Stars  
+    </span>
+  </p>
+</td>
+`;

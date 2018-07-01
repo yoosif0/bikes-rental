@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 
 const mapStateToProps = state =>   ({  isManager: state.authStoreState.role==='manager' })
 
-class PBikesListing extends React.Component {
+export class PBikesListing extends React.Component {
     constructor(props) {
         super(props);
         this.state = { bikes: [], skip: 0, filter: {} };
@@ -74,7 +74,7 @@ class PBikesListing extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Title> Bikes </Title>
+                <Title className="forTest"> Bikes </Title>
                 <DateRangePicker
                     isOutsideRange={() => false}
                     startDate={this.state.startDate} // momentPropTypes.momentObj or null,

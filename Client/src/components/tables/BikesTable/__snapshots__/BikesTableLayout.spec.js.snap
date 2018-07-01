@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BikesTableLayout should match snapshot 1`] = `
+<div>
+  <table
+    className="table table-hover"
+    id="BikesTable"
+  >
+    <thead>
+      <tr>
+        <li>
+          HH
+        </li>
+      </tr>
+    </thead>
+    <tbody>
+      <li>
+        C
+      </li>
+    </tbody>
+  </table>
+</div>
+`;
