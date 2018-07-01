@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 import Title from '../text/Title';
 import ReservationsTable from '../tables/ReservationsTable';
 
-export class MyReservations extends React.Component {
+export class MyUpcomingReservations extends React.Component {
     constructor(props) {
         super(props);
         this.state = { reservations: [], skip: 0 };
@@ -15,7 +15,7 @@ export class MyReservations extends React.Component {
     }
 
     fetchMyReservations() {
-        ApiService.getMyReservations({ skip: this.state.skip }).then(x => {
+        ApiService.getMyUpcomingReservations({ skip: this.state.skip }).then(x => {
             this.setState({ ...this.state, reservations: x.items, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data.msg)
@@ -40,7 +40,7 @@ export class MyReservations extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Title> My Reservations </Title>
+                <Title> My Upcoming Reservations </Title>
                 <div id="react-paginate">
 
                     <ReservationsTable reservations={this.state.reservations} onCancelClick={this.onCancelReservation} />

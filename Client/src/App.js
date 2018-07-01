@@ -22,7 +22,9 @@ import RecoveryCode from './components/routes/RecoveryCode';
 import ChangeMyPasswordUsingOldPassword from './components/routes/ChangeMyPasswordUsingOldPassword';
 import ChangeOtherUserPassword from './components/routes/ChangeOtherUserPassword';
 import { UsersListing } from './components/routes/UsersListing';
-import { MyReservations } from './components/routes/MyReservations';
+import { MyPastReservations } from './components/routes/MyPastReservations';
+import { MyUpcomingReservations } from './components/routes/MyUpcomingReservations';
+import { MyRatings } from './components/routes/MyRatings';
 
 class Appa extends React.Component {
 
@@ -47,7 +49,9 @@ class Appa extends React.Component {
             <PrivateRoute authed={this.props.isAuthenticated} path="/myProfile" component={MyProfile} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/changeMyPasswordUsingOldPassword" component={ChangeMyPasswordUsingOldPassword} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/map" component={BikesMap}/>
-            <PrivateRoute authed={this.props.isAuthenticated} path="/myReservations" component={MyReservations}/>
+            <PrivateRoute authed={this.props.isAuthenticated} path="/myPastReservations" component={MyPastReservations}/>
+            <PrivateRoute authed={this.props.isAuthenticated} path="/myUpcomingReservations" component={MyUpcomingReservations}/>
+            <PrivateRoute authed={this.props.isAuthenticated} path="/myRatings" component={MyRatings}/>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editBike/:id" component={EditBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editUser/:id" component={EditUser} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/changeOtherUserPassword/:id" component={ChangeOtherUserPassword} />

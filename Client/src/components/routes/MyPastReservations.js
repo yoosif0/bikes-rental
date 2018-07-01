@@ -3,20 +3,20 @@ import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import Title from '../text/Title';
-import { BikesTableForRating } from '../tables/BikesTable/BikesTableForRating';
+import ReservationsTable from '../tables/ReservationsTable';
 
-export class MyRatings extends React.Component {
+export class MyPastReservations extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { bikesDetails: [], skip: 0 };
+        this.state = { reservations: [], skip: 0 };
     }
     componentDidMount() {
-        this.fetchData()
+        this.fetchMyReservations()
     }
 
-    fetchData() {
-        ApiService.getMyPreviouslyUsedBikes({ skip: this.state.skip }).then(x => {
-            this.setState({ ...this.state, bikesDetails: x.items, pageCount: x.count / 10 })
+    fetchMyReservations() {
+        ApiService.getMyPastReservations({ skip: this.state.skip }).then(x => {
+            this.setState({ ...this.state, reservations: x.items, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -26,24 +26,17 @@ export class MyRatings extends React.Component {
         let selected = data.selected;
         let skip = Math.ceil(selected * 10);
         this.setState({ skip }, () => {
-            this.fetchData();
+            this.fetchMyReservations();
         });
     };
 
-    onRate = (nextValue, prevValue, id) => {
-        ApiService.rateBike(id, nextValue).then(x => {
-            this.fetchData();
-        }).catch(err => {
-            toast.error(err.data.msg)
-        })
-    }
 
     render() {
         return (
             <React.Fragment>
-                <Title> My Previously Used Bikes </Title>
+                <Title> My Past Reservations </Title>
                 <div id="react-paginate">
-                    <BikesTableForRating bikesDetails={this.state.bikesDetails} onRateClick={this.onRate} />
+                    <ReservationsTable reservations={this.state.reservations} />
                     <ReactPaginate previousLabel={"previous"}
                         nextLabel={"next"}
                         breakLabel={<a href="">...</a>}
@@ -55,6 +48,7 @@ export class MyRatings extends React.Component {
                         containerClassName={"pagination"}
                         subContainerClassName={"pages pagination"}
                         activeClassName={"active"} />
+
                 </div >
             </React.Fragment>
 

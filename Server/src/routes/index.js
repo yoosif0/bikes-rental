@@ -40,17 +40,25 @@ router.post('/bikes', verifyUser, validateBike.bikeFormSchema, Authorize.prevent
 router.delete('/bikes/:bikeId',  verifyUser, Authorize.preventRegularUsers,  bike.deleteBike)
 router.put('/bikes/:bikeId', verifyUser, validateBike.bikeFormSchema, Authorize.preventRegularUsers, bike.updatebike)
 
-router.get('/reservations', verifyUser, reservations.getReservations)
+// router.get('/myReservations', verifyUser, reservations.getMyReservations)
+router.get('/myReservations/past', verifyUser, reservations.getMyPastReservations)
+router.get('/myReservations/upcoming', verifyUser, reservations.getMyUpcomingReservations)
+
+router.get('/myPreviouslyUsedBikes', verifyUser, reservations.getMyPreviouslyUsedBikes)
+
+
+
 router.get('/reservationsForBike', verifyUser, reservations.getReservationsForBike)
 // router.get('/reservationsForDate', verifyUser, reservations.getClashedReseravtionsForDateRange)
-router.get('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getReservationsForUser)
+// router.get('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getReservationsForUser)
+
 router.post('/reservations', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 
 // router.post('/reservations/:id/:bikeId', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.checkNoPreviousReservation, reservations.reserveBike)
 router.delete('/reservations/:reservationId', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
 
 // router.get('/ratings', verifyUser, Authorize.allowSelfAndManager, ratings.getRatingsForSeveralBikes)
-router.post('/ratings/:id/:bikeId/:rate', verifyUser, Authorize.allowSelfAndManager, ratings.rateBike)
+router.post('/ratings/:bikeId/:rate', verifyUser, Authorize.allowSelfAndManager, ratings.rateBike)
 
 // router.post('/reservations/:id/:bikeId', verifyUser, ReservationsValidation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 // router.delete('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)

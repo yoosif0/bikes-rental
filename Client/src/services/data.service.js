@@ -57,10 +57,26 @@ export const ApiService = {
         return axios.get('users', { params })
     },
 
-    getMyReservations({ skip = 0 }) {
-        const params = {}
-        params.skip = skip.toString()
-        return axios.get('reservations', { params })
+    // getMyReservations({ skip = 0 }) {
+    //     const params = {}
+    //     params.skip = skip.toString()
+    //     return axios.get('reservations', { params })
+    // },
+
+    
+    getMyPreviouslyUsedBikes({ skip = 0 }) {
+        const params = {skip: skip.toString()}
+        return axios.get('myPreviouslyUsedBikes', { params })
+    },
+    
+    getMyPastReservations({ skip = 0 }) {
+        const params = {skip: skip.toString()}
+        return axios.get('myReservations/past', { params })
+    },
+
+    getMyUpcomingReservations({ skip = 0 }) {
+        const params = {skip: skip.toString()}
+        return axios.get('myReservations/upcoming', { params })
     },
 
     reserveBike(bikeId, startDate, endDate) {
@@ -69,6 +85,10 @@ export const ApiService = {
 
     cancelReservation(reservationId){
         return axios.delete(`reservations/${reservationId}`)
+    },
+
+    rateBike(bikeId, rate){
+        return axios.post(`ratings/${bikeId}/${rate}`)
     },
 
     getBikesWithPagination({ skip, filter }) {

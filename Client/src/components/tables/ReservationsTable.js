@@ -1,12 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
+import moment from 'moment'
 
 const ReservationsTable = ({ reservations, onCancelClick }) => (
     <div>
-        <h3 className="panel-title">
-            <NavLink title="Add New Bike" id="addButton" className="text-info pull-right fa fa-plus link" to='/addBike' aria-hidden="true"></NavLink>
-        </h3>
         <table id="ReservationsTable" className="table table-hover">
             <thead>
                 <tr>
@@ -15,7 +13,10 @@ const ReservationsTable = ({ reservations, onCancelClick }) => (
                     <th>Bike Model</th>
                     <th>Bike Color</th>
                     <th>Bike Weight</th>
-                    <th className="text-center">Cancel</th>
+                    {
+                        onCancelClick && <th className="text-center">Cancel Reservation</th>
+                    }
+                    
                 </tr>
             </thead>
             <tbody>
@@ -23,16 +24,20 @@ const ReservationsTable = ({ reservations, onCancelClick }) => (
                     reservations.map((item, index) =>
                         (
                             <tr key={index}>
-                                <td>{item.startDate}</td>
-                                <td>{item.endDate}</td>
+                                <td>{moment(item.startDate).format('MM/DD/YYYY')}</td>
+                                <td>{moment(item.endDate).format('MM/DD/YYYY')}</td>
                                 <td>{item.bikeId.model}</td>
                                 <td>{item.bikeId.color}</td>
                                 <td>{item.bikeId.weight}</td>
-                                <td className="text-center ">
-                                    <a className="link" onClick={() => onCancelClick(item)}>
-                                        <i className="fa fa-trash text-danger"> </i>
-                                    </a>
-                                </td>
+                                {
+                                    onCancelClick &&
+                                    <td className="text-center ">
+                                        <a className="link" onClick={() => onCancelClick(item)}>
+                                            <i className="fa fa-thumbs-down text-danger"> </i>
+                                        </a>
+                                    </td>
+                                }
+
                             </tr>
                         )
                     )}

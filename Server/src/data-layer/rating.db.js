@@ -5,4 +5,8 @@ module.exports = {
         return ratingModel.update( { userId, bikeId }, { userId, bikeId, rate }, { upsert : true })
     },
 
+    getRatingsForSeveralBikesForOneUser(userId, bikes) {
+        
+    }
+
 }

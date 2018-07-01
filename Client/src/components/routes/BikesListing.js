@@ -6,8 +6,12 @@ import ReactPaginate from 'react-paginate';
 import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
 import Title from '../text/Title';
 import { DateRangePicker } from 'react-dates';
+import { connect } from 'react-redux';
 
-export class BikesListing extends React.Component {
+
+const mapStateToProps = state =>   ({  isManager: state.authStoreState.role==='manager' })
+
+class PBikesListing extends React.Component {
     constructor(props) {
         super(props);
         this.state = { bikes: [], skip: 0, filter: {} };
@@ -22,10 +26,10 @@ export class BikesListing extends React.Component {
             filter: {
                 ...this.state.filter,
                 startDate: this.state.startDate ? this.state.startDate.utc().format().substring(0, 10) : null,
-                endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10): null
+                endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10) : null
             }
         }).then(x => {
-            this.setState({ ...this.state, bikes: x.bikes, pageCount: x.count / 10 })
+            this.setState({ ...this.state, bikes: x.bikes, pageCount: x.count / 10, isTableHidden: false })
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -50,7 +54,7 @@ export class BikesListing extends React.Component {
     }
 
     onDatesChange(startDate, endDate) {
-        this.setState({ startDate, endDate })
+        this.setState({ startDate, endDate, isTableHidden: true })
     }
 
     onReserve = (item) => {
@@ -64,6 +68,7 @@ export class BikesListing extends React.Component {
             <React.Fragment>
                 <Title> Bikes </Title>
                 <DateRangePicker
+                    isOutsideRange={() => false}
                     startDate={this.state.startDate} // momentPropTypes.momentObj or null,
                     startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
                     endDate={this.state.endDate} // momentPropTypes.momentObj or null,
@@ -73,23 +78,30 @@ export class BikesListing extends React.Component {
                     onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                 />
 
-                <div id="react-paginate">
 
-                    <EnhancedBikeFilterForm filter={this.state.filter} filterUpdated={this.onFilterUpdated} />
-                    <BikesTable bikes={this.state.bikes} onDeleteClick={this.onDelete}
-                        areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
-                    <ReactPaginate previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={<a href="">...</a>}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
-                </div >
+
+                <EnhancedBikeFilterForm filter={this.state.filter} filterUpdated={this.onFilterUpdated} />
+                {
+                    !this.state.isTableHidden &&
+                    <div id="react-paginate">
+                        <BikesTable isManager={this.props.isManager} bikes={this.state.bikes} onDeleteClick={this.onDelete}
+                            areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
+                        <ReactPaginate previousLabel={"previous"}
+                            nextLabel={"next"}
+                            breakLabel={<a href="">...</a>}
+                            breakClassName={"break-me"}
+                            pageCount={this.state.pageCount}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={5}
+                            onPageChange={this.handlePageClick}
+                            containerClassName={"pagination"}
+                            subContainerClassName={"pages pagination"}
+                            activeClassName={"active"} />
+                    </div >
+                }
+
+
+
             </React.Fragment>
 
 
@@ -98,3 +110,5 @@ export class BikesListing extends React.Component {
     }
 
 }
+
+export const BikesListing = connect(mapStateToProps, null)(PBikesListing)
