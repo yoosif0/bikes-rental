@@ -6,6 +6,7 @@ import { persistMyInfo } from '../../../services/localStorage';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { toast } from 'react-toastify';
+import { withRouter } from 'react-router-dom';
 
 
 const mapDispatchToProps = dispatch => ({
@@ -14,18 +15,20 @@ const mapDispatchToProps = dispatch => ({
 
 export const EnhancedSignupForm = compose(
 	connect(null, mapDispatchToProps),
+	withRouter,
 	withFormik({
-		mapPropsToValues: props => ({ email: '', name: '', password: '', passwordConfirm: '', recaptch: null }),
+		mapPropsToValues: props => ({ email: 'ty@test.com', name: 'Youssef Sherif', password: '1234567a', passwordConfirm: '1234567a', recaptcha: null }),
 		validationSchema: signupFormSchema,
 		handleSubmit: (values, { props, setSubmitting, setErrors, setFieldValue }) => {
-			ApiService.signup({ email: values.email, password: values.password, name: values.name }).then((payload) => {
+			ApiService.signup({ email: values.email, password: values.password, name: values.name, "g-recaptcha-response":values.recaptcha }).then((payload) => {
 				setSubmitting(false);
 				persistMyInfo(payload.user.role, payload.user._id, payload.token)
-				props.history.push('myProfile')
+				toast.success("Signed up successfully")
 				props.loggedIn(payload)
+				props.history.push('bikes/listing')
 			}).catch(err => {
+				setErrors({recaptchaExpired:true})
 				setSubmitting(false)
-				// setFieldValue('recaptcha', null)
 				toast.error(err.data.msg)
 			})
 		},

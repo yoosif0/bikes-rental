@@ -1,12 +1,18 @@
 const Joi = require('joi')
 const passwordRegex = require('config/regexConstants').passwordRegex
+const errorMessageWrapper = require('services/utility').errorMessageWrapper
 
 module.exports = {
     signup(req, res, next) {
+        if (req.recaptcha.error) {
+            return res.status(400).json(errorMessageWrapper('No captcha'))
+        }
+    
         const schema = Joi.object().keys({
             name: Joi.string().min(3).max(20).required().label('name'),
             password: Joi.string().regex(passwordRegex).required().label('password'),
             email: Joi.string().email().required().label('email'),
+            "g-recaptcha-response": Joi.string()
         })
         return Joi.validate(req.body, schema, (err) => next(err))
     },

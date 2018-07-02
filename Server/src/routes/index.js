@@ -10,6 +10,10 @@ const validateUser = require('./user.validate')
 const validateUserAuth = require('./user-auth.validate')
 const validateReservation = require('./reseravtions.validate')
 const validateBike = require('./bike.validate')
+const recaptchaConfig = require('../config/recaptcha.config')
+const Recaptcha = require('express-recaptcha').Recaptcha;
+const recaptcha = process.env.NODE_ENV === 'testing' ? new Recaptcha(recaptchaConfig.testingSiteKey, recaptchaConfig.testingSecretKey)
+    : new Recaptcha(recaptchaConfig.siteKey, recaptchaConfig.secretKey)
 
 
 router.post('/recovery_code_requests', userAuth.sendMeRecoveryCode, userAuth.sendMeRecoveryCode)
@@ -17,7 +21,7 @@ router.post('/recovery_code', userAuth.updatepsswordByRecoveryCode, userAuth.upd
 
 
 
-router.post('/users/', validateUserAuth.signup, userAuth.signup)
+router.post('/users/', recaptcha.middleware.verify, validateUserAuth.signup, userAuth.signup)
 
 router.post('/users/login', validateUserAuth.login, userAuth.login)
 router.patch('/password', verifyUser, validateUserAuth.changeMyPassword, userAuth.changeMyPassword)
@@ -31,8 +35,8 @@ router.get('/users/:id', verifyUser, Authorize.allowSelfAndManager, user.getUser
 // router.patch('/users/:id/role', verifyUser, validateUpdateRole, Authorize.preventRegularUsers, updateUserRole)
 
 // router.get('/bikes', verifyUser, Authorize.preventRegularUsers, bike.getBikes)
-router.get('/bikesByLocation', bike.getByLocationAndFilterExcludingReservedBikes)
-router.get('/bikesWithPagination', bike.getWithPaginationExcludingReservedBikes)
+router.get('/bikesByLocation', verifyUser,bike.getByLocationAndFilterExcludingReservedBikes)
+router.get('/bikesWithPagination', verifyUser, bike.getWithPaginationExcludingReservedBikes)
 
 router.get('/bikes/:bikeId', verifyUser, Authorize.preventRegularUsers, bike.getBike)
 // router.get('/bikes/:id', verifyUser, Authorize.allowSelfAndManager, getBike);
@@ -46,23 +50,24 @@ router.get('/myReservations/upcoming', verifyUser, reservations.getMyUpcomingRes
 
 router.get('/myPreviouslyUsedBikes', verifyUser, reservations.getMyPreviouslyUsedBikes)
 
+router.put('/bikeImageRef', verifyUser, Authorize.preventRegularUsers, bike.updateBikeImage )
 
 
 router.get('/reservationsForBike', verifyUser, reservations.getReservationsForBike)
 // router.get('/reservationsForDate', verifyUser, reservations.getClashedReseravtionsForDateRange)
 // router.get('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getReservationsForUser)
 
-router.post('/reservations', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
+router.post('/reservations', verifyUser, validateReservation.validateReserveBike, reservations.reserveBike)
 
 // router.post('/reservations/:id/:bikeId', verifyUser, validateReservation.validateReserveBike, Authorize.allowSelfAndManager, reservations.checkNoPreviousReservation, reservations.reserveBike)
-router.delete('/reservations/:reservationId', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
+router.delete('/reservations/:reservationId', verifyUser, reservations.cancelReservation)
 
 // router.get('/ratings', verifyUser, Authorize.allowSelfAndManager, ratings.getRatingsForSeveralBikes)
-router.post('/ratings/:bikeId/:rate', verifyUser, Authorize.allowSelfAndManager, ratings.rateBike)
+router.post('/ratings/:bikeId/:rate', verifyUser, ratings.rateBike)
 
 // router.post('/reservations/:id/:bikeId', verifyUser, ReservationsValidation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 // router.delete('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
-router.get('/s3/sign', bike.signImage);
+router.get('/s3/sign', Authorize.preventRegularUsers, bike.signImage);
 
 module.exports = router
 
