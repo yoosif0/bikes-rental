@@ -18,7 +18,7 @@ export class UsersListing extends React.Component {
 
     fetchData() {
         ApiService.getUsers({ skip: this.state.skip }).then(x => {
-            this.setState({ ...this.state, users: x.users, pageCount: x.count / 10 })
+            this.setState({ users: x.users, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -34,7 +34,7 @@ export class UsersListing extends React.Component {
 
     onDelete = (item) => {
         ApiService.deleteUser(item._id).then(x => {
-            this.setState({ ...this.state, users: this.state.users.filter(bike => bike._id !== item._id) })
+            this.setState({ users: this.state.users.filter(bike => bike._id !== item._id) })
         }).catch(err => {
             toast.error(err.data.msg)
         })

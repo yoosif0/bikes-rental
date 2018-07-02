@@ -18,15 +18,7 @@ export class MyPreviouslyUsedBikes extends React.Component {
 
     fetchData() {
         ApiService.getMyPreviouslyUsedBikes({ skip: this.state.skip }).then(x => {
-            this.setState({ ...this.state, bikesDetails: x.items, pageCount: x.count / 10 })
-        }).catch(err => {
-            toast.error(err.data.msg)
-        })
-    }
-
-    onRate = (nextValue, prevValue, id) => {
-        ApiService.rateBike(id, nextValue).then(x => {
-            this.fetchData();
+            this.setState({ bikesDetails: x.items, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -37,7 +29,7 @@ export class MyPreviouslyUsedBikes extends React.Component {
             <React.Fragment>
                 <Title> My Previously Used Bikes </Title>
                 <PageContentLayout isRendering={this.state.bikesDetails.length} unAvailabilityText="No reservations">
-                    <MyPreviouslyUsedBikesTable bikesDetails={this.state.bikesDetails} onRateClick={this.onRate} />
+                    <MyPreviouslyUsedBikesTable bikesDetails={this.state.bikesDetails} />
                     <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
                 </PageContentLayout>
             </React.Fragment>

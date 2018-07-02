@@ -10,7 +10,7 @@ export const UserReservationsTable = ({ reservations, onCancelClick }) => (
                     <th>End Date</th>
                     <th>Bike Model</th>
                     <th>Bike Color</th>
-                    <th>Bike Weight</th>
+                    <th>Bike Weight in kg</th>
                     {
                         onCancelClick && <th className="text-center">Cancel Reservation</th>
                     }

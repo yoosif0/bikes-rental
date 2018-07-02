@@ -10,7 +10,7 @@ export const InnerForm = ({ errors, touched, isSubmitting, dirty }) => (
             <Field type="text" name="model" className="form-control" />
             <InputFeedback error={touched.model && errors.model} />
         </DefaultInput>
-        <DefaultInput label="Weight">
+        <DefaultInput label="Weight in kg">
             <Field type="number" name="weight" className="form-control" />
             <InputFeedback error={touched.weight && errors.weight} />
         </DefaultInput>

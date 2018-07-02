@@ -104,18 +104,10 @@ const renderNewPoints = (action$, state$) => {
 
 }
 
+const rateBike = (action$, state$) => {
+  return action$.ofType('UPDATE_RATE').mergeMap(q => from(ApiService.rateBike(action$.payload.bikeId, action$.payload.rate)))
+  .map(newPoints => ({ type: 'RENDER_NEW_BIKES', payload: newPoints }))
+}
 
-export const rootEpic = combineEpics(pingEpic, esriModulesEpic, modulesLoaded, lazyLoadData, renderNewPoints, filterBikes)
 
-
-
-
-
-// 
-
-// {
-
-//   .map(cart => actions.checkoutSuccess(cart))
-
-    // this.props.modulesLoaded({ view, Track, Search, Locator, Graphic, Point, SimpleMarkerSymbol })
-        // assignMapEventHandlers(view, Locator)
+export const rootEpic = combineEpics(pingEpic, esriModulesEpic, modulesLoaded, lazyLoadData, renderNewPoints, filterBikes, rateBike)

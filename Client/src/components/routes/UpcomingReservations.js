@@ -20,7 +20,7 @@ export class UpcomingReservations extends React.Component {
 
     fetchData() {
         ApiService.getUpcomingReservations(queryString.parse(this.props.location.search).userId, { skip: this.state.skip }).then(x => {
-            this.setState({ ...this.state, reservations: x.items, pageCount: x.count / 10 })
+            this.setState({ reservations: x.items, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data.msg)
         })

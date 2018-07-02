@@ -4,13 +4,13 @@ import { BikesTableLayout } from './BikesTableLayout';
 import { StarRatingTableDescription } from './StarRatingTableDescription';
 
 
-export const MyPreviouslyUsedBikesTable = ({ bikesDetails, onRateClick }) => (
+export const MyPreviouslyUsedBikesTable = ({ bikesDetails }) => (
     <BikesTableLayout
         TableHeaders={() =>
             <React.Fragment>
                 <BasicTableHeaders />
                 <th>Number of Rides</th>
-                <th className="text-center">My Rate</th>
+                <th>My Rate</th>
             </React.Fragment>
         }
 
@@ -20,7 +20,7 @@ export const MyPreviouslyUsedBikesTable = ({ bikesDetails, onRateClick }) => (
                     <tr key={index}>
                         <BasicTableDescription item={item.bike} />
                         <td>{item.numberOfRides}</td>
-                        <StarRatingTableDescription id={item.bike._id} rate={item.rate} onRateClick={onRateClick} />
+                        <StarRatingTableDescription id={item.bike._id} rate={item.rate} />
                     </tr>
                 )
             )

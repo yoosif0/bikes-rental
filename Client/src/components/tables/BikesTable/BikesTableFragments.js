@@ -7,7 +7,7 @@ export const BasicTableHeaders = () => (
         <th>Image</th>
         <th>Model</th>
         <th>Color</th>
-        <th>Weight</th>
+        <th>Weight in kg</th>
     </React.Fragment>
 )
 

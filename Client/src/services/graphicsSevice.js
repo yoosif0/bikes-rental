@@ -11,6 +11,10 @@ const popupTemplate = {
             fieldName: 'Weight'
         }, {
             fieldName: 'Color'
+        }, {
+            fieldName: 'Average Rate'
+        }, {
+            fieldName: 'Available'
         }]
     }]
 }
@@ -41,6 +45,8 @@ export const graphicsService = {
                     'Model': bike.model,
                     'Color': bike.color,
                     'Weight': bike.weight + ' kg',
+                    'Average Rate': bike.avgRate || 'Not rated',
+                    'Available': bike.isAvailable ? 'Yes' : 'No'
                 },
                 popupTemplate
             });

@@ -30,7 +30,7 @@ export class PBikesListing extends React.Component {
                 endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10) : null
             }
         }).then(x => {
-            this.setState({ ...this.state, bikes: x.items, pageCount: x.count / 10, isTableHidden: false })
+            this.setState({bikes: x.items, pageCount: x.count / 10, isTableHidden: false })
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -38,7 +38,7 @@ export class PBikesListing extends React.Component {
 
     onDelete = (item) => {
         ApiService.deleteBike(item._id).then(x => {
-            this.setState({ ...this.state, bikes: this.state.bikes.filter(bike => bike._id !== item._id) })
+            this.setState((oldState)=>({ bikes: oldState.bikes.filter(bike => bike._id !== item._id) }))
         })
     }
 
@@ -59,15 +59,6 @@ export class PBikesListing extends React.Component {
             this.fetchData()
         })
     }
-
-    onRate = (nextValue, prevValue, id) => {
-        ApiService.rateBike(id, nextValue).then(x => {
-            this.fetchData();
-        }).catch(err => {
-            toast.error(err.data.msg)
-        })
-    }
-
     render() {
         return (
             <React.Fragment>
@@ -88,7 +79,7 @@ export class PBikesListing extends React.Component {
                 <EnhancedBikeFilterForm filter={this.state.filter} filterUpdated={this.onFilterUpdated} />
                 <PageContentLayout isRendering={!this.state.isTableHidden} unAvailabilityText="No reservations">
                     <BikesTable isManager={this.props.isManager} bikes={this.state.bikes} onDeleteClick={this.onDelete}
-                        areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} onRateClick={this.onRate} />
+                        areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
                     <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
                 </PageContentLayout>
             </React.Fragment>
