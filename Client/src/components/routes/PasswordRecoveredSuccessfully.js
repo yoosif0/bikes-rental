@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 
 
@@ -9,14 +8,7 @@ const PasswordRecoveredSuccessfully = ({ history }) => (
         <p>Your password has been recovered successfully. </p>
         <Button className="mt-4" color="default" onClick={() => history.push('login')}>Go to Login </Button>
     </div>
-
-
 );
-
-
-PasswordRecoveredSuccessfully.propTypes = {
-    history: PropTypes.any,
-}
 
 
 

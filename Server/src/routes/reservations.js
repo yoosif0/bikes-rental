@@ -20,16 +20,19 @@ module.exports = {
         return reservationDb.getReservationsForBikeAtCertainDateRange(req.params.bikeId, req.body.startDate, req.body.endDate, )
     },
 
-    getMyPastReservations(req, res, next) {
-        return reservationDb.getMyPastReservations(req.decoded._id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
+    getPastReservationsForUser(req, res, next) {
+        return reservationDb.getPastReservationsForUser(req.params.id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
     },
 
-    getMyUpcomingReservations(req, res, next) {
-        return reservationDb.getMyUpcomingReservations(req.decoded._id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
+    getUpcomingReservationsForUser(req, res, next) {
+        return reservationDb.getUpcomingReservationsForUser(req.params.id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
     },
 
     getMyPreviouslyUsedBikes(req, res, next) {
         return reservationDb.getMyPreviouslyUsedBikes(req.decoded._id, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
+    },
+    getBikeReservations(req, res, next) {
+        return reservationDb.getBikeReservations(req.params.bikeId, Number(req.query.skip || 0)).then(payload=>res.status(200).json(payload)).catch(err => next(err))
     }
 }
 

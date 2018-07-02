@@ -2,14 +2,15 @@ import React from 'react'
 import { ApiService } from '../../services/data.service';
 import BikesTable from '../tables/BikesTable/BikesTable';
 import { toast } from 'react-toastify';
-import ReactPaginate from 'react-paginate';
 import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
 import Title from '../text/Title';
 import { DateRangePicker } from 'react-dates';
 import { connect } from 'react-redux';
+import { PaginationContainer } from '../pagination/PaginationContainer';
+import { PageContentLayout } from '../layout/PageContentLayout';
 
 
-const mapStateToProps = state =>   ({  isManager: state.authStoreState.role==='manager' })
+const mapStateToProps = state => ({ isManager: state.authStoreState.role === 'manager' })
 
 export class PBikesListing extends React.Component {
     constructor(props) {
@@ -17,10 +18,10 @@ export class PBikesListing extends React.Component {
         this.state = { bikes: [], skip: 0, filter: {} };
     }
     componentDidMount() {
-        this.fetchBikes()
+        this.fetchData()
     }
 
-    fetchBikes() {
+    fetchData() {
         ApiService.getBikesWithPagination({
             skip: this.state.skip,
             filter: {
@@ -41,16 +42,12 @@ export class PBikesListing extends React.Component {
         })
     }
 
-    handlePageClick = (data) => {
-        let selected = data.selected;
-        let skip = Math.ceil(selected * 10);
-        this.setState({ skip }, () => {
-            this.fetchBikes();
-        });
-    };
+    // onPageChanged = );
+
+
     onFilterUpdated = (filter) => {
         this.setState({ filter })
-        this.fetchBikes()
+        this.fetchData()
     }
 
     onDatesChange(startDate, endDate) {
@@ -59,13 +56,13 @@ export class PBikesListing extends React.Component {
 
     onReserve = (item) => {
         ApiService.reserveBike(item._id, this.state.startDate, this.state.endDate).then(x => {
-            this.fetchBikes()
+            this.fetchData()
         })
     }
 
     onRate = (nextValue, prevValue, id) => {
         ApiService.rateBike(id, nextValue).then(x => {
-            this.fetchBikes();
+            this.fetchData();
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -75,41 +72,25 @@ export class PBikesListing extends React.Component {
         return (
             <React.Fragment>
                 <Title className="forTest"> Bikes </Title>
-                <DateRangePicker
-                    isOutsideRange={() => false}
-                    startDate={this.state.startDate} // momentPropTypes.momentObj or null,
-                    startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
-                    endDate={this.state.endDate} // momentPropTypes.momentObj or null,
-                    endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
-                    onDatesChange={({ startDate, endDate }) => this.onDatesChange(startDate, endDate)} // PropTypes.func.isRequired,
-                    focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
-                    onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
-                />
-
-
+                <div className="mb-4">
+                    <DateRangePicker
+                        isOutsideRange={() => false}
+                        startDate={this.state.startDate} // momentPropTypes.momentObj or null,
+                        startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
+                        endDate={this.state.endDate} // momentPropTypes.momentObj or null,
+                        endDateId="your_unique_end_date_id" // PropTypes.string.isRequired,
+                        onDatesChange={({ startDate, endDate }) => this.onDatesChange(startDate, endDate)} // PropTypes.func.isRequired,
+                        focusedInput={this.state.focusedInput} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                        onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
+                    />
+                </div>
 
                 <EnhancedBikeFilterForm filter={this.state.filter} filterUpdated={this.onFilterUpdated} />
-                {
-                    !this.state.isTableHidden &&
-                    <div id="react-paginate">
-                        <BikesTable isManager={this.props.isManager} bikes={this.state.bikes} onDeleteClick={this.onDelete}
-                            areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} onRateClick={this.onRate}/>
-                        <ReactPaginate previousLabel={"previous"}
-                            nextLabel={"next"}
-                            breakLabel={<a href="">...</a>}
-                            breakClassName={"break-me"}
-                            pageCount={this.state.pageCount}
-                            marginPagesDisplayed={2}
-                            pageRangeDisplayed={5}
-                            onPageChange={this.handlePageClick}
-                            containerClassName={"pagination"}
-                            subContainerClassName={"pages pagination"}
-                            activeClassName={"active"} />
-                    </div >
-                }
-
-
-
+                <PageContentLayout isRendering={!this.state.isTableHidden} unAvailabilityText="No reservations">
+                    <BikesTable isManager={this.props.isManager} bikes={this.state.bikes} onDeleteClick={this.onDelete}
+                        areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} onRateClick={this.onRate} />
+                    <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
+                </PageContentLayout>
             </React.Fragment>
 
 

@@ -14,6 +14,7 @@ export const BasicTableHeaders = () => (
 export const AdminTableHeaders = () => (
     <React.Fragment>
         <th className="text-center">Update</th>
+        <th className="text-center">Bike Reservations</th>
         <th className="text-center">Delete</th>
     </React.Fragment>
 )
@@ -39,6 +40,9 @@ export const AdminTableDescriptionActions = ({ item, onDeleteClick }) => (
     <React.Fragment>
         <td className="text-center">
             <NavLink to={'/editBike/' + item._id} className="fa fa-edit text-warning" id="editButton"></NavLink>
+        </td>
+        <td className="text-center">
+            <NavLink to={`/bikeReservations?bikeId=${item._id}&label=${item.model}`} className="fa fa-edit text-warning"></NavLink>
         </td>
         <td className="text-center ">
             <a className="link" onClick={() => onDeleteClick(item)}>

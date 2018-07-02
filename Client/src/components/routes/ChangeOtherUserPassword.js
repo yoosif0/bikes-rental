@@ -4,9 +4,9 @@ import { ApiService } from '../../services/data.service';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import {
-    EnhancedChangeOtherUserPasswordForm
+	EnhancedChangeOtherUserPasswordForm
 } from '../forms/ChangeOtherUserPasswordForm/EnhancedChangeOtherUserPasswordForm';
-
+import { PageContentLayout } from '../layout/PageContentLayout';
 
 
 class ChangeOtherUserPassword extends React.Component {
@@ -28,13 +28,10 @@ class ChangeOtherUserPassword extends React.Component {
 
 	render() {
 		return (
-			this.state.user.name ?
-				<div>
-					<Title> Change {this.state.user.name} Password </Title>
-					<EnhancedChangeOtherUserPasswordForm userId={this.state.user._id} />
-				</div>
-				:
-				<p>Waiting</p>
+			<PageContentLayout isRendering={this.state.user.name} unAvailabilityText="Waiting">
+				<Title> Change {this.state.user.name} Password </Title>
+				<EnhancedChangeOtherUserPasswordForm userId={this.state.user._id} />
+			</PageContentLayout>
 		)
 	}
 }

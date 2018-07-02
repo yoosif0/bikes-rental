@@ -6,8 +6,10 @@ import { toast } from 'react-toastify';
 
 // const authStore = mobx.toJS(AuthStore);
 export const EnhancedBikeForm = withFormik({
+	mapPropsToValues: props => {
+		return { model: '', color: '', weight: '', longitude: '',latitude: '',  }
+	},
 	validationSchema: bikeFormSchema,
-	mapValuesToPayload: x => x,
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 		ApiService.addBike(values).then((payload) => {
 			setSubmitting(false);

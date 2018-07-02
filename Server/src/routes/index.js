@@ -45,8 +45,11 @@ router.delete('/bikes/:bikeId',  verifyUser, Authorize.preventRegularUsers,  bik
 router.put('/bikes/:bikeId', verifyUser, validateBike.bikeFormSchema, Authorize.preventRegularUsers, bike.updatebike)
 
 // router.get('/myReservations', verifyUser, reservations.getMyReservations)
-router.get('/myReservations/past', verifyUser, reservations.getMyPastReservations)
-router.get('/myReservations/upcoming', verifyUser, reservations.getMyUpcomingReservations)
+router.get('/reservations/past/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getPastReservationsForUser)
+router.get('/reservations/upcoming/:id', verifyUser, Authorize.allowSelfAndManager, reservations.getUpcomingReservationsForUser)
+
+router.get('/bikeReservations/:bikeId', verifyUser, Authorize.preventRegularUsers, reservations.getBikeReservations)
+
 
 router.get('/myPreviouslyUsedBikes', verifyUser, reservations.getMyPreviouslyUsedBikes)
 

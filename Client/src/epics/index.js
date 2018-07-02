@@ -8,6 +8,8 @@ import 'rxjs/add/operator/mergeMap';
 // import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/throttleTime';
+import 'rxjs/add/operator/auditTime';
+import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/concat';
 
@@ -64,7 +66,7 @@ const modulesLoaded = (action$, state$) => {
     view.on('drag', (x) => sub.next(true))
     view.on('mouse-wheel', (x) => sub.next(true))
     view.on('hold', (x) => sub.next(true))
-    sub.throttleTime(500).subscribe(() => {
+    sub.auditTime(500).subscribe(() => {
       store.dispatch({ type: 'LAZY_LOAD_NEW_DATA' })
     })
     return Observable.of(view)

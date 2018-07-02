@@ -11,7 +11,7 @@ const NavBarLink = ({ to, label }) => (
 )
 
 
-export const PNavbar = ({ isManager, isAuthenticated, logout }) => (
+export const PNavbar = ({ isManager, isAuthenticated, logout, myId }) => (
     <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
         <NavLink className="navbar-brand" to="/"> Bikes Rental © </NavLink>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -24,10 +24,10 @@ export const PNavbar = ({ isManager, isAuthenticated, logout }) => (
                     isAuthenticated ?
                         <React.Fragment>
                             <NavBarLink to='/myProfile' label="My profile" />
-                            <NavBarLink to='/bikes/listing' label="Bikes" />
-                            <NavBarLink to='/map' label="Map" />
-                            <NavBarLink to='/myUpcomingReservations' label="My Upcoming Reservations" />
-                            <NavBarLink to='/myPastReservations' label="My Past Reservations" />
+                            <NavBarLink to='/bikes/listing' label="Bike Listing" />
+                            <NavBarLink to='/map' label="Bikes Map" />
+                            <NavBarLink to={`/upcomingReservations?userId=${myId}&label=My`} label="My Upcoming Reservations" />
+                            <NavBarLink to={`/pastReservations?userId=${myId}&label=My`} label="My Past Reservations" />
                             <NavBarLink to='/myPreviouslyUsedBikes' label="My Previously Used Bikes" />
                         </React.Fragment>
                         :
@@ -57,6 +57,7 @@ export const PNavbar = ({ isManager, isAuthenticated, logout }) => (
 )
 
 const mapStateToProps = state => ({
+    myId: state.authStoreState.id,
     isAuthenticated: state.authStoreState.isAuthenticated,
     isManager: state.authStoreState.role === 'manager'
 })

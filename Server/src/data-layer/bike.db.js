@@ -2,7 +2,7 @@ const bikeModel = require('../models/bike.model')
 const ObjectId = require('mongodb').ObjectID;
 
 const aggregationStore = {
-    ratingLookupAggregation: {
+    ratingLookupAggregation: [{
         $lookup: {
             from: "ratings",
             localField: "_id",
@@ -10,16 +10,20 @@ const aggregationStore = {
             as: "ratings"
         }
     },
+    { $addFields: { avgRate: {$avg: "$ratings.rate"  } } },
+    { $project: {  ratings: 0 }},
+
+],
 }
-function getAverageRate(items) {
-    return items.map(item => {
-        if (item.ratings.length) {
-            item.rate = item.ratings.reduce((cum, current) => cum + current.rate, 0) / item.ratings.length
-        }
-        delete item.ratings
-        return item
-    })
-}
+// function getAverageRate(items) {
+//     return items.map(item => {
+//         if (item.ratings.length) {
+//             item.rate = item.ratings.reduce((cum, current) => cum + current.rate, 0) / item.ratings.length
+//         }
+//         delete item.ratings
+//         return item
+//     })
+// }
 module.exports = {
     createBike(model, weight, color, latitude, longitude) {
         const location = {
@@ -30,7 +34,7 @@ module.exports = {
         return newBike.save()
     },
 
-    getByLocationAndFilterExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, long, lat) {
+    getByLocationAndFilterExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, long, lat, avgRate) {
         const query = getQuery(excludedIds, model, color, maxWeight, minWeight)
         const aggregationArr = [
             {
@@ -40,21 +44,25 @@ module.exports = {
                     near: { type: "Point", coordinates: [Number(long), Number(lat)] },
                     distanceField: "dist.calculated",
                     maxDistance: 5000000,
-                    limit: 20,
+                    limit: 100000,
                 }
             },
-            aggregationStore.ratingLookupAggregation,
+            ...aggregationStore.ratingLookupAggregation,
+            { $match: getQuery(excludedIds, model, color, maxWeight, minWeight, avgRate) },
+            { $limit: 20 }
+
+            
         ]
-        return bikeModel.aggregate(aggregationArr).then((items) => getAverageRate(items))
+        return bikeModel.aggregate(aggregationArr)
     },
 
-    getWithPaginationAndRatingExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip) {
+    getWithPaginationAndRatingExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip, avgRate) {
         const basicBikeAggregation = [
-            { $match: getQuery(excludedIds, model, color, maxWeight, minWeight) },
+            { $match: getQuery(excludedIds, model, color, maxWeight, minWeight, avgRate) },
         ]
         const paginatedDetailedAggregation = [
+            ...aggregationStore.ratingLookupAggregation,
             ...basicBikeAggregation,
-            aggregationStore.ratingLookupAggregation,
             { $skip: skip },
             { $limit: 10 }
         ]
@@ -67,7 +75,6 @@ module.exports = {
             bikeModel.aggregate(paginatedDetailedAggregation),
             bikeModel.aggregate(countAggregation)
         ]).then(([items, count]) => {
-            items = getAverageRate(items)
             return { items, count: count.length? count[0].count: 0 }
         })
     },
@@ -96,7 +103,7 @@ module.exports = {
 
 }
 
-function getQuery(excludedIds, model, color, maxWeight, minWeight) {
+function getQuery(excludedIds, model, color, maxWeight, minWeight, avgRate) {
     const query = {}
     if (model) {
         query.model = { $regex: RegExp(`.*${model}.*`) }
@@ -109,7 +116,9 @@ function getQuery(excludedIds, model, color, maxWeight, minWeight) {
     }
     if (maxWeight || minWeight) {
         query.weight = { $gte: minWeight || 0, $lte: maxWeight || Infinity }
-        console.log(query)
+    }
+    if (avgRate) {
+        query.avgRate = { $gte: avgRate }
     }
     return query
 }

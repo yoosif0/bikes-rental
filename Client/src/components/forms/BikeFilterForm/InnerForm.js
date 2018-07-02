@@ -32,7 +32,7 @@ export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, h
             <InputFeedback error={touched.color && errors.color} />
         </DefaultInput>
         <DefaultInput label="Rate Average">
-            <Field component="select" name="rateAverage" className="form-control">
+            <Field component="select" name="avgRate" className="form-control">
                 <option value=""></option>
                 <option value="z">0+</option>
                 <option value="1">1+</option>

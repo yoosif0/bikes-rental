@@ -19,11 +19,12 @@ import RecoveryCode from './components/routes/RecoveryCode';
 import ChangeMyPasswordUsingOldPassword from './components/routes/ChangeMyPasswordUsingOldPassword';
 import ChangeOtherUserPassword from './components/routes/ChangeOtherUserPassword';
 import { UsersListing } from './components/routes/UsersListing';
-import { MyPastReservations } from './components/routes/MyPastReservations';
-import { MyUpcomingReservations } from './components/routes/MyUpcomingReservations';
+import { PastReservations } from './components/routes/PastReservations';
+import { UpcomingReservations } from './components/routes/UpcomingReservations';
 import { MyPreviouslyUsedBikes } from './components/routes/MyPreviouslyUsedBikes';
 import { loadProgressBar } from 'axios-progress-bar';
 import 'axios-progress-bar/dist/nprogress.css';
+import { BikeReservations } from './components/routes/BikeReservations';
 
 
 class Appa extends React.Component {
@@ -48,12 +49,13 @@ class Appa extends React.Component {
             <PrivateRoute authed={this.props.isAuthenticated} path="/myProfile" component={MyProfile} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/changeMyPasswordUsingOldPassword" component={ChangeMyPasswordUsingOldPassword} />
             <PrivateRoute authed={this.props.isAuthenticated} path="/map" component={BikesMap}/>
-            <PrivateRoute authed={this.props.isAuthenticated} path="/myPastReservations" component={MyPastReservations}/>
-            <PrivateRoute authed={this.props.isAuthenticated} path="/myUpcomingReservations" component={MyUpcomingReservations}/>
+            <PrivateRoute authed={this.props.isAuthenticated} path="/pastReservations" component={PastReservations}/>
+            <PrivateRoute authed={this.props.isAuthenticated} path="/upcomingReservations" component={UpcomingReservations}/>
             <PrivateRoute authed={this.props.isAuthenticated} path="/MyPreviouslyUsedBikes" component={MyPreviouslyUsedBikes}/>
             <ManagerPrivateRoute isManager={this.props.isManager} path="/users" component={UsersListing} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/addBike" component={AddBike} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editBike/:id" component={EditBike} />
+            <ManagerPrivateRoute isManager={this.props.isManager} path="/bikeReservations" component={BikeReservations} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/editUser/:id" component={EditUser} />
             <ManagerPrivateRoute isManager={this.props.isManager} path="/changeOtherUserPassword/:id" component={ChangeOtherUserPassword} />
           </div>

@@ -1,9 +1,10 @@
 import React from 'react'
 import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
-import ReactPaginate from 'react-paginate';
 import Title from '../text/Title';
 import { MyPreviouslyUsedBikesTable } from '../tables/BikesTable/MyPreviouslyUsedBikesTable';
+import { PaginationContainer } from '../pagination/PaginationContainer';
+import { PageContentLayout } from '../layout/PageContentLayout';
 
 
 export class MyPreviouslyUsedBikes extends React.Component {
@@ -23,14 +24,6 @@ export class MyPreviouslyUsedBikes extends React.Component {
         })
     }
 
-    handlePageClick = (data) => {
-        let selected = data.selected;
-        let skip = Math.ceil(selected * 10);
-        this.setState({ skip }, () => {
-            this.fetchData();
-        });
-    };
-
     onRate = (nextValue, prevValue, id) => {
         ApiService.rateBike(id, nextValue).then(x => {
             this.fetchData();
@@ -43,25 +36,10 @@ export class MyPreviouslyUsedBikes extends React.Component {
         return (
             <React.Fragment>
                 <Title> My Previously Used Bikes </Title>
-                {
-                    this.state.bikesDetails.length ?
-                        <div id="react-paginate">
-                            <MyPreviouslyUsedBikesTable bikesDetails={this.state.bikesDetails} onRateClick={this.onRate} />
-                            <ReactPaginate previousLabel={"previous"}
-                                nextLabel={"next"}
-                                breakLabel={<a href="">...</a>}
-                                breakClassName={"break-me"}
-                                pageCount={this.state.pageCount}
-                                marginPagesDisplayed={2}
-                                pageRangeDisplayed={5}
-                                onPageChange={this.handlePageClick}
-                                containerClassName={"pagination"}
-                                subContainerClassName={"pages pagination"}
-                                activeClassName={"active"} />
-                        </div >
-                        :
-                        <p> No reservations </p>
-                }
+                <PageContentLayout isRendering={this.state.bikesDetails.length} unAvailabilityText="No reservations">
+                    <MyPreviouslyUsedBikesTable bikesDetails={this.state.bikesDetails} onRateClick={this.onRate} />
+                    <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
+                </PageContentLayout>
             </React.Fragment>
 
 

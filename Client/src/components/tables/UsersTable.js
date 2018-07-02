@@ -10,6 +10,8 @@ import { NavLink } from 'react-router-dom';
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Previous Reservations</th>
+                    <th>Upcoming Reservations</th>
                     <th className="text-center">Update</th>
                     <th className="text-center">Delete</th>
                 </tr>
@@ -22,6 +24,12 @@ import { NavLink } from 'react-router-dom';
                                 <td>{item.name}</td>
                                 <td>{item.email}</td>
                                 <td>{item.role}</td>
+                                <td className="text-center">
+                                    <NavLink to={`/pastReservations?userId=${item._id}&label=${item.name}'s`} className="fa fa-edit text-warning" id="editButton"></NavLink>
+                                </td>
+                                <td className="text-center">
+                                    <NavLink to={`/upcomingReservations?userId=${item._id}&label=${item.name}'s`} className="fa fa-edit text-warning" id="editButton"></NavLink>
+                                </td>
                                 <td className="text-center">
                                     <NavLink to={'/editUser/' + item._id} className="fa fa-edit text-warning" id="editButton"></NavLink>
                                 </td>

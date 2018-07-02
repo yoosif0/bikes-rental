@@ -1,11 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-// import { NavLink } from 'react-router-dom';
 import moment from 'moment'
 
-const ReservationsTable = ({ reservations, onCancelClick }) => (
+export const UserReservationsTable = ({ reservations, onCancelClick }) => (
     <div>
-        <table id="ReservationsTable" className="table table-hover">
+        <table id="UserReservationsTable" className="table table-hover">
             <thead>
                 <tr>
                     <th>Start Date</th>
@@ -69,9 +67,3 @@ const ReservationsTable = ({ reservations, onCancelClick }) => (
 
 )
 
-export default ReservationsTable
-
-ReservationsTable.propTypes = {
-    reservations: PropTypes.array,
-    onCancelClick: PropTypes.func,
-};

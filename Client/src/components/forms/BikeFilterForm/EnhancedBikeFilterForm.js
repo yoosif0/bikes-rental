@@ -7,8 +7,8 @@ export const EnhancedBikeFilterForm = withFormik({
 	validationSchema: bikeFormSchema,
 	mapPropsToValues: props => {
 		return {
-			model: props.filter.model || '', color: props.filter.color || '', minWeight: props.filter.minWeight, startDate: null, endDate: null,			
-			maxWeight: props.filter.maxWeight, rateAverage: props.filter.rateAverage,
+			model: props.filter.model || '', color: props.filter.color || '', minWeight: props.filter.minWeight|| '', startDate: null, endDate: null,			
+			maxWeight: props.filter.maxWeight|| '', avgRate: props.filter.avgRate,
 		}
 	},
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {

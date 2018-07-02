@@ -27,12 +27,12 @@ module.exports = {
         return newReservation.save();
     },
 
-    getMyUpcomingReservations(userId, skip) {
+    getUpcomingReservationsForUser(userId, skip) {
         const query = { userId, startDate: { $gte: Date() } }
         return reservationsForUser(query, skip)
     },
 
-    getMyPastReservations(userId, skip) {
+    getPastReservationsForUser(userId, skip) {
         const query = { userId, startDate: { $lt: Date() } }
         return reservationsForUser(query, skip)
     },
@@ -86,41 +86,9 @@ module.exports = {
                     $or: [
                         { "startDate": { "$gte": new Date(startDate), "$lte": new Date(endDate) } },
                         { "endDate": { "$gte": new Date(startDate), "$lte": new Date(endDate) } },
-
                     ]
                 }
             },
-
-            // { $lookup: { from: "bikes", localField: "bikeId", foreignField: "_id", as: "bike" } },
-
-
-            // {
-            //     "$redact": {
-            //         "$cond": [
-            //             {
-            //                 "$or": [
-            //                     {
-            //                         "$and": [
-            //                             { "$gte": [new Date(startDate), "$startDate" ] } ,
-            //                             { "$lte": [new Date(startDate), "$endDate" ] } ,
-            //                         ],
-            //                         // "$and": [
-            //                         //     { "$gte": [new Date(endDate), "$startDate" ] } ,
-            //                         //     { "$lte": [new Date(endDate), "$endDate" ] } ,
-            //                         // ],
-            //                         // "$and": [
-            //                         //     { "$lte": [new Date(startDate), "$startDate", ] } ,
-            //                         //     { "$gte": [new Date(endDate), "$endDate", ] } ,
-            //                         // ],
-            //                     }
-            //                 ]
-            //             },
-            //             "$$KEEP",
-            //             "$$PRUNE"
-            //         ]
-            //     }
-            // },
-
         ])
     },
 
@@ -132,12 +100,9 @@ module.exports = {
         return reservationModel.find({ _id }).lean().exec()
     },
 
-    getReseravtionsbyUserId(_id, limit, skip) {
-        return Promise.all([reservationModel.find({ _id }).limit(limit).skip(skip).lean().exec(), reservationModel.find({ _id }).count().lean().exec()])
-    },
-
-    getReseravtionsbyBikeId(bikeId, limit, skip) {
-        return Promise.all([reservationModel.find({ bikeId }).limit(limit).skip(skip).lean().exec(), reservationModel.find({ bikeId }).count().lean().exec()])
+    getBikeReservations(bikeId, limit, skip) {
+        return Promise.all([reservationModel.find({ bikeId }).limit(limit).skip(skip).lean().populate('userId').exec(), reservationModel.find({ bikeId }).count().lean().exec()])
+        .then(([items, count]) => ({ items, count }))
     },
 
     // getReseravtionsForDate(startDate, endDate, limit, skip) {

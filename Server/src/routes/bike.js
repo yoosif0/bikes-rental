@@ -57,12 +57,8 @@ module.exports = {
     },
 
     getByLocationAndFilterExcludingReservedBikes(req, res, next) {
-        return reservationDb.getClashedReseravtionsForDateRange(req.query.startDate, req.query.endDate)
-            .then(reservations => {
-                const reservedBikes = reservations.length ? reservations.map(item => item.bikeId) : null
-                return bikeDb.getByLocationAndFilterExcludingReservedBikes(reservedBikes, req.query.model, req.query.color,
-                     Number(req.query.maxWeight), Number(req.query.minWeight), Number(req.query.longitude), Number(req.query.latitude))
-            })
+        return bikeDb.getByLocationAndFilterExcludingReservedBikes([], req.query.model, req.query.color,
+                     Number(req.query.maxWeight), Number(req.query.minWeight), Number(req.query.longitude), Number(req.query.latitude), Number(req.query.avgRate))
             .then(bikes => {
                 return res.status(200).json(bikes)
             })
@@ -74,7 +70,7 @@ module.exports = {
             .then(reservations => {
                 const reservedBikes = reservations.length ? reservations.map(item => item.bikeId) : null
                 return bikeDb.getWithPaginationAndRatingExcludingReservedBikes(reservedBikes, req.query.model, req.query.color,
-                    Number(req.query.maxWeight), Number(req.query.minWeight), 10, Number(req.query.skip || 0))
+                    Number(req.query.maxWeight), Number(req.query.minWeight), 10, Number(req.query.skip || 0), Number(req.query.avgRate))
             })
             .then(bikes => {
                 return res.status(200).json(bikes)

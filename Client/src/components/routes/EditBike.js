@@ -5,6 +5,7 @@ import { ApiService } from '../../services/data.service';
 import Dropzone from 'react-dropzone'
 import { toast } from 'react-toastify';
 import { s3Url } from '../../config/constants';
+import { PageContentLayout } from '../layout/PageContentLayout';
 
 export default class EditBike extends React.Component {
 	constructor(props) {
@@ -37,27 +38,20 @@ export default class EditBike extends React.Component {
 
 	render() {
 		return (
-			<div>
-				{
-					this.state.bike.model ?
-						<div>
-							<div className="row">
-								<div className="col-md-6 mb-4">
-									{this.state.bike.imageName && <img style={{ maxHeight: "250px" }} alt="bike" src={s3Url + this.state.bike.imageName}></img>}
-								</div>
-
-								<Dropzone onDrop={this.onDrop}>
-									{this.state.bike.imageName ? 'Change' : 'Add'} image by clicking here or just drop it here
+			<PageContentLayout isRendering={this.state.bike.model} unAvailabilityText="Waiting">
+				<div>
+					<div className="row">
+						<div className="col-md-6 mb-4">
+							{this.state.bike.imageName && <img style={{ maxHeight: "250px" }} alt="bike" src={s3Url + this.state.bike.imageName}></img>}
+						</div>
+						<Dropzone onDrop={this.onDrop}>
+							{this.state.bike.imageName ? 'Change' : 'Add'} image by clicking here or just drop it here
 								</Dropzone>
 
-							</div>
-
-							<EnhancedBikeForm bike={this.state.bike} />
-						</div>
-						:
-						<p>Waiting</p>
-				}
-			</div>
+					</div>
+					<EnhancedBikeForm bike={this.state.bike} />
+				</div>
+			</PageContentLayout>
 		)
 	}
 }

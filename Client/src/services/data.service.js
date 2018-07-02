@@ -62,15 +62,20 @@ export const ApiService = {
         const params = {skip: skip.toString()}
         return axios.get('myPreviouslyUsedBikes', { params , headers: getAuthHeaders()})
     },
-    
-    getMyPastReservations({ skip = 0 }) {
+
+    getBikeReservations(bikeId, {skip}) {
         const params = {skip: skip.toString()}
-        return axios.get('myReservations/past', { params,  headers: getAuthHeaders() })
+        return axios.get(`bikeReservations/${bikeId}`, { params, headers: getAuthHeaders() })
     },
 
-    getMyUpcomingReservations({ skip = 0 }) {
+    getPastReservations(userId, { skip = 0 }) {
         const params = {skip: skip.toString()}
-        return axios.get('myReservations/upcoming', { params,  headers: getAuthHeaders() })
+        return axios.get(`reservations/past/${userId}`, { params,  headers: getAuthHeaders() })
+    },
+
+    getUpcomingReservations(userId, { skip = 0 }) {
+        const params = {skip: skip.toString()}
+        return axios.get(`reservations/upcoming/${userId}`, { params,  headers: getAuthHeaders() })
     },
 
     reserveBike(bikeId, startDate, endDate) {
@@ -84,6 +89,7 @@ export const ApiService = {
     rateBike(bikeId, rate){
         return axios.post(`ratings/${bikeId}/${rate}`, {}, { headers: getAuthHeaders()})
     },
+
 
     getBikesWithPagination({ skip, filter }) {
         const params = this._getBikeParams(filter)
@@ -123,6 +129,9 @@ export const ApiService = {
         }
         if (filter.latitude) {
             params['latitude'] = filter.latitude
+        }
+        if (filter.avgRate) {
+            params['avgRate'] = filter.avgRate
         }
         return params
     },

@@ -1,9 +1,10 @@
 import React from 'react'
 import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
-import ReactPaginate from 'react-paginate';
 import Title from '../text/Title';
 import { UsersTable } from '../tables/UsersTable';
+import { PaginationContainer } from '../pagination/PaginationContainer';
+import { PageContentLayout } from '../layout/PageContentLayout';
 
 export class UsersListing extends React.Component {
     constructor(props) {
@@ -12,11 +13,10 @@ export class UsersListing extends React.Component {
     }
 
     componentDidMount() {
-        this.fetchUsers()
-
+        this.fetchData()
     }
 
-    fetchUsers() {
+    fetchData() {
         ApiService.getUsers({ skip: this.state.skip }).then(x => {
             this.setState({ ...this.state, users: x.users, pageCount: x.count / 10 })
         }).catch(err => {
@@ -28,7 +28,7 @@ export class UsersListing extends React.Component {
         let selected = data.selected;
         let skip = Math.ceil(selected * 10);
         this.setState({ skip }, () => {
-            this.fetchUsers();
+            this.fetchData();
         });
     };
 
@@ -43,21 +43,11 @@ export class UsersListing extends React.Component {
     render() {
         return (
             <React.Fragment>
-            <Title> Users </Title>
-            <div id="react-paginate">
-                <UsersTable users={this.state.users} onDeleteClick={this.onDelete} />
-                <ReactPaginate previousLabel={"previous"}
-                    nextLabel={"next"}
-                    breakLabel={<a href="">...</a>}
-                    breakClassName={"break-me"}
-                    pageCount={this.state.pageCount}
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={this.handlePageClick}
-                    containerClassName={"pagination"}
-                    subContainerClassName={"pages pagination"}
-                    activeClassName={"active"} />
-            </div >
+                <Title> Users </Title>
+                <PageContentLayout isRendering={this.state.users.length} unAvailabilityText="No users">
+                    <UsersTable users={this.state.users} onDeleteClick={this.onDelete} />
+                    <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
+                </PageContentLayout>
             </React.Fragment>
 
 
