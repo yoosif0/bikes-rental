@@ -5,9 +5,12 @@ import Title from '../text/Title';
 import { MyPreviouslyUsedBikesTable } from '../tables/BikesTable/MyPreviouslyUsedBikesTable';
 import { PaginationContainer } from '../pagination/PaginationContainer';
 import { PageContentLayout } from '../layout/PageContentLayout';
+import { connect } from 'react-redux';
 
+const mapStateToProps = state => ({ isNeedingUpdate: state.bikesStore.isNeedingUpdate })
+const mapDispatchToProps = dispatch => ({ updated: () => dispatch({ type: 'BIKES_UPDATED' }) })
 
-export class MyPreviouslyUsedBikes extends React.Component {
+export class PMyPreviouslyUsedBikes extends React.Component {
     constructor(props) {
         super(props);
         this.state = { bikesDetails: [], skip: 0 };
@@ -15,9 +18,16 @@ export class MyPreviouslyUsedBikes extends React.Component {
     componentDidMount() {
         this.fetchData()
     }
+    
+    UNSAFE_componentWillReceiveProps(c) {
+        if (c.isNeedingUpdate) {
+            this.fetchData()
+        }
+    }
 
     fetchData() {
         ApiService.getMyPreviouslyUsedBikes({ skip: this.state.skip }).then(x => {
+            this.props.updated()
             this.setState({ bikesDetails: x.items, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data.msg)
@@ -40,3 +50,6 @@ export class MyPreviouslyUsedBikes extends React.Component {
     }
 
 }
+
+
+export const MyPreviouslyUsedBikes = connect(mapStateToProps, mapDispatchToProps)(PMyPreviouslyUsedBikes)

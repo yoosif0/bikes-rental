@@ -105,8 +105,8 @@ const renderNewPoints = (action$, state$) => {
 }
 
 const rateBike = (action$, state$) => {
-  return action$.ofType('UPDATE_RATE').mergeMap(q => from(ApiService.rateBike(action$.payload.bikeId, action$.payload.rate)))
-  .map(newPoints => ({ type: 'RENDER_NEW_BIKES', payload: newPoints }))
+  return action$.ofType('RATE_BIKE').mergeMap(q => from(ApiService.rateBike(q.payload.bikeId, q.payload.rate)))
+  .map(newPoints => ({ type: 'BIKES_RATING_OUT_OF_DATE', payload: newPoints }))
 }
 
 

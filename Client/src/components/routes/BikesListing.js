@@ -10,7 +10,8 @@ import { PaginationContainer } from '../pagination/PaginationContainer';
 import { PageContentLayout } from '../layout/PageContentLayout';
 
 
-const mapStateToProps = state => ({ isManager: state.authStoreState.role === 'manager' })
+const mapStateToProps = state => ({ isManager: state.authStoreState.role === 'manager', isNeedingUpdate: state.bikesStore.isNeedingUpdate })
+const mapDispatchToProps = dispatch => ({ updated: () => dispatch({ type: 'BIKES_UPDATED' }) })
 
 export class PBikesListing extends React.Component {
     constructor(props) {
@@ -19,6 +20,12 @@ export class PBikesListing extends React.Component {
     }
     componentDidMount() {
         this.fetchData()
+    }
+
+    UNSAFE_componentWillReceiveProps(c) {
+        if (c.isNeedingUpdate) {
+            this.fetchData()
+        }
     }
 
     fetchData() {
@@ -30,7 +37,8 @@ export class PBikesListing extends React.Component {
                 endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10) : null
             }
         }).then(x => {
-            this.setState({bikes: x.items, pageCount: x.count / 10, isTableHidden: false })
+            this.props.updated()
+            this.setState({ bikes: x.items, pageCount: x.count / 10, isTableHidden: false })
         }).catch(err => {
             toast.error(err.data.msg)
         })
@@ -38,12 +46,9 @@ export class PBikesListing extends React.Component {
 
     onDelete = (item) => {
         ApiService.deleteBike(item._id).then(x => {
-            this.setState((oldState)=>({ bikes: oldState.bikes.filter(bike => bike._id !== item._id) }))
+            this.setState((oldState) => ({ bikes: oldState.bikes.filter(bike => bike._id !== item._id) }))
         })
     }
-
-    // onPageChanged = );
-
 
     onFilterUpdated = (filter) => {
         this.setState({ filter })
@@ -91,4 +96,4 @@ export class PBikesListing extends React.Component {
 
 }
 
-export const BikesListing = connect(mapStateToProps, null)(PBikesListing)
+export const BikesListing = connect(mapStateToProps, mapDispatchToProps)(PBikesListing)
