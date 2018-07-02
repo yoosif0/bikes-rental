@@ -10,7 +10,7 @@ const ForgotPassword = ({history}) => (
   <div>
     <Title> ForgotPassword </Title>
     <EnhancedForgotPasswordForm />
-    <Button className="mt-4" color="default"onClick={()=>history.push('recoveryCode')}>Go to Recovery Code </Button>
+    <Button className="pull-right" color="link" onClick={()=>history.push('recoveryCode')}>Received Recovery Code Already? </Button>
   </div>
 );
 

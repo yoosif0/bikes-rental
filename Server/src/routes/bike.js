@@ -33,21 +33,21 @@ module.exports = {
     },
 
     signImage(req, res) {
-        const filename = req.query.bikeId + req.query.objectName;
+        // const filename = ;
         // const mimeType = req.query.contentType;
         // const ext = '.' + findType(mimeType);
         // const fileKey = filename;
-
-
         const params = {
             Bucket: s3Config.BUCKET,
-            Key: filename,
+            Key: req.query.imageName,
             Expires: 600,
             ACL: 'public-read-write'
         };
+        return s3.getSignedUrl('putObject', params, (err, data) => (err) ? res.send(500, "Cannot create S3 signed URL"): res.json(data))
+    },
 
-        return s3.getSignedUrl('putObject', params, (err, data) => (err) ? res.send(500, "Cannot create S3 signed URL") :
-            bikeDb.updateBikeImage(req.query.bikeId, filename).then((x) => res.json(data)).catch(err => res.status(400).json(err)))
+    updateBikeImage(req, res, next) {
+        bikeDb.updateBikeImage(req.query.bikeId, req.query.imageName).then((x)=>res.status(200).json(x)).catch(err => next(err))
     },
 
     getBikes(req, res, next) {

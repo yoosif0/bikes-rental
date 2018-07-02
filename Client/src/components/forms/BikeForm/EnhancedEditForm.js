@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 
 export const EnhancedBikeForm = withFormik({
 	mapPropsToValues: props => {
-		return { model: props.bike.model, color: props.bike.color, weight: props.bike.weight, latitude: props.bike.location.coordinates[0], 
-			longitude: props.bike.location.coordinates[1],  }
+		return { model: props.bike.model, color: props.bike.color, weight: props.bike.weight, longitude: props.bike.location.coordinates[0], 
+			latitude: props.bike.location.coordinates[1],  }
 	},
 	validationSchema: bikeFormSchema,
 	mapValuesToPayload: x => {

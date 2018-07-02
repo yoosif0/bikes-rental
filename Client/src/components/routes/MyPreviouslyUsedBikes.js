@@ -3,9 +3,10 @@ import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import Title from '../text/Title';
-import { BikesTableForRating } from '../tables/BikesTable/BikesTableForRating';
+import { MyPreviouslyUsedBikesTable } from '../tables/BikesTable/MyPreviouslyUsedBikesTable';
 
-export class MyRatings extends React.Component {
+
+export class MyPreviouslyUsedBikes extends React.Component {
     constructor(props) {
         super(props);
         this.state = { bikesDetails: [], skip: 0 };
@@ -42,20 +43,25 @@ export class MyRatings extends React.Component {
         return (
             <React.Fragment>
                 <Title> My Previously Used Bikes </Title>
-                <div id="react-paginate">
-                    <BikesTableForRating bikesDetails={this.state.bikesDetails} onRateClick={this.onRate} />
-                    <ReactPaginate previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={<a href="">...</a>}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
-                </div >
+                {
+                    this.state.bikesDetails.length ?
+                        <div id="react-paginate">
+                            <MyPreviouslyUsedBikesTable bikesDetails={this.state.bikesDetails} onRateClick={this.onRate} />
+                            <ReactPaginate previousLabel={"previous"}
+                                nextLabel={"next"}
+                                breakLabel={<a href="">...</a>}
+                                breakClassName={"break-me"}
+                                pageCount={this.state.pageCount}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick}
+                                containerClassName={"pagination"}
+                                subContainerClassName={"pages pagination"}
+                                activeClassName={"active"} />
+                        </div >
+                        :
+                        <p> No reservations </p>
+                }
             </React.Fragment>
 
 

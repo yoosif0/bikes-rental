@@ -1,4 +1,4 @@
-import store from '../../stores/configureStore';
+import store from '../stores/configureStore';
 
 const popupTemplate = {
     actions: [],
@@ -26,7 +26,6 @@ export const graphicsService = {
     setGraphicsFromData(data) {
         const esriStore = store.getState().esriStore
         const newGraphics = data.map((bike, index) => {
-            console.log(String(bike.weight))
             return new esriStore.Graphic({
                 geometry: {
                     type: 'point',

@@ -9,7 +9,7 @@ const Login = ({history}) => (
   <div>
     <Title> Login </Title>
     <EnhancedLoginForm />
-    <Button className="mt-4" color="default"onClick={()=>history.push('forgotPassword')}>Forgot Password </Button>
+    <Button className="pull-right" color="link" onClick={()=>history.push('forgotPassword')}>Forgot Password </Button>
   </div>
 );
 

@@ -1,11 +1,8 @@
 import React from 'react'
-// import * as ReactDOM from 'react-dom';
-// import { Map } from 'react-arcgis';
-// import { graphicsService } from './graphicsSevice';
-// import { assignMapEventHandlers, addUIWidgets } from './map-ui-widgets';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
+import Title from '../text/Title';
 
 
 const mapStateToProps = state => ({ filter: state.esriStore.filter })
@@ -23,7 +20,8 @@ export class Com extends React.Component {
     render() {
         return (
             <React.Fragment>
-            <div className="container mb-4">
+                <Title> Map </Title>
+            <div className="mb-4">
                 <EnhancedBikeFilterForm filter={this.props.filter} filterUpdated={this.props.filterBikes}/>
             </div>
             <div className="mb-4" id="viewMap" style={{ height: `780px` }}></div>

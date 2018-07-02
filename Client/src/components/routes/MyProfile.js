@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import {EnhancedEditProfileForm} from '../forms/ProfileForm/EnhancedEditProfileForm';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
+import Title from '../text/Title';
 
 
 const mapStateToProps = state => ({id: state.authStoreState.id})
@@ -31,6 +32,7 @@ class Com extends React.Component {
         return (
             this.state.profile ?
             <div>
+                <Title> My Profile </Title>
                 <EnhancedEditProfileForm profile={this.state.profile}/>
                 <Button className="mt-4" color="default"onClick={()=>this.props.history.push('changeMyPasswordUsingOldPassword')}>Change My Password </Button>
             </div>

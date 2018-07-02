@@ -1,16 +1,18 @@
 
 import axios from 'axios';
 import store from '../stores/configureStore';
-const setAuthHeaders = () => axios.defaults.headers.common['Authorization'] = `Bearer ${store.getState().authStoreState.token}`
+// const setAuthHeaders = () => axios.defaults.headers.common['Authorization'] = `Bearer ${store.getState().authStoreState.token}`
+
+const getAuthHeaders = () => ({Authorization: `Bearer ${store.getState().authStoreState.token}`})
 
 
 axios.defaults.baseURL = 'http://localhost:3001/api'
 axios.interceptors.response.use(res => res.data, err => Promise.reject(err.response));
-setAuthHeaders()
+// setAuthHeaders()
 
-store.subscribe(() => {
-    setAuthHeaders()
-})
+// store.subscribe(() => {
+//     setAuthHeaders()
+// })
 
 
 export const ApiService = {
@@ -19,89 +21,81 @@ export const ApiService = {
         return axios.post('users/login', item)
     },
 
-    signUrl(file, id) {
-        return axios.get(`s3/sign?objectName=${file.name}&contentType=${file.type}&bikeId=${id}`)
+    signUrl(name) {
+        return axios.get(`s3/sign?imageName=${name}`, { headers: getAuthHeaders()})
     },
 
     uploadImage(url, file) {
-        return axios.put(url, file)
+        var instance = axios.create();
+        instance.defaults.headers.common = {};
+        // delete axios.defaults.headers.common["Authorization"];
+        return instance.put(url, file)
+    },
+
+    saveImageReferenceToOurBackend(bikeId, imageName){
+        return axios.put(`/bikeImageRef?bikeId=${bikeId}&imageName=${imageName}`, {}, { headers: getAuthHeaders()})
     },
 
     signup(item) {
-        return axios.post('users', item)
-    },
-
-    signupSecurely(item) {
-        return axios.post('users/secure', item)
-    },
-
-    activateFromBackEnd(code, email) {
-        return axios.post('activation', { code, email })
+        return axios.post('users', item, { headers: getAuthHeaders()})
     },
 
     editUser(id, data) {
-        return axios.put(`users/${id}/info`, data)
+        return axios.put(`users/${id}/info`, data, {headers: getAuthHeaders() })
     },
 
     editMyProfile(id, data) {
-        return axios.put(`users/${id}/info`, data)
+        return axios.put(`users/${id}/info`, data, { headers: getAuthHeaders()})
     },
 
     deleteUser(id) {
-        return axios.delete(`users/${id}`)
+        return axios.delete(`users/${id}`, { headers: getAuthHeaders()})
     },
 
     getUsers({ skip = 0, searchTerm = '', roleFilter = '' }) {
         const params = {}
         params.skip = skip.toString()
-        return axios.get('users', { params })
+        return axios.get('users', { params, headers: getAuthHeaders()  })
     },
-
-    // getMyReservations({ skip = 0 }) {
-    //     const params = {}
-    //     params.skip = skip.toString()
-    //     return axios.get('reservations', { params })
-    // },
-
     
     getMyPreviouslyUsedBikes({ skip = 0 }) {
         const params = {skip: skip.toString()}
-        return axios.get('myPreviouslyUsedBikes', { params })
+        return axios.get('myPreviouslyUsedBikes', { params , headers: getAuthHeaders()})
     },
     
     getMyPastReservations({ skip = 0 }) {
         const params = {skip: skip.toString()}
-        return axios.get('myReservations/past', { params })
+        return axios.get('myReservations/past', { params,  headers: getAuthHeaders() })
     },
 
     getMyUpcomingReservations({ skip = 0 }) {
         const params = {skip: skip.toString()}
-        return axios.get('myReservations/upcoming', { params })
+        return axios.get('myReservations/upcoming', { params,  headers: getAuthHeaders() })
     },
 
     reserveBike(bikeId, startDate, endDate) {
-        return axios.post('reservations', {bikeId, startDate, endDate})
+        return axios.post('reservations', {bikeId, startDate, endDate}, { headers: getAuthHeaders()})
     },
 
     cancelReservation(reservationId){
-        return axios.delete(`reservations/${reservationId}`)
+        return axios.delete(`reservations/${reservationId}`, { headers: getAuthHeaders()})
     },
 
     rateBike(bikeId, rate){
-        return axios.post(`ratings/${bikeId}/${rate}`)
+        return axios.post(`ratings/${bikeId}/${rate}`, {}, { headers: getAuthHeaders()})
     },
 
     getBikesWithPagination({ skip, filter }) {
         const params = this._getBikeParams(filter)
         params.skip = skip.toString()
-        return axios.get('bikesWithPagination', { params })
+        return axios.get('bikesWithPagination', { params, headers: getAuthHeaders() })
     },
 
     getBikesByLocation({longitude, latitude, filter }) {
         filter.longitude = longitude
         filter.latitude = latitude
         const params = this._getBikeParams(filter)
-        return axios.get(`bikesByLocation`, {params})
+        return axios.get(`bikesByLocation`, {params,  headers: getAuthHeaders()})
     },
 
     _getBikeParams(filter) {
@@ -135,25 +129,25 @@ export const ApiService = {
 
 
     getBike(id) {
-        return axios.get('bikes/' + id)
+        return axios.get('bikes/' + id, { headers: getAuthHeaders()})
     },
 
     getUser(userId) {
-        return axios.get(`users/${userId}`)
+        return axios.get(`users/${userId}`, { headers: getAuthHeaders()})
     },
 
 
 
     addBike(data) {
-        return axios.post(`bikes`, data)
+        return axios.post(`bikes`, data, { headers: getAuthHeaders()})
     },
 
     editBike(id, data) {
-        return axios.put(`bikes/${id}`, data)
+        return axios.put(`bikes/${id}`, data, { headers: getAuthHeaders()})
     },
 
     deleteBike(bikeId) {
-        return axios.delete(`bikes/${bikeId}`)
+        return axios.delete(`bikes/${bikeId}`, { headers: getAuthHeaders()})
     },
 
     forgottenPassword(email) {
@@ -165,11 +159,11 @@ export const ApiService = {
     },
 
     changePasswordUsingOldPassword({ oldPassword, newPassword }) {
-        return axios.patch('password', { oldPassword, newPassword })
+        return axios.patch('password', { oldPassword, newPassword }, { headers: getAuthHeaders()})
     },
 
     changeOtherUserPassword(id, newPassword) {
-        return axios.patch(`users/${id}/password`, { newPassword })
+        return axios.patch(`users/${id}/password`, { newPassword }, { headers: getAuthHeaders()})
     },
 
 }

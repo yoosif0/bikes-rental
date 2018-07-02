@@ -78,7 +78,7 @@ module.exports = {
 
     updateBike(_id, model, weight, color, latitude, longitude) {
         const location = {
-            coordinates: [latitude, longitude],
+            coordinates: [longitude, latitude ],
             type: 'Point',
         }
         return bikeModel.findOneAndUpdate({ _id }, { model, weight, color, location }, { new: true }).select('-__v')

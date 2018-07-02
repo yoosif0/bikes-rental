@@ -5,7 +5,7 @@ import { unPersistMyInfo } from '../../services/localStorage';
 import { compose } from 'redux';
 
 const NavBarLink = ({ to, label }) => (
-    <li className="nav-item">
+    <li className="nav-item" style={{marginRight:'20px'}}>
         <NavLink activeClassName="active" to={to} className="nav-link">{label}</NavLink>
     </li>
 )
@@ -28,8 +28,7 @@ export const PNavbar = ({ isManager, isAuthenticated, logout }) => (
                             <NavBarLink to='/map' label="Map" />
                             <NavBarLink to='/myUpcomingReservations' label="My Upcoming Reservations" />
                             <NavBarLink to='/myPastReservations' label="My Past Reservations" />
-                            <NavBarLink to='/myRatings' label="My Ratings" />
-                            <NavBarLink to='/addBike' label="Add new Bike" />
+                            <NavBarLink to='/myPreviouslyUsedBikes' label="My Previously Used Bikes" />
                         </React.Fragment>
                         :
                         <React.Fragment>
@@ -37,7 +36,12 @@ export const PNavbar = ({ isManager, isAuthenticated, logout }) => (
                             <NavBarLink to='/signup' label="Signup" />
                         </React.Fragment>
                 }
-                {isManager && <NavBarLink to='/users' label="Users" />}
+                {isManager &&
+                    <React.Fragment>
+                        <NavBarLink to='/addBike' label="Add new Bike" />
+                        <NavBarLink to='/users' label="Users" />
+                    </React.Fragment>
+                }
             </ul>
             {
                 isAuthenticated &&

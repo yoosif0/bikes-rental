@@ -14,7 +14,7 @@ export const EnhancedRecoveryCodeForm = compose(
 	connect(mapStateToProps, {}),
 	withFormik({
 		mapPropsToValues: props => {
-			return { email: props.email || 'sharief@aucegypt.edu', newPassword: '1234567a', recoveryCode: '', confirmPassword: '1234567a' }
+			return { email: props.email || '', newPassword: '', recoveryCode: '', confirmPassword: '' }
 		},
 		validationSchema: recoveryCodeSchema,
 		handleSubmit: (values, { props, setSubmitting, setErrors }) => {

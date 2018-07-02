@@ -41,8 +41,9 @@ export class MyUpcomingReservations extends React.Component {
         return (
             <React.Fragment>
                 <Title> My Upcoming Reservations </Title>
-                <div id="react-paginate">
-
+                {
+                    this.state.reservations.length ? 
+                        <div id="react-paginate">
                     <ReservationsTable reservations={this.state.reservations} onCancelClick={this.onCancelReservation} />
                     <ReactPaginate previousLabel={"previous"}
                         nextLabel={"next"}
@@ -55,7 +56,10 @@ export class MyUpcomingReservations extends React.Component {
                         containerClassName={"pagination"}
                         subContainerClassName={"pages pagination"}
                         activeClassName={"active"} />
-                </div >
+                      </div >
+                        :
+                        <p> No reservations </p>
+                }
             </React.Fragment>
 
 

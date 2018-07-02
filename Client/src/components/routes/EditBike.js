@@ -24,15 +24,13 @@ export default class EditBike extends React.Component {
 	}
 
 	onDrop = (files) => {
-		return ApiService.signUrl(files[0], this.state.bike._id).then((url) => {
-			return ApiService.uploadImage(url, files[0]).then((response) => {
-				this.setState({
-					statusCode: response.status,
-				});
-			});
-		})
+		const imageName = this.state.bike._id + files[0].name
+		return ApiService.signUrl(imageName)
+			.then((url) => ApiService.uploadImage(url, files[0]))
+			.then(() => ApiService.saveImageReferenceToOurBackend(this.state.bike._id, imageName))
+			.then(() => this.fetchBike())
 			.catch(err => {
-				toast.error(err)
+				toast.error(err.data.msg)
 			});
 	};
 
@@ -43,11 +41,16 @@ export default class EditBike extends React.Component {
 				{
 					this.state.bike.model ?
 						<div>
-							<Dropzone onDrop={this.onDrop} >
-								{
-									this.state.bike.imageName ? <img style={{ maxHeight: "170px" }} alt="bike" src={s3Url+this.state.bike.imageName}></img> : <p>Add an image.</p>
-								}
-							</Dropzone>
+							<div className="row">
+								<div className="col-md-6 mb-4">
+									{this.state.bike.imageName && <img style={{ maxHeight: "250px" }} alt="bike" src={s3Url + this.state.bike.imageName}></img>}
+								</div>
+
+								<Dropzone onDrop={this.onDrop}>
+									{this.state.bike.imageName ? 'Change' : 'Add'} image by clicking here or just drop it here
+								</Dropzone>
+
+							</div>
 
 							<EnhancedBikeForm bike={this.state.bike} />
 						</div>

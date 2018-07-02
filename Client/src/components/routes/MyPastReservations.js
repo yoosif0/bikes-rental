@@ -35,21 +35,25 @@ export class MyPastReservations extends React.Component {
         return (
             <React.Fragment>
                 <Title> My Past Reservations </Title>
-                <div id="react-paginate">
-                    <ReservationsTable reservations={this.state.reservations} />
-                    <ReactPaginate previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={<a href="">...</a>}
-                        breakClassName={"break-me"}
-                        pageCount={this.state.pageCount}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={this.handlePageClick}
-                        containerClassName={"pagination"}
-                        subContainerClassName={"pages pagination"}
-                        activeClassName={"active"} />
-
-                </div >
+                {
+                    this.state.reservations.length ? 
+                        <div id="react-paginate">
+                            <ReservationsTable reservations={this.state.reservations} />
+                            <ReactPaginate previousLabel={"previous"}
+                                nextLabel={"next"}
+                                breakLabel={<a href="">...</a>}
+                                breakClassName={"break-me"}
+                                pageCount={this.state.pageCount}
+                                marginPagesDisplayed={2}
+                                pageRangeDisplayed={5}
+                                onPageChange={this.handlePageClick}
+                                containerClassName={"pagination"}
+                                subContainerClassName={"pages pagination"}
+                                activeClassName={"active"} />
+                        </div >
+                        :
+                        <p> No reservations </p>
+                }
             </React.Fragment>
 
 

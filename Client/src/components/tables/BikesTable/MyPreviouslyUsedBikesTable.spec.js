@@ -1,12 +1,11 @@
 import renderer from 'react-test-renderer';
-import {BikesTableForRating} from './BikesTableForRating';
 import React from 'react'
+import { MyPreviouslyUsedBikesTable } from './MyPreviouslyUsedBikesTable';
 
 
-
-describe('BikesTableForRating', () => {
+describe('MyPreviouslyUsedBikesTable', () => {
   it('should match snapshot', () => {
-    const tree = renderer.create(<BikesTableForRating 
+    const tree = renderer.create(<MyPreviouslyUsedBikesTable 
         bikesDetails={[{rate: 4, bike:{model: 'as', color: 'red', _id: 'aa'}}]}
         areReservationsAllowed = {true}
         onAddClick = {()=>{}}

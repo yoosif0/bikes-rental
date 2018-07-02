@@ -16,7 +16,7 @@ import { from, Observable, Subject } from 'rxjs';
 import { loadModules } from 'react-arcgis';
 import store from '../stores/configureStore';
 import { ApiService } from '../services/data.service';
-import { graphicsService } from '../components/routes/graphicsSevice';
+import { graphicsService } from '../services/graphicsSevice';
 
 
 const pingEpic = action$ =>
