@@ -30,6 +30,17 @@ export const graphicsService = {
     setGraphicsFromData(data) {
         const esriStore = store.getState().esriStore
         const newGraphics = data.map((bike, index) => {
+            const attributes= {
+                'Model': bike.model,
+                'Color': bike.color,
+                'Weight': bike.weight + ' kg',
+                'Average Rate': bike.avgRate || 'Not rated',
+                'Available': bike.isAvailable ? 'Yes' : 'No'
+            }
+            if (store.getState().authStoreState.role==='regular'){
+                popupTemplate.content[0].fieldInfos = popupTemplate.content[0].fieldInfos.filter(x=>x.fieldName!== 'Available')
+                delete attributes['Available']
+            } 
             return new esriStore.Graphic({
                 geometry: {
                     type: 'point',
@@ -41,13 +52,7 @@ export const graphicsService = {
                     color: colorRgbMapper[bike.color],
                     outline: { color: [255, 255, 255], width: 2 }
                 },
-                attributes: {
-                    'Model': bike.model,
-                    'Color': bike.color,
-                    'Weight': bike.weight + ' kg',
-                    'Average Rate': bike.avgRate || 'Not rated',
-                    'Available': bike.isAvailable ? 'Yes' : 'No'
-                },
+                attributes,
                 popupTemplate
             });
         })
@@ -73,7 +78,6 @@ export const graphicsService = {
             title: address ? address : 'No address was found for this location',
             location: mapPoint // Set the location of the popup to the clicked location
         });
-
         view.popup.content = '[' + lon + ', ' + lat + ']'
     }
 

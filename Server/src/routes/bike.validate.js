@@ -7,7 +7,8 @@ module.exports = {
             weight: Joi.number().required().label('weight'),
             color: Joi.string().required().label('color'),
             longitude: Joi.number().max(180).min(-180).required().label('longitude'),
-            latitude: Joi.number().max(90).min(-90).required().label('latitude')
+            latitude: Joi.number().max(90).min(-90).required().label('latitude'),
+            isAvailable: Joi.bool().required().label('isAvailable'),
         })
         return Joi.validate(req.body, schema, (err) => next(err))
     }

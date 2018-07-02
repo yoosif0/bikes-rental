@@ -30,7 +30,7 @@ export default class EditUser extends React.Component {
             <PageContentLayout isRendering={this.state.user.name} unAvailabilityText="Waiting">
                 <Title> Update User Info </Title>
                 <EnhancedUserForm user={this.state.user} />
-                <Button className="mt-4" color="default" onClick={() => this.props.history.push(`../changeOtherUserPassword/${this.state.user._id}`)}>Change {this.state.user.name} Password </Button>
+                <Button className="pull-right" color="link"  onClick={() => this.props.history.push(`../changeOtherUserPassword/${this.state.user._id}`)}>Change {this.state.user.name} Password </Button>
             </PageContentLayout>
         )
     }

@@ -4,7 +4,7 @@ import SubmitButton from '../../buttons/SubmitButton';
 import { Form, Field } from 'formik';
 import { InputFeedback } from '../../text/InputFeedback';
 
-export const InnerForm = ({ errors, touched, isSubmitting, dirty }) => (
+export const InnerForm = ({ values, errors, touched, isSubmitting, dirty }) => (
     <Form>
         <DefaultInput label="Model">
             <Field type="text" name="model" className="form-control" />
@@ -33,6 +33,9 @@ export const InnerForm = ({ errors, touched, isSubmitting, dirty }) => (
         <DefaultInput label="longitude">
             <Field type="number" name="longitude" className="form-control" />
             <InputFeedback error={touched.longitude && errors.longitude} />
+        </DefaultInput>
+        <DefaultInput label="Is Available">
+            <Field checked={values.isAvailable} type="checkbox" name="isAvailable" className="form-control"/>
         </DefaultInput>
         <SubmitButton disabled={!dirty || isSubmitting || Object.keys(errors).length} ></SubmitButton>
     </Form>

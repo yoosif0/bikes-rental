@@ -13,6 +13,7 @@ export const BasicTableHeaders = () => (
 
 export const AdminTableHeaders = () => (
     <React.Fragment>
+        <th>Available</th>
         <th className="text-center">Update</th>
         <th className="text-center">Bike Reservations</th>
         <th className="text-center">Delete</th>
@@ -30,14 +31,15 @@ export const BasicTableDescription = ({ item }) => (
         </td>
         <td>{item.model}</td>
         <td>{item.color}</td>
-        <td>{item.weight}</td>
+        <td >{item.weight}</td>
     </React.Fragment>
 )
 
 
 
-export const AdminTableDescriptionActions = ({ item, onDeleteClick }) => (
+export const AdminTableDescription = ({ item, onDeleteClick }) => (
     <React.Fragment>
+        <td className="text-center"> {item.isAvailable ? 'Yes' : 'No'} </td>
         <td className="text-center">
             <NavLink to={'/editBike/' + item._id} className="fa fa-edit text-warning" id="editButton"></NavLink>
         </td>

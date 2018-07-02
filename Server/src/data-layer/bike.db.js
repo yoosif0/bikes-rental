@@ -25,17 +25,17 @@ const aggregationStore = {
 //     })
 // }
 module.exports = {
-    createBike(model, weight, color, latitude, longitude) {
+    createBike(model, weight, color, latitude, longitude, isAvailable) {
         const location = {
             coordinates: [longitude, latitude],
             type: 'Point',
         }
-        const newBike = new bikeModel({ model, weight, color, location })
+        const newBike = new bikeModel({ model, weight, color, location, isAvailable })
         return newBike.save()
     },
 
-    getByLocationAndFilterExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, long, lat, avgRate) {
-        const query = getQuery(excludedIds, model, color, maxWeight, minWeight)
+    getByLocationAndFilterExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, long, lat, avgRate, isAvailable) {
+        const query = getQuery(excludedIds, model, color, maxWeight, minWeight, isAvailable)
         const aggregationArr = [
             {
                 $geoNear: {
@@ -43,12 +43,12 @@ module.exports = {
                     query,
                     near: { type: "Point", coordinates: [Number(long), Number(lat)] },
                     distanceField: "dist.calculated",
-                    maxDistance: 5000000,
+                    maxDistance: 50000000000000,
                     limit: 100000,
                 }
             },
             ...aggregationStore.ratingLookupAggregation,
-            { $match: getQuery(excludedIds, model, color, maxWeight, minWeight, avgRate) },
+            { $match: getQuery({excludedIds, model, color, maxWeight, minWeight, avgRate, isAvailable}) },
             { $limit: 20 }
 
             
@@ -56,9 +56,9 @@ module.exports = {
         return bikeModel.aggregate(aggregationArr)
     },
 
-    getWithPaginationAndRatingExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip, avgRate) {
+    getWithPaginationAndRatingExcludingReservedBikes(excludedIds, model, color, maxWeight, minWeight, limit, skip, avgRate, isAvailable) {
         const basicBikeAggregation = [
-            { $match: getQuery(excludedIds, model, color, maxWeight, minWeight, avgRate) },
+            { $match: getQuery({excludedIds, model, color, maxWeight, minWeight, avgRate, isAvailable}) },
         ]
         const paginatedDetailedAggregation = [
             ...aggregationStore.ratingLookupAggregation,
@@ -83,12 +83,12 @@ module.exports = {
         return bikeModel.find({ _id }).remove()
     },
 
-    updateBike(_id, model, weight, color, latitude, longitude) {
+    updateBike(_id, model, weight, color, latitude, longitude, isAvailable) {
         const location = {
             coordinates: [longitude, latitude ],
             type: 'Point',
         }
-        return bikeModel.findOneAndUpdate({ _id }, { model, weight, color, location }, { new: true }).select('-__v')
+        return bikeModel.findOneAndUpdate({ _id }, { model, weight, color, location, isAvailable }, { new: true }).select('-__v')
     },
 
     updateBikeImage(_id, imageName) {
@@ -103,7 +103,7 @@ module.exports = {
 
 }
 
-function getQuery(excludedIds, model, color, maxWeight, minWeight, avgRate) {
+function getQuery({excludedIds, model, color, maxWeight, minWeight, avgRate, isAvailable}) {
     const query = {}
     if (model) {
         query.model = { $regex: RegExp(`.*${model}.*`) }
@@ -119,6 +119,9 @@ function getQuery(excludedIds, model, color, maxWeight, minWeight, avgRate) {
     }
     if (avgRate) {
         query.avgRate = { $gte: avgRate }
+    }
+    if (isAvailable) {
+        query.isAvailable = true;
     }
     return query
 }

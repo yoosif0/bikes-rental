@@ -35,13 +35,13 @@ router.get('/users/:id', verifyUser, Authorize.allowSelfAndManager, user.getUser
 // router.patch('/users/:id/role', verifyUser, validateUpdateRole, Authorize.preventRegularUsers, updateUserRole)
 
 // router.get('/bikes', verifyUser, Authorize.preventRegularUsers, bike.getBikes)
-router.get('/bikesByLocation', verifyUser,bike.getByLocationAndFilterExcludingReservedBikes)
-router.get('/bikesWithPagination', verifyUser, bike.getWithPaginationExcludingReservedBikes)
+router.get('/bikesByLocation', verifyUser, Authorize.showOnlyAvailableBikesForRegularUsers, bike.getByLocationAndFilterExcludingReservedBikes)
+router.get('/bikesWithPagination', verifyUser, Authorize.showOnlyAvailableBikesForRegularUsers, bike.getWithPaginationExcludingReservedBikes)
 
 router.get('/bikes/:bikeId', verifyUser, Authorize.preventRegularUsers, bike.getBike)
 // router.get('/bikes/:id', verifyUser, Authorize.allowSelfAndManager, getBike);
 router.post('/bikes', verifyUser, validateBike.bikeFormSchema, Authorize.preventRegularUsers, bike.addBike)
-router.delete('/bikes/:bikeId',  verifyUser, Authorize.preventRegularUsers,  bike.deleteBike)
+router.delete('/bikes/:bikeId', verifyUser, Authorize.preventRegularUsers, bike.deleteBike)
 router.put('/bikes/:bikeId', verifyUser, validateBike.bikeFormSchema, Authorize.preventRegularUsers, bike.updatebike)
 
 // router.get('/myReservations', verifyUser, reservations.getMyReservations)
@@ -53,7 +53,7 @@ router.get('/bikeReservations/:bikeId', verifyUser, Authorize.preventRegularUser
 
 router.get('/myPreviouslyUsedBikes', verifyUser, reservations.getMyPreviouslyUsedBikes)
 
-router.put('/bikeImageRef', verifyUser, Authorize.preventRegularUsers, bike.updateBikeImage )
+router.put('/bikeImageRef', verifyUser, Authorize.preventRegularUsers, bike.updateBikeImage)
 
 
 router.get('/reservationsForBike', verifyUser, reservations.getReservationsForBike)

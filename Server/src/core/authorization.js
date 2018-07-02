@@ -1,6 +1,5 @@
 const ROLES = require('config/rolesConstants')
 const errorMessageWrapper = require('services/utility').errorMessageWrapper
-const db = require('data-layer/user.db')
 
 
 function preventRegularUsers(req, res, next) {
@@ -18,6 +17,13 @@ function allowSelfAndManager(req, res, next) {
     }
 }
 
+function showOnlyAvailableBikesForRegularUsers(req, res, next){
+    if(req.decoded.role==='regular'){
+        req.query.isAvailable= true
+    }
+    next()
+}
 
-module.exports = { allowSelfAndManager, preventRegularUsers, }
+
+module.exports = { allowSelfAndManager, preventRegularUsers, showOnlyAvailableBikesForRegularUsers }
 

@@ -17,7 +17,7 @@ module.exports = {
         return bikeDb.deleteBike(req.params.bikeId).then(user => user ? res.status(200).json(successMessage) : next({ nF: 'Bike' })).catch(err => next(err))
     },
     addBike(req, res, next) {
-        return bikeDb.createBike(req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude)
+        return bikeDb.createBike(req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude, req.body.isAvailable)
             .catch(err => next(err)).then(res.status(200).json(successMessage))
     },
 
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     updatebike(req, res, next) {
-        return bikeDb.updateBike(req.params.bikeId, req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude).then((user) => {
+        return bikeDb.updateBike(req.params.bikeId, req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude, req.body.isAvailable).then((user) => {
             return user ? res.status(200).json(successMessage) : next({ nF: 'Bike' })
         }).catch(err => next(err))
     },
@@ -58,7 +58,8 @@ module.exports = {
 
     getByLocationAndFilterExcludingReservedBikes(req, res, next) {
         return bikeDb.getByLocationAndFilterExcludingReservedBikes([], req.query.model, req.query.color,
-                     Number(req.query.maxWeight), Number(req.query.minWeight), Number(req.query.longitude), Number(req.query.latitude), Number(req.query.avgRate))
+                     Number(req.query.maxWeight), Number(req.query.minWeight), Number(req.query.longitude), Number(req.query.latitude),
+                      Number(req.query.avgRate), req.query.isAvailable)
             .then(bikes => {
                 return res.status(200).json(bikes)
             })
@@ -70,7 +71,7 @@ module.exports = {
             .then(reservations => {
                 const reservedBikes = reservations.length ? reservations.map(item => item.bikeId) : null
                 return bikeDb.getWithPaginationAndRatingExcludingReservedBikes(reservedBikes, req.query.model, req.query.color,
-                    Number(req.query.maxWeight), Number(req.query.minWeight), 10, Number(req.query.skip || 0), Number(req.query.avgRate))
+                    Number(req.query.maxWeight), Number(req.query.minWeight), 10, Number(req.query.skip || 0), Number(req.query.avgRate), req.query.isAvailable)
             })
             .then(bikes => {
                 return res.status(200).json(bikes)

@@ -33,7 +33,7 @@ class Com extends React.Component {
             <PageContentLayout isRendering={this.state.profile} unAvailabilityText="Waiting">
                 <Title> My Profile </Title>
                 <EnhancedEditProfileForm profile={this.state.profile} />
-                <Button className="mt-4" color="default" onClick={() => this.props.history.push('changeMyPasswordUsingOldPassword')}>Change My Password </Button>
+                <Button className="pull-right" color="link" onClick={() => this.props.history.push('changeMyPasswordUsingOldPassword')}>Change My Password </Button>
             </PageContentLayout>
         )
     }

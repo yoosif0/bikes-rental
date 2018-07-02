@@ -3,7 +3,7 @@ import {
     BasicTableHeaders,
     AdminTableHeaders,
     BasicTableDescription,
-    AdminTableDescriptionActions
+    AdminTableDescription
 } from './BikesTableFragments';
 import { BikesTableLayout } from './BikesTableLayout';
 import { StarRatingTableDescription } from './StarRatingTableDescription';
@@ -28,7 +28,7 @@ const BikesTable = ({ bikes, areReservationsAllowed, onAddClick, onEditClick, on
                     <tr key={index}>
                         <BasicTableDescription item={item} />
                         <StarRatingTableDescription id={item._id} rate={item.avgRate} />
-                        {isManager && <AdminTableDescriptionActions item={item} onDeleteClick={onDeleteClick} />}
+                        {isManager && <AdminTableDescription item={item} onDeleteClick={onDeleteClick} />}
                         {
                             areReservationsAllowed && <td className="text-center">
                                 <a className="link" onClick={() => onReserveClick(item)}>

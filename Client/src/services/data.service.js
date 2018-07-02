@@ -1,19 +1,12 @@
 
 import axios from 'axios';
 import store from '../stores/configureStore';
-// const setAuthHeaders = () => axios.defaults.headers.common['Authorization'] = `Bearer ${store.getState().authStoreState.token}`
 
 const getAuthHeaders = () => ({Authorization: `Bearer ${store.getState().authStoreState.token}`})
 
 
 axios.defaults.baseURL = 'http://localhost:3001/api'
 axios.interceptors.response.use(res => res.data, err => Promise.reject(err.response));
-// setAuthHeaders()
-
-// store.subscribe(() => {
-//     setAuthHeaders()
-// })
-
 
 export const ApiService = {
 
@@ -144,8 +137,6 @@ export const ApiService = {
     getUser(userId) {
         return axios.get(`users/${userId}`, { headers: getAuthHeaders()})
     },
-
-
 
     addBike(data) {
         return axios.post(`bikes`, data, { headers: getAuthHeaders()})
