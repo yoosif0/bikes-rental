@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
 import Title from '../text/Title';
@@ -33,9 +32,3 @@ export class Com extends React.Component {
 }
 
 export const BikesMap = connect(mapStateToProps, mapDispatchToProps)(Com)
-
-Com.propTypes = {
-    loadEsriModules: PropTypes.func,
-    filterBikes: PropTypes.func,
-    filter: PropTypes.object
-}

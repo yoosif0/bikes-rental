@@ -29,6 +29,7 @@ export class PBikesListing extends React.Component {
     }
 
     fetchData() {
+        this.setState({loading: true})
         ApiService.getBikesWithPagination({
             skip: this.state.skip,
             filter: {
@@ -37,10 +38,12 @@ export class PBikesListing extends React.Component {
                 endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10) : null
             }
         }).then(x => {
+            this.setState({loading: true})
             this.props.updated()
-            this.setState({ bikes: x.items, pageCount: x.count / 10, isTableHidden: false })
+            this.setState({ bikes: x.items, pageCount: x.count / 10 })
         }).catch(err => {
-            toast.error(err.data?err.data.msg:'Error' || 'Error')
+            this.setState({loading: true})
+            toast.error(err.data ? err.data.msg : 'Error')
         })
     }
 
@@ -56,7 +59,7 @@ export class PBikesListing extends React.Component {
     }
 
     onDatesChange(startDate, endDate) {
-        this.setState({ startDate, endDate, isTableHidden: true })
+        this.setState({ startDate, endDate }, () => this.state.startDate && this.state.endDate ? this.fetchData() : null)
     }
 
     onReserve = (item) => {
@@ -80,9 +83,8 @@ export class PBikesListing extends React.Component {
                         onFocusChange={focusedInput => this.setState({ focusedInput })} // PropTypes.func.isRequired,
                     />
                 </div>
-
                 <EnhancedBikeFilterForm filter={this.state.filter} filterUpdated={this.onFilterUpdated} />
-                <PageContentLayout isRendering={!this.state.isTableHidden} unAvailabilityText="No reservations">
+                <PageContentLayout isRendering={true} unAvailabilityText="No reservations">
                     <BikesTable isManager={this.props.isManager} bikes={this.state.bikes} onDeleteClick={this.onDelete}
                         areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
                     <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
