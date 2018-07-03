@@ -9,7 +9,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 
 let recaptchaInstance;
 
-export const InnerForm = ({ values, errors, touched, isSubmitting, dirty, setFieldValue }) => {
+export const InnerForm = ({ errors, touched, isSubmitting, dirty, setFieldValue }) => {
     if(errors.recaptchaExpired){
         recaptchaInstance.reset();
         errors.recaptchaExpired = false

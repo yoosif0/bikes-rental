@@ -25,14 +25,18 @@ import { MyPreviouslyUsedBikes } from './components/routes/MyPreviouslyUsedBikes
 import { loadProgressBar } from 'axios-progress-bar';
 import 'axios-progress-bar/dist/nprogress.css';
 import { BikeReservations } from './components/routes/BikeReservations';
-
+import { ErrorBoundary } from './components/error/ErrorBoundary';
 
 class Appa extends React.Component {
+
+  
 
   render() {
 		loadProgressBar();
 
     return (
+      <ErrorBoundary>
+
       <BrowserRouter>
         <div>
           <Navbar />
@@ -62,6 +66,8 @@ class Appa extends React.Component {
           <ToastContainer />
         </div>
       </BrowserRouter>
+      </ErrorBoundary>
+
 
     )
   }

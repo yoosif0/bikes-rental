@@ -5,7 +5,7 @@ import SubmitButton from '../../buttons/SubmitButton';
 import { Form, Field } from 'formik';
 import { InputFeedback } from '../../text/InputFeedback';
 
-export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, dirty }) => (
+export const InnerForm = ({  errors, touched, isSubmitting, dirty }) => (
     <Form>
         <DefaultInput label="Name">
             <Field type="text" name="name" className="form-control" />

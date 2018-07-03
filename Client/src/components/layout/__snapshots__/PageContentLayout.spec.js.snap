@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageContentLayout should match snapshot 1`] = `
+Array [
+  " ",
+  <li>
+    Hey
+</li>,
+]
+`;

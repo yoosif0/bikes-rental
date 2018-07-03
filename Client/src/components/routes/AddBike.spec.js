@@ -10,5 +10,4 @@ describe('<AddBike />', () => {
     const wrapper = shallow(<AddBike />);
     expect(wrapper.find(EnhancedBikeForm).length).toBe(1);
   });
-
 });

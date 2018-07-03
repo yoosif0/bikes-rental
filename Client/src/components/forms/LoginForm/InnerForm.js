@@ -6,7 +6,7 @@ import SubmitButton from '../../buttons/SubmitButton';
 import { InputFeedback } from '../../text/InputFeedback';
 
 
-export const InnerForm = ({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, dirty }) => (
+export const InnerForm = ({  errors, touched, isSubmitting, dirty }) => (
     <Form>
         <DefaultInput label="Email">
             <Field type="text" name="email" className="form-control" />
