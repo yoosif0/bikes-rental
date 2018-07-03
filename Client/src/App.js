@@ -7,8 +7,6 @@ import AddBike from './components/routes/AddBike';
 import { connect } from 'react-redux';
 import {BikesListing} from './components/routes/BikesListing';
 import EditBike from './components/routes/EditBike';
-import PrivateRoute from './hoc/PrivateRoute';
-import ManagerPrivateRoute from './hoc/ManagerPrivateRoute';
 import EditUser from './components/routes/EditUser';
 import Signup from './components/routes/Signup';
 import {MyProfile} from './components/routes/MyProfile';
@@ -18,7 +16,6 @@ import PasswordRecoveredSuccessfully from './components/routes/PasswordRecovered
 import RecoveryCode from './components/routes/RecoveryCode';
 import ChangeMyPasswordUsingOldPassword from './components/routes/ChangeMyPasswordUsingOldPassword';
 import ChangeOtherUserPassword from './components/routes/ChangeOtherUserPassword';
-import { UsersListing } from './components/routes/UsersListing';
 import { PastReservations } from './components/routes/PastReservations';
 import { UpcomingReservations } from './components/routes/UpcomingReservations';
 import { MyPreviouslyUsedBikes } from './components/routes/MyPreviouslyUsedBikes';
@@ -26,11 +23,12 @@ import { loadProgressBar } from 'axios-progress-bar';
 import 'axios-progress-bar/dist/nprogress.css';
 import { BikeReservations } from './components/routes/BikeReservations';
 import { ErrorBoundary } from './components/error/ErrorBoundary';
+import { ManagerPrivateRoute } from './components/routing-utils/ManagerPrivateRoute';
+import { PrivateRoute } from './components/routing-utils/PrivateRoute';
+import { UsersListing } from './components/routes/UsersListing';
+
 
 class Appa extends React.Component {
-
-  
-
   render() {
 		loadProgressBar();
 

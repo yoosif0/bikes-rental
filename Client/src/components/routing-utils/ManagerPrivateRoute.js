@@ -1,9 +1,8 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom';
 
-import PropTypes from 'prop-types';
 
-function ManagerPrivateRoute ({component: Component, isManager, ...rest}) {
+export function ManagerPrivateRoute ({component: Component, isManager, ...rest}) {
     return (
       <Route
         {...rest}
@@ -13,12 +12,4 @@ function ManagerPrivateRoute ({component: Component, isManager, ...rest}) {
       />
     )
   }
-
-  export default ManagerPrivateRoute
-
-  ManagerPrivateRoute.propTypes = {
-    location: PropTypes.any,
-    component: PropTypes.any,
-    isManager: PropTypes.bool.isRequired
-}
 
