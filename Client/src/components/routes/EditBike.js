@@ -20,7 +20,7 @@ export default class EditBike extends React.Component {
 		return ApiService.getBike(this.props.match.params.id).then(x => {
 			this.setState({ bike: x })
 		}).catch(err => {
-			toast.error(err)
+			toast.error(err.data?err.data.msg:'Error')
 		})
 	}
 

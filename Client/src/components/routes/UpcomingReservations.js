@@ -27,8 +27,8 @@ export class UpcomingReservations extends React.Component {
     }
 
     onCancelReservation = (item) => {
-        ApiService.cancelReservation(item._id).then(x => {
-            this.setState((oldState) => ({ ...this.state, reservations: oldState.reservations.filter(res => res._id !== item._id) }))
+        ApiService.cancelReservation(item._id).then(x => this.fetchData()).catch(err=>{
+			toast.error(err.data?err.data.msg:'Error')
         })
     }
 

@@ -12,7 +12,7 @@ export const EnhancedEditProfileForm = withFormik({
 	handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 		ApiService.editMyProfile(props.profile._id, values).then((payload) => {
 			setSubmitting(false);
-			toast.success('Updayed successfully')
+			toast.success('Updated successfully')
 		}).catch(err => {
 			setSubmitting(false)
 			toast.error(err)

@@ -48,8 +48,8 @@ export class PBikesListing extends React.Component {
     }
 
     onDelete = (item) => {
-        ApiService.deleteBike(item._id).then(x => {
-            this.setState((oldState) => ({ bikes: oldState.bikes.filter(bike => bike._id !== item._id) }))
+        ApiService.deleteBike(item._id).then(x => this.fetchData()).catch(err=>{
+			toast.error(err.data?err.data.msg:'Error')
         })
     }
 

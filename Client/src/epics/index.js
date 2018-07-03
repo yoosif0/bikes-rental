@@ -19,6 +19,7 @@ import { loadModules } from 'react-arcgis';
 import store from '../stores/configureStore';
 import { ApiService } from '../services/data.service';
 import { graphicsService } from '../services/graphicsSevice';
+import { toast } from 'react-toastify';
 
 
 const pingEpic = action$ =>
@@ -100,13 +101,13 @@ const renderNewPoints = (action$, state$) => {
   return action$.ofType('RENDER_NEW_POINTS').mergeMap(q => {
     graphicsService.setGraphicsFromData(q.payload)
     return Observable.of(true)
-  }).map(newPoints => ({ type: 'NEW_POINTS_RENDERED', payload: newPoints }))
+  }).map(newPoints => ({ type: 'NEW_POINTS_RENDERED', payload: newPoints })).catch(err => toast.error(err.data ? err.data.msg : 'Error'))
 
 }
 
 const rateBike = (action$, state$) => {
   return action$.ofType('RATE_BIKE').mergeMap(q => from(ApiService.rateBike(q.payload.bikeId, q.payload.rate)))
-  .map(newPoints => ({ type: 'BIKES_RATING_OUT_OF_DATE', payload: newPoints }))
+    .map(newPoints => ({ type: 'BIKES_RATING_OUT_OF_DATE', payload: newPoints })).catch(err => toast.error(err.data ? err.data.msg : 'Error'))
 }
 
 

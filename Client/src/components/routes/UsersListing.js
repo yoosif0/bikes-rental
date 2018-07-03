@@ -33,9 +33,7 @@ export class UsersListing extends React.Component {
     };
 
     onDelete = (item) => {
-        ApiService.deleteUser(item._id).then(x => {
-            this.setState({ users: this.state.users.filter(bike => bike._id !== item._id) })
-        }).catch(err => {
+        ApiService.deleteUser(item._id).then(x => this.fetchData()).catch(err => {
             toast.error(err.data?err.data.msg:'Error')
         })
     }

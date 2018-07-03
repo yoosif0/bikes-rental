@@ -24,7 +24,7 @@ class Com extends React.Component {
         return ApiService.getUser(this.props.id).then(x => {
             this.setState({ profile: x })
         }).catch(err => {
-            toast.error(err)
+            toast.error(err.data?err.data.msg:'Error')
         })
     }
 

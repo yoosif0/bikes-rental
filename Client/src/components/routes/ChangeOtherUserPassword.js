@@ -1,7 +1,6 @@
 import React from 'react'
 import Title from '../text/Title';
 import { ApiService } from '../../services/data.service';
-import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import {
 	EnhancedChangeOtherUserPasswordForm
@@ -34,12 +33,6 @@ class ChangeOtherUserPassword extends React.Component {
 			</PageContentLayout>
 		)
 	}
-}
-
-
-
-ChangeOtherUserPassword.propTypes = {
-	match: PropTypes.any
 }
 
 

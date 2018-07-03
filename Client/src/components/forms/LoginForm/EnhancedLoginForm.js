@@ -25,10 +25,7 @@ export const EnhancedLoginForm = compose(
 			persistMyInfo(payload.user.role, payload.user._id, payload.token)
 			props.loggedIn(payload)
 			props.history.push('myProfile')
-
-			// console.log(props.history)
-			// props.history.push('/bikes');
-
+			toast.success('Logged in successfully')
 		}).catch(err=>{
 			setSubmitting(false)
 			toast.error(err.data?err.data.msg:'Error')
