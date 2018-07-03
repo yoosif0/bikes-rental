@@ -65,6 +65,9 @@ export class PBikesListing extends React.Component {
     onReserve = (item) => {
         ApiService.reserveBike(item._id, this.state.startDate, this.state.endDate).then(x => {
             this.fetchData()
+            toast.success('Reservaed Successfully')
+        }, err =>{
+            toast.error(err.data?err.data.msg:'Error')
         })
     }
     render() {
@@ -73,7 +76,7 @@ export class PBikesListing extends React.Component {
                 <Title className="forTest"> Bikes </Title>
                 <div className="mb-4">
                     <DateRangePicker
-                        isOutsideRange={() => false}
+                        // isOutsideRange={() => false}
                         startDate={this.state.startDate} // momentPropTypes.momentObj or null,
                         startDateId="your_unique_start_date_id" // PropTypes.string.isRequired,
                         endDate={this.state.endDate} // momentPropTypes.momentObj or null,

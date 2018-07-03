@@ -16,7 +16,7 @@ export const InnerForm = ({ values, errors, touched, isSubmitting, dirty }) => (
         </DefaultInput>
         <DefaultInput label="Color">
             <Field component="select" name="color" className="form-control">
-            <option value=""></option>
+                <option value=""></option>
                 <option value="red">Red</option>
                 <option value="blue">Blue</option>
                 <option value="black">Black</option>
@@ -35,7 +35,9 @@ export const InnerForm = ({ values, errors, touched, isSubmitting, dirty }) => (
             <InputFeedback error={touched.longitude && errors.longitude} />
         </DefaultInput>
         <DefaultInput label="Is Available">
-            <Field checked={values.isAvailable} type="checkbox" name="isAvailable" className="form-control"/>
+            <div className="form-check">
+                <Field checked={values.isAvailable} className="form-check-input" type="checkbox" name="isAvailable"/>
+            </div>
         </DefaultInput>
         <SubmitButton disabled={!dirty || isSubmitting || Object.keys(errors).length} ></SubmitButton>
     </Form>

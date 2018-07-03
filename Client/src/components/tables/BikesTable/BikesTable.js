@@ -31,7 +31,7 @@ const BikesTable = ({ bikes, areReservationsAllowed, onAddClick, onEditClick, on
                         {isManager && <AdminTableDescription item={item} onDeleteClick={onDeleteClick} />}
                         {
                             areReservationsAllowed && <td className="text-center">
-                                <a className="link" onClick={() => onReserveClick(item)}>
+                                <a className="link" onClick={() => onReserveClick(item)} style={!item.isAvailable ? { opacity: 0.1, cursor: 'not-allowed' } : {}}>
                                     <i className="fa fa-check-square text-success"> </i>
                                 </a>
                             </td>

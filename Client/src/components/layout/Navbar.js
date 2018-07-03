@@ -28,7 +28,7 @@ export const PNavbar = ({ isManager, isAuthenticated, logout, myId }) => (
                             <NavBarLink to='/map' label="Bikes Map" />
                             <NavBarLink to={`/upcomingReservations?userId=${myId}&label=My`} label="My Upcoming Reservations" />
                             <NavBarLink to={`/pastReservations?userId=${myId}&label=My`} label="My Past Reservations" />
-                            <NavBarLink to='/myPreviouslyUsedBikes' label="My Previously Used Bikes" />
+                            {/* <NavBarLink to='/myPreviouslyUsedBikes' label="My Previously Used Bikes" /> */}
                         </React.Fragment>
                         :
                         <React.Fragment>

@@ -3,9 +3,8 @@ import DefaultInput from '../../ui-inputs/DefaultInputLayout';
 import SubmitButton from '../../buttons/SubmitButton';
 import { Form, Field } from 'formik';
 import { InputFeedback } from '../../text/InputFeedback';
-import { Button } from 'reactstrap';
 
-export const InnerForm = ({ errors, touched, isSubmitting, dirty, handleReset  }) => (
+export const InnerForm = ({ errors, touched, isSubmitting, dirty  }) => (
     <Form>
         <DefaultInput label="Model">
             <Field type="text" name="model" className="form-control" />
@@ -44,7 +43,5 @@ export const InnerForm = ({ errors, touched, isSubmitting, dirty, handleReset  }
         </DefaultInput>
 
         <SubmitButton label="Search" disabled={isSubmitting || Object.keys(errors).length} ></SubmitButton>
-        <Button className="pull-right mb-4" color="default" onClick={handleReset}>Reset Filter </Button>
-
     </Form>
 )
