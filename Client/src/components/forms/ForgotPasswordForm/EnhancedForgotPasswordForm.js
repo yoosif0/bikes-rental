@@ -22,7 +22,7 @@ export const EnhancedForgotPasswordForm = compose(
 				props.history.push('recoveryCode')
 			}).catch(err => {
 				setSubmitting(false)
-				toast.error(err.data.msg)
+				toast.error(err.data?err.data.msg:'Error')
 			})
 		},
 		displayName: 'ForgotPasswordForm',

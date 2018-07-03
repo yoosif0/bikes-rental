@@ -40,7 +40,7 @@ export class PBikesListing extends React.Component {
             this.props.updated()
             this.setState({ bikes: x.items, pageCount: x.count / 10, isTableHidden: false })
         }).catch(err => {
-            toast.error(err.data.msg)
+            toast.error(err.data?err.data.msg:'Error' || 'Error')
         })
     }
 

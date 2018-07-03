@@ -31,7 +31,7 @@ export default class EditBike extends React.Component {
 			.then(() => ApiService.saveImageReferenceToOurBackend(this.state.bike._id, imageName))
 			.then(() => this.fetchBike())
 			.catch(err => {
-				toast.error(err.data.msg)
+				toast.error(err.data?err.data.msg:'Error')
 			});
 	};
 

@@ -15,7 +15,7 @@ export const EnhancedUserForm = withFormik({
 			setSubmitting(false);
 		}).catch(err => {
 			setSubmitting(false)
-			toast.error(err.data.msg)
+			toast.error(err.data?err.data.msg:'Error')
 		})
 	},
 	displayName: 'UserForm',

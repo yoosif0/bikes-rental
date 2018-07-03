@@ -44,7 +44,7 @@ export const AdminTableDescription = ({ item, onDeleteClick }) => (
             <NavLink to={'/editBike/' + item._id} className="fa fa-edit text-warning" id="editButton"></NavLink>
         </td>
         <td className="text-center">
-            <NavLink to={`/bikeReservations?bikeId=${item._id}&label=${item.model}`} className="fa fa-edit text-warning"></NavLink>
+            <NavLink to={`/bikeReservations?bikeId=${item._id}&label=${item.model}`} className="fa fa-calendar text-default"></NavLink>
         </td>
         <td className="text-center ">
             <a className="link" onClick={() => onDeleteClick(item)}>

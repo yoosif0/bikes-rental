@@ -31,7 +31,7 @@ export const EnhancedLoginForm = compose(
 
 		}).catch(err=>{
 			setSubmitting(false)
-			toast.error(err.data.msg)
+			toast.error(err.data?err.data.msg:'Error')
 		})
 	},
 	displayName: 'LoginForm',

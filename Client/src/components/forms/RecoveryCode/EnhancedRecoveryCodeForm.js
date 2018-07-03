@@ -24,7 +24,7 @@ export const EnhancedRecoveryCodeForm = compose(
 					props.history.push('passwordRecoveredSuccessfully')
 				}).catch(err => {
 					setSubmitting(false)
-					toast.error(err.data.msg)
+					toast.error(err.data?err.data.msg:'Error')
 				})
 		},
 		displayName: 'RecoveryCodeForm',

@@ -30,7 +30,7 @@ export class PMyPreviouslyUsedBikes extends React.Component {
             this.props.updated()
             this.setState({ bikesDetails: x.items, pageCount: x.count / 10 })
         }).catch(err => {
-            toast.error(err.data.msg)
+            toast.error(err.data?err.data.msg:'Error')
         })
     }
 

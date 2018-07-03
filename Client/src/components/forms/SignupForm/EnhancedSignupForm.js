@@ -29,7 +29,7 @@ export const EnhancedSignupForm = compose(
 			}).catch(err => {
 				setErrors({recaptchaExpired:true})
 				setSubmitting(false)
-				toast.error(err.data.msg)
+				toast.error(err.data?err.data.msg:'Error')
 			})
 		},
 		displayName: 'UserForm',

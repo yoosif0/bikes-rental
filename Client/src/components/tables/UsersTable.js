@@ -10,7 +10,7 @@ import { NavLink } from 'react-router-dom';
                     <th>Name</th>
                     <th>Email</th>
                     <th>Role</th>
-                    <th>Previous Reservations</th>
+                    <th>Past Reservations</th>
                     <th>Upcoming Reservations</th>
                     <th className="text-center">Update</th>
                     <th className="text-center">Delete</th>
@@ -25,10 +25,10 @@ import { NavLink } from 'react-router-dom';
                                 <td>{item.email}</td>
                                 <td>{item.role}</td>
                                 <td className="text-center">
-                                    <NavLink to={`/pastReservations?userId=${item._id}&label=${item.name}'s`} className="fa fa-edit text-warning" id="editButton"></NavLink>
+                                    <NavLink to={`/pastReservations?userId=${item._id}&label=${item.name}'s`} className="fa fa-chevron-left text-default" id="editButton"></NavLink>
                                 </td>
                                 <td className="text-center">
-                                    <NavLink to={`/upcomingReservations?userId=${item._id}&label=${item.name}'s`} className="fa fa-edit text-warning" id="editButton"></NavLink>
+                                    <NavLink to={`/upcomingReservations?userId=${item._id}&label=${item.name}'s`} className="fa fa-chevron-right text-default" id="editButton"></NavLink>
                                 </td>
                                 <td className="text-center">
                                     <NavLink to={'/editUser/' + item._id} className="fa fa-edit text-warning" id="editButton"></NavLink>

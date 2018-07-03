@@ -5,7 +5,6 @@ import { DateRangePicker } from 'react-dates';
 import Title from '../text/Title';
 import { EnhancedBikeFilterForm } from '../forms/BikeFilterForm/EnhancedBikeFilterForm';
 import BikesTable from '../tables/BikesTable/BikesTable';
-import ReactPaginate from 'react-paginate';
 import axios from "axios";
 jest.mock('axios');
 // const flushPromises = () => {
@@ -41,12 +40,6 @@ describe('<PBikesListing />', () => {
       it('should render 1 <BikesTable /> components', () => {
         const wrapper = shallow(<PBikesListing />);
         expect(wrapper.find(BikesTable).length).toBe(1);
-      });
-
-
-      it('should render 1 <ReactPaginate /> components', () => {
-        const wrapper = shallow(<PBikesListing />);
-        expect(wrapper.find(ReactPaginate).length).toBe(1);
       });
 
       it('should render an `.forTest`', () => {

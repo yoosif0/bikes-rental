@@ -18,7 +18,7 @@ export const EnhancedChangeOtherUserPasswordForm = compose(
 					toast.success('Password updated successfully')
 				}).catch(err => {
 					setSubmitting(false)
-					toast.error(err.data.msg)
+					toast.error(err.data?err.data.msg:'Error')
 				})
 		},
 		displayName: 'ChangeOtherUserPasswordForm',

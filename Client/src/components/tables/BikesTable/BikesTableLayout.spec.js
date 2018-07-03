@@ -5,7 +5,7 @@ import React from 'react'
 
 
 describe('BikesTableLayout', () => {
-  fit('should match snapshot', () => {
+  it('should match snapshot', () => {
     const tree = renderer.create(<BikesTableLayout 
         TableHeaders={()=>(<li>HH</li>)}
         TableBodyContent={()=>(<li>C</li>)}

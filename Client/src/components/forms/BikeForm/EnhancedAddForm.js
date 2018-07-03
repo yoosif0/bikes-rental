@@ -15,7 +15,7 @@ export const EnhancedBikeForm = withFormik({
 			setSubmitting(false);
 			toast.success('Added successfully')
 		}).catch(err => {
-			toast.error(err.data.msg)
+			toast.error(err.data?err.data.msg:'Error')
 			setSubmitting(false)
 		})
 	},
