@@ -1,11 +1,15 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import { EnhancedBikeForm } from '../forms/BikeForm/EnhancedEditForm';
+import { Formik } from 'formik';
+import { InnerForm } from '../forms/BikeForm/InnerForm';
+import bikeFormSchema from '../forms/BikeForm/validationSchema';
 import { ApiService } from '../../services/data.service';
-import Dropzone from 'react-dropzone'
 import { toast } from 'react-toastify';
+import Dropzone from 'react-dropzone'
 import { s3Url } from '../../config/constants';
 import { PageContentLayout } from '../layout/PageContentLayout';
+import { GeoCoderAndAddressForm } from '../other/GeocoderAndAddressForm';
+import Title from '../text/Title';
+
 
 export default class EditBike extends React.Component {
 	constructor(props) {
@@ -16,11 +20,16 @@ export default class EditBike extends React.Component {
 		this.fetchBike()
 	}
 
+	addressUpdated = ({ latitude, longitude, addressName }) => {
+		this.setState({ latitude, longitude, addressName, hasAddrressUpdatedWhileEditing:true })
+		
+	}
+
 	fetchBike() {
 		return ApiService.getBike(this.props.match.params.id).then(x => {
 			this.setState({ bike: x })
 		}).catch(err => {
-			toast.error(err.data?err.data.msg:'Error')
+			toast.error(err.data ? err.data.msg : 'Error')
 		})
 	}
 
@@ -31,15 +40,26 @@ export default class EditBike extends React.Component {
 			.then(() => ApiService.saveImageReferenceToOurBackend(this.state.bike._id, imageName))
 			.then(() => this.fetchBike())
 			.catch(err => {
-				toast.error(err.data?err.data.msg:'Error')
+				toast.error(err.data ? err.data.msg : 'Error')
 			});
 	};
 
+	onSubmit = (values, { setSubmitting, props, setErros }) => {
+		ApiService.editBike(this.state.bike._id, { ...values, longitude: this.state.longitude, latitude: this.state.latitude, addressName: this.state.addressName })
+			.then((payload) => {
+				setSubmitting(false);
+				toast.success('Updated successfully')
+			}).catch(err => {
+				toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
+				setSubmitting(false)
+			})
+	}
 
 	render() {
 		return (
 			<PageContentLayout isRendering={this.state.bike.model} unAvailabilityText="Waiting">
-				<div>
+				<Title> Edit Bike </Title>
+				<div className="mb-4">
 					<div className="row">
 						<div className="col-md-6 mb-4">
 							{this.state.bike.imageName && <img style={{ maxHeight: "250px" }} alt="bike" src={s3Url + this.state.bike.imageName}></img>}
@@ -49,15 +69,31 @@ export default class EditBike extends React.Component {
 								</Dropzone>
 
 					</div>
-					<EnhancedBikeForm bike={this.state.bike} />
+					{this.state.bike && this.state.bike.location &&
+
+						<GeoCoderAndAddressForm
+							initialAddress={{
+								addressName: this.state.bike.addressName,
+								longitude: this.state.bike.location.coordinates[0],
+								latitude: this.state.bike.location.coordinates[1]
+							}}
+
+							addressUpdated={this.addressUpdated} />
+					}
+					{
+						this.state.bike.model &&
+						<Formik
+							validationSchema={bikeFormSchema}
+							initialValues={{ model: this.state.bike.model, weight: this.state.bike.weight, color: this.state.bike.color, isAvailable: this.state.bike.isAvailable }}
+							onSubmit={this.onSubmit}
+							render={props => <InnerForm {...props} hasAddrressUpdatedWhileEditing={this.state.hasAddrressUpdatedWhileEditing} isThereAddress={true} />}
+						/>
+
+					}
+
+
 				</div>
 			</PageContentLayout>
 		)
 	}
 }
-
-EditBike.propTypes = {
-	disabled: PropTypes.any,
-	match: PropTypes.any
-}
-

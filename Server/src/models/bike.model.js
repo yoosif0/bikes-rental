@@ -17,6 +17,10 @@ const bikeSchema = new Schema({
         type: Number,
         required: true
     },
+    addressName: {
+        type: String,
+        required: true
+    },
     location: new Schema({
         coordinates: { type: [Number], required: true },
         type: { type: String, required: true }

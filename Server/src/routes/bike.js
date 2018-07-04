@@ -17,7 +17,7 @@ module.exports = {
         return bikeDb.deleteBike(req.params.bikeId).then(user => user ? res.status(200).json(successMessage) : next({ nF: 'Bike' })).catch(err => next(err))
     },
     addBike(req, res, next) {
-        return bikeDb.createBike(req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude, req.body.isAvailable)
+        return bikeDb.createBike(req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude, req.body.isAvailable, req.body.addressName)
             .catch(err => next(err)).then(res.status(200).json(successMessage))
     },
 
@@ -27,7 +27,7 @@ module.exports = {
     },
 
     updatebike(req, res, next) {
-        return bikeDb.updateBike(req.params.bikeId, req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude, req.body.isAvailable).then((user) => {
+        return bikeDb.updateBike(req.params.bikeId, req.body.model, req.body.weight, req.body.color, req.body.latitude, req.body.longitude, req.body.isAvailable, req.body.addressName).then((user) => {
             return user ? res.status(200).json(successMessage) : next({ nF: 'Bike' })
         }).catch(err => next(err))
     },

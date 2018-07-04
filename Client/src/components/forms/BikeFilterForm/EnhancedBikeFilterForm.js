@@ -1,10 +1,10 @@
 import { InnerForm } from './InnerForm';
 import { withFormik, } from 'formik';
-import bikeFormSchema from './validationSchema';
+import bikeFilterFormSchema from './validationSchema';
 
 
 export const EnhancedBikeFilterForm = withFormik({
-	validationSchema: bikeFormSchema,
+	validationSchema: bikeFilterFormSchema,
 	mapPropsToValues: props => {
 		return {
 			model: props.filter.model || '', color: props.filter.color || '', minWeight: props.filter.minWeight|| '', startDate: null, endDate: null,			

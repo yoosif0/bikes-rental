@@ -49,7 +49,7 @@ export class PBikesListing extends React.Component {
 
     onDelete = (item) => {
         ApiService.deleteBike(item._id).then(x => this.fetchData()).catch(err=>{
-			toast.error(err.data?err.data.msg:'Error')
+			toast.error(err.data&&err.data.msg?err.data.msg:'Error')
         })
     }
 
@@ -67,7 +67,7 @@ export class PBikesListing extends React.Component {
             this.fetchData()
             toast.success('Reservaed Successfully')
         }, err =>{
-            toast.error(err.data?err.data.msg:'Error')
+            toast.error(err.data&&err.data.msg?err.data.msg:'Error')
         })
     }
     render() {

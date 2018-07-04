@@ -25,12 +25,12 @@ const aggregationStore = {
 //     })
 // }
 module.exports = {
-    createBike(model, weight, color, latitude, longitude, isAvailable) {
+    createBike(model, weight, color, latitude, longitude, isAvailable, addressName) {
         const location = {
             coordinates: [longitude, latitude],
             type: 'Point',
         }
-        const newBike = new bikeModel({ model, weight, color, location, isAvailable })
+        const newBike = new bikeModel({ model, weight, color, location, isAvailable, addressName })
         return newBike.save()
     },
 
@@ -83,12 +83,12 @@ module.exports = {
         return bikeModel.find({ _id }).remove()
     },
 
-    updateBike(_id, model, weight, color, latitude, longitude, isAvailable) {
+    updateBike(_id, model, weight, color, latitude, longitude, isAvailable, addressName) {
         const location = {
             coordinates: [longitude, latitude ],
             type: 'Point',
         }
-        return bikeModel.findOneAndUpdate({ _id }, { model, weight, color, location, isAvailable }, { new: true }).select('-__v')
+        return bikeModel.findOneAndUpdate({ _id }, { model, weight, color, location, isAvailable, addressName }, { new: true }).select('-__v')
     },
 
     updateBikeImage(_id, imageName) {
