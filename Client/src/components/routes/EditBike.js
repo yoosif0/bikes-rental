@@ -9,6 +9,7 @@ import { s3Url } from '../../config/constants';
 import { PageContentLayout } from '../layout/PageContentLayout';
 import { GeoCoderAndAddressForm } from '../other/GeocoderAndAddressForm';
 import Title from '../text/Title';
+import { SubmitButton } from '../buttons/SubmitButton';
 
 
 export default class EditBike extends React.Component {
@@ -21,8 +22,8 @@ export default class EditBike extends React.Component {
 	}
 
 	addressUpdated = ({ latitude, longitude, addressName }) => {
-		this.setState({ latitude, longitude, addressName, hasAddrressUpdatedWhileEditing:true })
-		
+		this.setState({ latitude, longitude, addressName, hasAddrressUpdatedWhileEditing: true })
+
 	}
 
 	fetchBike() {
@@ -54,6 +55,13 @@ export default class EditBike extends React.Component {
 				setSubmitting(false)
 			})
 	}
+	innerForm = props => (
+		<InnerForm {...props}>
+			<SubmitButton disabled={(!props.dirty && !this.state.hasAddrressUpdatedWhileEditing) 
+				|| props.isSubmitting || Object.keys(props.errors).length} ></SubmitButton>
+		</InnerForm>
+	)
+
 
 	render() {
 		return (
@@ -86,12 +94,10 @@ export default class EditBike extends React.Component {
 							validationSchema={bikeFormSchema}
 							initialValues={{ model: this.state.bike.model, weight: this.state.bike.weight, color: this.state.bike.color, isAvailable: this.state.bike.isAvailable }}
 							onSubmit={this.onSubmit}
-							render={props => <InnerForm {...props} hasAddrressUpdatedWhileEditing={this.state.hasAddrressUpdatedWhileEditing} isThereAddress={true} />}
+							render={this.innerForm}
+
 						/>
-
 					}
-
-
 				</div>
 			</PageContentLayout>
 		)

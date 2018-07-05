@@ -7,6 +7,7 @@ import { InnerForm } from '../forms/BikeForm/InnerForm';
 import bikeFormSchema from '../forms/BikeForm/validationSchema';
 import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
+import { SubmitButton } from '../buttons/SubmitButton';
 
 
 
@@ -28,6 +29,12 @@ export default class AddBike extends React.Component {
         })
     }
 
+    innerForm = props => (
+		<InnerForm {...props}>
+			<SubmitButton disabled={!props.dirty || !this.state.addressName || props.isSubmitting || Object.keys(props.errors).length} ></SubmitButton>
+		</InnerForm>
+	)
+
 
     render() {
         return (
@@ -39,8 +46,8 @@ export default class AddBike extends React.Component {
                         validationSchema={bikeFormSchema}
                         initialValues={{ model: '', weight: '', color: '', isAvailable: true }}
                         onSubmit={this.onSubmit}
-                        render={props => <InnerForm {...props} isThereAddress={this.state.longitude} streamingData={this.props.data} />}
-                    />
+                        render={this.innerForm}
+                        />
 
                 }
             </div>
