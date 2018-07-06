@@ -3,7 +3,7 @@ import DefaultInput from '../../ui-inputs/DefaultInputLayout';
 import { Form, Field } from 'formik';
 import { InputFeedback } from '../../text/InputFeedback';
 
-export const InnerForm = ({ touched, errors, values, children }) => (
+export const InnerForm = ({ touched, errors, values, children, isSubmitting }) => (
     <Form>
         <DefaultInput label="Model">
             <Field type="text" name="model" className="form-control" />
@@ -30,7 +30,7 @@ export const InnerForm = ({ touched, errors, values, children }) => (
                 <Field checked={values.isAvailable} className="form-check-input" type="checkbox" name="isAvailable" />
             </div>
         </DefaultInput>
-        {children}
+        {children(() => isSubmitting || Object.keys(errors).length)}
     </Form>
 
 )

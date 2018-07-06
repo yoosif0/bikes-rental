@@ -9,8 +9,6 @@ import { ApiService } from '../../services/data.service';
 import { toast } from 'react-toastify';
 import { SubmitButton } from '../buttons/SubmitButton';
 
-
-
 export default class AddBike extends React.Component {
     constructor(props) {
         super(props);
@@ -20,7 +18,7 @@ export default class AddBike extends React.Component {
     addressUpdated = ({ latitude, longitude, addressName }) => this.setState({ latitude, longitude, addressName })
 
     onSubmit = (values, { setSubmitting, props, setErros }) => {
-        ApiService.addBike({...values, ...this.state}).then((payload) => {
+        ApiService.addBike({ ...values, ...this.state }).then((payload) => {
             setSubmitting(false);
             toast.success('Added successfully')
         }).catch(err => {
@@ -30,10 +28,10 @@ export default class AddBike extends React.Component {
     }
 
     innerForm = props => (
-		<InnerForm {...props}>
-			<SubmitButton disabled={!props.dirty || !this.state.addressName || props.isSubmitting || Object.keys(props.errors).length} ></SubmitButton>
-		</InnerForm>
-	)
+        <InnerForm {...props}>
+            {hasBasicErrors => <SubmitButton disabled={!this.state.addressName || !props.dirty || hasBasicErrors()} ></SubmitButton>}
+        </InnerForm>
+    )
 
 
     render() {
@@ -47,7 +45,7 @@ export default class AddBike extends React.Component {
                         initialValues={{ model: '', weight: '', color: '', isAvailable: true }}
                         onSubmit={this.onSubmit}
                         render={this.innerForm}
-                        />
+                    />
 
                 }
             </div>

@@ -23,7 +23,6 @@ export default class EditBike extends React.Component {
 
 	addressUpdated = ({ latitude, longitude, addressName }) => {
 		this.setState({ latitude, longitude, addressName, hasAddrressUpdatedWhileEditing: true })
-
 	}
 
 	fetchBike() {
@@ -57,8 +56,7 @@ export default class EditBike extends React.Component {
 	}
 	innerForm = props => (
 		<InnerForm {...props}>
-			<SubmitButton disabled={(!props.dirty && !this.state.hasAddrressUpdatedWhileEditing) 
-				|| props.isSubmitting || Object.keys(props.errors).length} ></SubmitButton>
+			{hasBasicErrors => <SubmitButton disabled={(!props.dirty && !this.state.hasAddrressUpdatedWhileEditing) || hasBasicErrors()} ></SubmitButton>}
 		</InnerForm>
 	)
 

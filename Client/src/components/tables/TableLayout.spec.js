@@ -1,12 +1,12 @@
 import renderer from 'react-test-renderer';
-import {BikesTableLayout} from './BikesTableLayout';
+import {TableLayout} from './TableLayout';
 import React from 'react'
 
 
 
-describe('BikesTableLayout', () => {
+describe('TableLayout', () => {
   it('should match snapshot', () => {
-    const tree = renderer.create(<BikesTableLayout 
+    const tree = renderer.create(<TableLayout 
         TableHeaders={()=>(<li>HH</li>)}
         TableBodyContent={()=>(<li>C</li>)}
         />).toJSON();

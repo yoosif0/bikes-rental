@@ -5,11 +5,11 @@ import {
     BasicTableDescription,
     AdminTableDescription
 } from './BikesTableFragments';
-import { BikesTableLayout } from './BikesTableLayout';
+import { TableLayout } from '../TableLayout';
 import { StarRatingTableDescription } from './StarRatingTableDescription';
 
 const BikesTable = ({ bikes, areReservationsAllowed, onAddClick, onEditClick, onDeleteClick, onReserveClick, isManager }) => (
-    <BikesTableLayout
+    <TableLayout
         TableHeaders={() =>
             <React.Fragment>
                 <BasicTableHeaders />

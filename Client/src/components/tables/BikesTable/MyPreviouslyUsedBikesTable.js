@@ -1,11 +1,11 @@
 import React from 'react'
 import { BasicTableHeaders, BasicTableDescription } from './BikesTableFragments';
-import { BikesTableLayout } from './BikesTableLayout';
+import { TableLayout } from '../TableLayout';
 import { StarRatingTableDescription } from './StarRatingTableDescription';
 
 
 export const MyPreviouslyUsedBikesTable = ({ bikesDetails }) => (
-    <BikesTableLayout
+    <TableLayout
         TableHeaders={() =>
             <React.Fragment>
                 <BasicTableHeaders />
