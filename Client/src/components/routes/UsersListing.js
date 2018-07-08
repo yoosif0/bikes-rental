@@ -5,6 +5,7 @@ import Title from '../text/Title';
 import { UsersTable } from '../tables/UsersTable';
 import { PaginationContainer } from '../pagination/PaginationContainer';
 import { PageContentLayout } from '../layout/PageContentLayout';
+import { UndoDelete } from '../other/UndoDelete';
 
 export class UsersListing extends React.Component {
     constructor(props) {
@@ -20,7 +21,7 @@ export class UsersListing extends React.Component {
         ApiService.getUsers({ skip: this.state.skip }).then(x => {
             this.setState({ users: x.users, pageCount: x.count / 10 })
         }).catch(err => {
-            toast.error(err.data&&err.data.msg?err.data.msg:'Error')
+            toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
         })
     }
 
@@ -32,9 +33,9 @@ export class UsersListing extends React.Component {
         });
     };
 
-    onDelete = (item) => {
-        ApiService.deleteUser(item._id).then(x => this.fetchData()).catch(err => {
-            toast.error(err.data&&err.data.msg?err.data.msg:'Error')
+    onDelete = (id) => {
+        ApiService.deleteUser(id).then(x => this.fetchData()).catch(err => {
+            toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
         })
     }
 
@@ -43,7 +44,14 @@ export class UsersListing extends React.Component {
             <React.Fragment>
                 <Title> Users </Title>
                 <PageContentLayout isRendering={this.state.users.length} unAvailabilityText="No users">
-                    <UsersTable users={this.state.users} onDeleteClick={this.onDelete} />
+                    {
+                        this.state.users.length &&
+                        <UndoDelete items={this.state.users} deletedPermanently={this.onDelete}>
+                            {(items, onDelete) =>
+                                <UsersTable users={items} onDeleteClick={onDelete} />
+                            }
+                        </UndoDelete>
+                    }
                     <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
                 </PageContentLayout>
             </React.Fragment>

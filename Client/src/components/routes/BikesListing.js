@@ -8,6 +8,7 @@ import { DateRangePicker } from 'react-dates';
 import { connect } from 'react-redux';
 import { PaginationContainer } from '../pagination/PaginationContainer';
 import { PageContentLayout } from '../layout/PageContentLayout';
+import { UndoDelete } from '../other/UndoDelete';
 
 
 const mapStateToProps = state => ({ isManager: state.authStoreState.role === 'manager', isNeedingUpdate: state.bikesStore.isNeedingUpdate })
@@ -29,7 +30,6 @@ export class PBikesListing extends React.Component {
     }
 
     fetchData() {
-        this.setState({loading: true})
         ApiService.getBikesWithPagination({
             skip: this.state.skip,
             filter: {
@@ -38,18 +38,16 @@ export class PBikesListing extends React.Component {
                 endDate: this.state.endDate ? this.state.endDate.utc().format().substring(0, 10) : null
             }
         }).then(x => {
-            this.setState({loading: true})
             this.props.updated()
             this.setState({ bikes: x.items, pageCount: x.count / 10 })
         }).catch(err => {
-            this.setState({loading: true})
             toast.error(err.data ? err.data.msg : 'Error')
         })
     }
 
-    onDelete = (item) => {
-        ApiService.deleteBike(item._id).then(x => this.fetchData()).catch(err=>{
-			toast.error(err.data&&err.data.msg?err.data.msg:'Error')
+    onDelete = (id) => {
+        ApiService.deleteBike(id).then(x => this.fetchData()).catch(err => {
+            toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
         })
     }
 
@@ -66,8 +64,8 @@ export class PBikesListing extends React.Component {
         ApiService.reserveBike(item._id, this.state.startDate, this.state.endDate).then(x => {
             this.fetchData()
             toast.success('Reservaed Successfully')
-        }, err =>{
-            toast.error(err.data&&err.data.msg?err.data.msg:'Error')
+        }, err => {
+            toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
         })
     }
     render() {
@@ -88,8 +86,17 @@ export class PBikesListing extends React.Component {
                 </div>
                 <EnhancedBikeFilterForm filter={this.state.filter} filterUpdated={this.onFilterUpdated} />
                 <PageContentLayout isRendering={true} unAvailabilityText="No reservations">
-                    <BikesTable isManager={this.props.isManager} bikes={this.state.bikes} onDeleteClick={this.onDelete}
-                        areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
+
+                    {
+                        this.state.bikes.length &&
+                        <UndoDelete items={this.state.bikes} deletedPermanently={this.onDelete}>
+                            {(items, onDelete) =>
+                                <BikesTable isManager={this.props.isManager} bikes={items} onDeleteClick={onDelete}
+                                    areReservationsAllowed={this.state.startDate && this.state.endDate} onReserveClick={this.onReserve} />
+                            }
+                        </UndoDelete>
+
+                    }
                     <PaginationContainer pageCount={this.state.pageCount} handlePageClick={skip => this.setState({ skip }, () => this.fetchData())} />
                 </PageContentLayout>
             </React.Fragment>

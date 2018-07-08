@@ -6,7 +6,6 @@ import React from 'react'
 export class GeoCoderAndAddressForm extends React.Component {
 
     constructor(props) {
-        console.log(props)
         super(props)
         this.state = { isGeocodingError: false, foundAddress: '' };
     }
