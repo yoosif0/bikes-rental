@@ -21,7 +21,7 @@ export default class EditUser extends React.Component {
         return ApiService.getUser(this.props.match.params.id).then(x => {
             this.setState({ user: x })
         }).catch(err => {
-            toast.error(err)
+            toast.error(err.data&&err.data.msg?err.data.msg:'Error')
         })
     }
 
