@@ -4,8 +4,8 @@ import store from '../stores/configureStore';
 
 const getAuthHeaders = () => ({Authorization: `Bearer ${store.getState().authStoreState.token}`})
 
-
-axios.defaults.baseURL = 'http://localhost:3001/api'
+const hostname = window && window.location && window.location.hostname;
+axios.defaults.baseURL = hostname === 'localhost' ? 'http://localhost:3001/api' : '/api'
 axios.interceptors.response.use(res => res.data, err => Promise.reject(err.response));
 
 export const ApiService = {
