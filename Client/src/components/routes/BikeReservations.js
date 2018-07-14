@@ -19,7 +19,7 @@ export class BikeReservations extends React.Component {
     }
 
     fetchData() {
-        ApiService.getBikeReservations(qs.parse(this.props.location.search)["$bikeId"], { skip: this.state.skip }).then(x => {
+        ApiService.getBikeReservations(qs.parse(this.props.location.search)["?bikeId"], { skip: this.state.skip }).then(x => {
             this.setState({ reservations: x.items, pageCount: x.count / 10 })
         }).catch(err => {
             toast.error(err.data&&err.data.msg?err.data.msg:'Error')

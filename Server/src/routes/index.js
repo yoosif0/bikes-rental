@@ -70,7 +70,7 @@ router.post('/ratings/:bikeId/:rate', verifyUser, ratings.rateBike)
 
 // router.post('/reservations/:id/:bikeId', verifyUser, ReservationsValidation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 // router.delete('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
-router.get('/s3/sign', Authorize.preventRegularUsers, bike.signImage);
+router.get('/s3/sign', verifyUser, Authorize.preventRegularUsers, bike.signImage);
 
 module.exports = router
 

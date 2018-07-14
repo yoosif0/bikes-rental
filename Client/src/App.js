@@ -1,6 +1,6 @@
 import React from 'react'
 import { Navbar } from './components/layout/Navbar'
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import Login from './components/routes/Login';
 import { ToastContainer } from 'react-toastify';
 import AddBike from './components/routes/AddBike';
@@ -40,7 +40,6 @@ class Appa extends React.Component {
             {/* {
             this.props.isAuthenticated ? <Redirect from="/" to="myProfile" /> : <Redirect from="/" to="login" />
           } */}
-            <Redirect from="/" to="login" />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/forgotPassword" component={ForgotPassword} />
