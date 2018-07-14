@@ -14,6 +14,11 @@ export const EnhancedForgotPasswordForm = compose(
 	connect(null, mapDispatchToProps),
 	withFormik({
 		validationSchema: forgotPasswordSchema,
+		mapPropsToValues: props => {
+			return {
+				email: ''
+			}
+		},	
 		handleSubmit: (values, { props, setSubmitting, setErrors }) => {
 			ApiService.forgottenPassword(values.email).then((payload) => {
 				props.saveEmailGlobally(values.email)

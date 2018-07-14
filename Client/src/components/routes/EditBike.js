@@ -15,14 +15,19 @@ import { SubmitButton } from '../buttons/SubmitButton';
 export default class EditBike extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = { bike: {} };
+		this.state = { bike: {}, hasAddrressUpdatedWhileEditing:false };
 	}
 	componentDidMount() {
 		this.fetchBike()
 	}
 
 	addressUpdated = ({ latitude, longitude, addressName }) => {
-		this.setState({ latitude, longitude, addressName, hasAddrressUpdatedWhileEditing: true })
+		this.setState((state)=>{
+			return {
+				bike: {...state.bike, addressName, location: {...state.bike.location, coordinates: [longitude, latitude]} },
+				hasAddrressUpdatedWhileEditing: true
+			}		
+		})
 	}
 
 	fetchBike() {
@@ -45,7 +50,14 @@ export default class EditBike extends React.Component {
 	};
 
 	onSubmit = (values, { setSubmitting, props, setErros }) => {
-		ApiService.editBike(this.state.bike._id, { ...values, longitude: this.state.longitude, latitude: this.state.latitude, addressName: this.state.addressName })
+		ApiService.editBike(this.state.bike._id,
+			{
+				...values,
+				longitude: this.state.bike.location.coordinates[0],
+				latitude: this.state.bike.location.coordinates[1],
+				addressName: this.state.bike.addressName
+
+			})
 			.then((payload) => {
 				setSubmitting(false);
 				toast.success('Updated successfully')
