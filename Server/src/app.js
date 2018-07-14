@@ -8,7 +8,7 @@ const cors = require('cors')
 const fallback = require('express-history-api-fallback')
 const express = require('express')
 const routes = require(`./routes/index`)
-const root = path.join(__dirname, '../..', 'Client/build')
+const root = __dirname + '/public/build'
 const app = express();
 
 winstonLogger.configure()

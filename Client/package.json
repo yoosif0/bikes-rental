@@ -37,10 +37,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "copy": "copyfiles build/**/*/* ../Server/src/public"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
+    "copyfiles": "^2.0.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "eslint": "^4.19.1",
