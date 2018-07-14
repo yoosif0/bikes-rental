@@ -17,7 +17,7 @@ export const EnhancedSignupForm = compose(
 	connect(null, mapDispatchToProps),
 	withRouter,
 	withFormik({
-		mapPropsToValues: props => ({ email: 'ty@test.com', name: 'Youssef Sherif', password: '1234567a', passwordConfirm: '1234567a', recaptcha: null }),
+		mapPropsToValues: props => ({ email: '', name: '', password: '', passwordConfirm: '', recaptcha: null }),
 		validationSchema: signupFormSchema,
 		handleSubmit: (values, { props, setSubmitting, setErrors, setFieldValue }) => {
 			ApiService.signup({ email: values.email, password: values.password, name: values.name, "g-recaptcha-response":values.recaptcha }).then((payload) => {

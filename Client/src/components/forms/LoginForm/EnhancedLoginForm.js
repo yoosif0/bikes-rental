@@ -14,7 +14,7 @@ export const EnhancedLoginForm = compose(
 	withRouter,
 	connect(null, mapDispatchToProps),
 	withFormik({
-	mapPropsToValues: props => ({ email: 'ddd@test.com', password: '1234567' }),
+	mapPropsToValues: props => ({ email: '', password: '' }),
 	validationSchema: Yup.object().shape({
 		email: Yup.string().email('Invalid email address').required('Email is required!'),
 	}),
