@@ -6,7 +6,12 @@ const getAuthHeaders = () => ({Authorization: `Bearer ${store.getState().authSto
 
 const hostname = window && window.location && window.location.hostname;
 axios.defaults.baseURL = hostname === 'localhost' ? 'http://localhost:3001/api' : '/api'
-axios.interceptors.response.use(res => res.data, err => Promise.reject(err.response));
+axios.interceptors.response.use(res => res.data, err => {
+    if (err.response.status === 401 && err.response.data && (err.response.data.code === 3 || err.response.data.code === 4)) {
+        store.dispatch({type: "LOGGED_OUT"})
+    }
+    return Promise.reject(err.response)
+});
 
 export const ApiService = {
 
