@@ -1,5 +1,5 @@
 
-# Bikes
+# Bikes Rental
 
 ## Configuration
 Add a .env file in the `Server` folder. This file would contain all non-shareable config.
