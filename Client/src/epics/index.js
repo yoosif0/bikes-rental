@@ -6,7 +6,6 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/auditTime';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/concat';
@@ -72,7 +71,7 @@ const modulesLoaded = (action$, state$) => {
   }).mergeMap(view => Observable.concat(
     Observable.of({ type: 'SAVE_VIEW', payload: view }),
     Observable.of({ type: 'LAZY_LOAD_NEW_DATA' })
-  )).takeUntil(action$.ofType('LOGGED_OUT'))
+  ))
 }
 
 const filterBikes = (action$, state$) => {
