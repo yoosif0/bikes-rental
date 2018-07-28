@@ -2,21 +2,20 @@ import React from 'react'
 import DefaultInput from '../../ui-inputs/DefaultInputLayout';
 import PropTypes from 'prop-types';
 import { Form, Field } from 'formik';
-import SubmitButton from '../../buttons/SubmitButton';
 import { InputFeedback } from '../../text/InputFeedback';
 
 
-export const InnerForm = ({  errors, touched, isSubmitting, dirty }) => (
+export const InnerForm = ({  errors, touched, isSubmitting, dirty, children }) => (
     <Form>
         <DefaultInput label="Email">
             <Field type="text" name="email" className="form-control" />
             <InputFeedback error={touched.email && errors.email} />
         </DefaultInput>
-        <DefaultInput label="Passoword">
+        <DefaultInput label="Password">
             <Field type="password" name="password" className="form-control" />
             <InputFeedback error={touched.password && errors.password} />
         </DefaultInput>
-        <SubmitButton disabled={!dirty || isSubmitting || Object.keys(errors).length} ></SubmitButton>
+        {children}
     </Form>
 )
 

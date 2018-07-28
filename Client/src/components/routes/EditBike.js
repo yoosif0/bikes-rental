@@ -49,8 +49,8 @@ export default class EditBike extends React.Component {
 			});
 	};
 
-	onSubmit = (values, { setSubmitting, props, setErros }) => {
-		ApiService.editBike(this.state.bike._id,
+	onSubmit = (values, { setSubmitting, setErros }) => {
+		return ApiService.editBike(this.state.bike._id,
 			{
 				...values,
 				longitude: this.state.bike.location.coordinates[0],
@@ -61,17 +61,18 @@ export default class EditBike extends React.Component {
 			.then((payload) => {
 				setSubmitting(false);
 				toast.success('Updated successfully')
+				this.props.history.push('../bikes')
 			}).catch(err => {
 				toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
 				setSubmitting(false)
 			})
 	}
+
 	innerForm = props => (
 		<InnerForm {...props}>
 			{hasBasicErrors => <SubmitButton disabled={(!props.dirty && !this.state.hasAddrressUpdatedWhileEditing) || hasBasicErrors()} ></SubmitButton>}
 		</InnerForm>
 	)
-
 
 	render() {
 		return (
@@ -105,7 +106,6 @@ export default class EditBike extends React.Component {
 							initialValues={{ model: this.state.bike.model, weight: this.state.bike.weight, color: this.state.bike.color, isAvailable: this.state.bike.isAvailable }}
 							onSubmit={this.onSubmit}
 							render={this.innerForm}
-
 						/>
 					}
 				</div>
