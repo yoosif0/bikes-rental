@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_PATH=./src node ./src/bin/www",
+    "debug": "cross-env NODE_PATH=./src node inspect ./src/bin/www",
     "coverage": "cross-env NODE_PATH=./;./src/;./Tests/ npm run nodemon-test-istanbul",
     "test": " cross-env NODE_PATH=./;./src/;./Tests/ npm run nodemon-test",
     "nodemon-test": "nodemon  --exec  jasmine JASMINE_CONFIG_PATH=jasmine.json ",
