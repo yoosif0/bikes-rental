@@ -63,7 +63,7 @@ export class PBikesListing extends React.Component {
     onReserve = (item) => {
         ApiService.reserveBike(item._id, this.state.startDate, this.state.endDate).then(x => {
             this.fetchData()
-            toast.success('Reservaed Successfully')
+            toast.success('Reserved Successfully')
         }, err => {
             toast.error(err.data && err.data.msg ? err.data.msg : 'Error')
         })
