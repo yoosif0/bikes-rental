@@ -19,7 +19,7 @@
     "@types/mongoose": "^4.7.27",
     "@types/node": "^8.0.53",
     "aws-sdk": "^2.264.1",
-    "bcrypt": "^1.0.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",

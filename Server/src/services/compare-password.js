@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 
 const comparePassword = (toBeExaminedPassword, realPassword) => new Promise((res, rej) =>

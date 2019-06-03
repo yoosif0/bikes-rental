@@ -53,7 +53,6 @@ router.get('/bikeReservations/:bikeId', verifyUser, Authorize.preventRegularUser
 
 router.get('/myPreviouslyUsedBikes', verifyUser, reservations.getMyPreviouslyUsedBikes)
 
-router.put('/bikeImageRef', verifyUser, Authorize.preventRegularUsers, bike.updateBikeImage)
 
 
 router.get('/reservationsForBike', verifyUser, reservations.getReservationsForBike)
@@ -71,6 +70,7 @@ router.post('/ratings/:bikeId/:rate', verifyUser, ratings.rateBike)
 // router.post('/reservations/:id/:bikeId', verifyUser, ReservationsValidation.validateReserveBike, Authorize.allowSelfAndManager, reservations.reserveBike)
 // router.delete('/reservations/:id', verifyUser, Authorize.allowSelfAndManager, reservations.cancelReservation)
 router.get('/s3/sign', verifyUser, Authorize.preventRegularUsers, bike.signImage);
+router.put('/bikeImageRef', verifyUser, Authorize.preventRegularUsers, bike.updateBikeImage)
 
 module.exports = router
 
