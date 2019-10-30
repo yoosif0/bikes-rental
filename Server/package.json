@@ -32,7 +32,7 @@
     "joi": "^13.0.2",
     "jsonwebtoken": "^8.1.0",
     "minimist": "^1.2.0",
-    "mongoose": "^4.11.7",
+    "mongoose": "^5.7.5",
     "morgan": "~1.8.1",
     "nodemailer": "^4.4.1",
     "nutritionix": "^0.6.1",
