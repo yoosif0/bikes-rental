@@ -2,9 +2,11 @@ const path = require('path');
 const morganLogger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const {graphqlHTTP} = require('express-graphql');
 const errorHandlersMiddleware = require('./core/errorHandlersMiddleware')
 const winstonLogger = require('./core/logger')
 const cors = require('cors')
+const schema = require('./graphql');
 const fallback = require('express-history-api-fallback')
 const express = require('express')
 const routes = require(`./routes/index`)
@@ -20,6 +22,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors())
+app.use('/graphql', graphqlHTTP({
+    schema,
+    graphiql: true
+}));
 app.use('/api', routes)
 
 app.use(express.static(root))

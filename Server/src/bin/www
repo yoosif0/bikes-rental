@@ -9,8 +9,7 @@ const http = require('http');
 
 app.set('port', port);
 
-const server = http.createServer(app).listen(port);
-server.listen(port);
+http.createServer(app).listen(port);
 
 
 
