@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/jest": "^22.2.3",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "axios-progress-bar": "^1.2.0",
     "bootstrap": "^4.1.1",
     "font-awesome": "^4.7.0",
