@@ -30,7 +30,7 @@
     "express-recaptcha": "^4.0.2",
     "jade": "^1.11.0",
     "joi": "^13.0.2",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
     "minimist": "^1.2.0",
     "mongoose": "^4.11.7",
     "morgan": "~1.8.1",
